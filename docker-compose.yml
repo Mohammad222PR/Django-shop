@@ -26,8 +26,8 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"
-    environment:
-      - DEBUG=True
+    env_file:
+      - ./envs/dev/django/.env
     restart: always
     depends_on:
       - db

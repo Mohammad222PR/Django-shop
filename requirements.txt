@@ -2,4 +2,8 @@
 django >4.2,<4.3
 
 # database modules
-psycopg[binary ]
+psycopg[binary]
+
+# threat party
+python-decouple
+django-debug-toolbar
