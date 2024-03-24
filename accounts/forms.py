@@ -1,4 +1,4 @@
-from django.contrib.auth import forms as auth_forms
+from django.contrib.auth import forms as auth_forms, password_validation
 from django.core.exceptions import ValidationError
 from django import forms
 from accounts.models import User
@@ -30,3 +30,12 @@ class RegisterForm(forms.Form):
         password2 = cd.get('password2')
         if password and password2 and password != password2:
             raise ValidationError('پسورد شما هماهنگ نیست لطفا دوباره تلاش کنید')
+
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+        try:
+            password_validation.validate_password(password)
+        except forms.ValidationError as error:
+
+            raise ValidationError(f'{error}')
+        return password
