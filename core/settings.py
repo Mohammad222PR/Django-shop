@@ -30,6 +30,14 @@ SECRET_KEY = config("SECRET_KEY", cast=str)
 DEBUG = config("DEBUG", cast=bool)
 
 # Application definition
+APPS = [
+    'website.apps.WebsiteConfig',
+    'accounts.apps.AccountsConfig'
+]
+
+MODULE = [
+
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -38,6 +46,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Apps.
+    *APPS
+    # Modules.
+    # *MODULE
 ]
 
 MIDDLEWARE = [
@@ -137,7 +149,6 @@ EMAIL_PORT = config("EMAIL_PORT", cast=int, default=25)
 EMAIL_HOST_USER = config("EMAIL_HOST_USER", default="")
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="")
 
-
 # django debug toolbar for docker usage
 if SHOW_DEBUGGER_TOOLBAR:
     INSTALLED_APPS += [
@@ -147,5 +158,14 @@ if SHOW_DEBUGGER_TOOLBAR:
         "debug_toolbar.middleware.DebugToolbarMiddleware",
     ]
     import socket  # only if you haven't already imported this
+
     hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
     INTERNAL_IPS = [ip[: ip.rfind(".")] + ".1" for ip in ips] + ["127.0.0.1", "10.0.2.2"]
+
+# config custom user model.
+AUTH_USER_MODEL = "accounts.User"
+
+# Logout redirect route
+LOGOUT_REDIRECT_URL = "website:home"
+# Login redirect route
+LOGIN_REDIRECT_URL = "website:home"

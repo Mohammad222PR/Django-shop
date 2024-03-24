@@ -7,3 +7,4 @@ psycopg[binary]
 # threat party
 python-decouple
 django-debug-toolbar
+pillow
