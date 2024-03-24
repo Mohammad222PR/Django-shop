@@ -169,3 +169,4 @@ AUTH_USER_MODEL = "accounts.User"
 LOGOUT_REDIRECT_URL = "website:home"
 # Login redirect route
 LOGIN_REDIRECT_URL = "website:home"
+
