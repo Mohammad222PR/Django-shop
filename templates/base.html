@@ -1,5 +1,6 @@
 {% load static %}
-
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
 
 <head>
     <!-- Required Meta Tags Always Come First -->
@@ -7,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Title -->
-    <title>{% block title %} {% endblock %}</title>
+    <title>{% block title %} {% endblock title %}</title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="/favicon.ico">
@@ -21,35 +22,39 @@
 
     <!-- CSS Front Template -->
     <link rel="stylesheet" href="{% static 'css/theme.min.css' %}">
-    <link rel="stylesheet" href="{% static 'vendor/src/toastify.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/toastify/toastify.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% block extra_css %} {% endblock extra_css %}
 
-    {% block extera_css %} {% endblock %}
-
-    {% block extera_css_no_compress %}
-
-    {% endblock %}
+    {% block extra_css_no_compress %} {% endblock extra_css_no_compress %}
 </head>
+
 
 <body>
 <!-- ========== HEADER ========== -->
-<header id="header" class="navbar navbar-expand-lg navbar-end navbar-light">
+<header id="header" class="navbar navbar-expand-lg navbar-end navbar-absolute-top navbar-light navbar-show-hide"
+        data-hs-header-options='{
+        "fixMoment": 500,
+        "fixEffect": "slide"
+      }'>
     <div class="container">
         <nav class="js-mega-menu navbar-nav-wrap">
             <!-- Default Logo -->
-            <a class="navbar-brand" href="/index.html" aria-label="Front">
+            <a class="navbar-brand" href="{% url 'website:home' %}" aria-label="Front">
                 <img class="navbar-brand-logo" src="{% static 'svg/logos/logo.svg' %}" alt="Logo">
             </a>
             <!-- End Default Logo -->
 
             <!-- Toggler -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-                    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-default">
-            <i class="bi-list"></i>
-          </span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-default">
+                        <i class="bi-list"></i>
+                    </span>
                 <span class="navbar-toggler-toggled">
-            <i class="bi-x"></i>
-          </span>
+                        <i class="bi-x"></i>
+                    </span>
             </button>
             <!-- End Toggler -->
 
@@ -57,85 +62,24 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'website:home' %}">صفحه اصلی</a>
-
+                        <a class="nav-link  {% if request.resolver_match.view_name  == 'website:home' %} active {% endif %}"
+                           href="{% url 'website:home' %}">صفحه اصلی</a>
                     </li>
 
-                    <!-- Dropdown -->
-                    <li class="hs-has-sub-menu nav-item">
-                        <a id="listingsDropdown" class="hs-mega-menu-invoker nav-link dropdown-toggle " href="#"
-                           role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">لیست محصولات</a>
-                        <div class="hs-sub-menu dropdown-menu" aria-labelledby="listingsDropdown"
-                             style="min-width: 14rem;">
-                            <a class="dropdown-item " href="/products-list.html">فهرست</a>
-                            <a class="dropdown-item " href="/products-grid.html">فهرست (شبکه)</a>
-                        </div>
-                    </li>
-                    <!-- End Dropdown -->
 
                     <li class="nav-item">
-                        <a class="nav-link " href="/product-overview.html">بررسی اجمالی محصولات</a>
+                        <a class="nav-link {% if request.resolver_match.view_name  == 'shop:product-grid' %} active {% endif %}"
+                           href="{% url 'shop:product-grid' %}">لیست محصولات</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.view_name  == 'website:about' %} active {% endif %}"
+                           href="{% url 'website:about' %}">درباره ما</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.view_name  == 'website:contact' %} active {% endif %}"
+                           href="{% url 'website:contact' %}">ارتباط با ما</a>
                     </li>
 
-                    <!-- Pages -->
-                    <li class="hs-has-mega-menu nav-item" data-hs-mega-menu-item-options='{
-                  "desktop": {
-                    "position": "right",
-                    "maxWidth": "27rem"
-                  }
-                }'>
-                        <a id="pagesMegaMenu" class="hs-mega-menu-invoker nav-link dropdown-toggle " aria-current="page"
-                           href="#"
-                           role="button" data-bs-toggle="dropdown" aria-expanded="false">صفحات</a>
-
-                        <!-- Mega Menu -->
-                        <div class="hs-mega-menu dropdown-menu" aria-labelledby="pagesMegaMenu"
-                             style="min-width: 27rem;">
-                            <div class="navbar-dropdown-menu-inner">
-                                <span class="dropdown-header">عناصر</span>
-
-                                <div class="row">
-                                    <div class="col-sm mb-3 mb-sm-0">
-                                        <a class="dropdown-item " href="/categories.html">دسته بندی ها</a>
-                                        <a class="dropdown-item " href="/categories-sidebar.html">نوار کناری دسته ها</a>
-                                        <a class="dropdown-item " href="/empty-cart.html">سبد خالی</a>
-                                    </div>
-                                    <!-- End Col -->
-
-                                    <div class="col-sm">
-                                        <a class="dropdown-item " href="/cart.html">سبد خرید</a>
-                                        <a class="dropdown-item " href="/checkout.html">بررسی</a>
-                                        <a class="dropdown-item " href="/order-completed.html">سفارش تکمیل شد</a>
-                                    </div>
-                                    <!-- End Col -->
-                                </div>
-                                <!-- End Row -->
-                            </div>
-
-                            <!-- Mega Menu Banner -->
-                            <div class="navbar-dropdown-menu-shop-banner">
-                                <div class="d-flex">
-                                    <div class="flex-shrink-0">
-                                        <img class="navbar-dropdown-menu-shop-banner-img"
-                                             src="{% static 'img/mockups/img4.png' %}"
-                                             alt="Image Description">
-                                    </div>
-
-                                    <div class="flex-grow-1 p-4">
-                                        <span class="h4 d-block text-primary">برنده تی شرت</span>
-                                        <p>یکی از تی شرت های برند Front ما را برنده شوید.</p>
-                                        <a class="btn btn-sm btn-soft-primary btn-transition" href="/index.html">بیشتر
-                                            بدانید <i
-                                                    class="bi-chevron-left small"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Mega Menu Banner -->
-                        </div>
-                        <!-- End Mega Menu -->
-                    </li>
-                    <!-- End Pages -->
 
                     <li class="nav-item">
                         <!-- Search -->
@@ -143,21 +87,25 @@
                                 data-bs-target="#offcanvasNavbarSearch" aria-controls="offcanvasNavbarSearch">
                             <i class="bi-search"></i>
                         </button>
+
                         <!-- End Search -->
 
                         <!-- Shopping Cart -->
-                        <button type="button" class="btn btn-ghost-secondary btn-icon" type="button"
-                                data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasNavbarShoppingCart"
-                                aria-controls="offcanvasNavbarShoppingCart">
+                        <!-- <button type="button" class="btn btn-ghost-secondary btn-icon" type="button"
+                            data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarShoppingCart"
+                            aria-controls="offcanvasNavbarShoppingCart">
                             <i class="bi-basket"></i>
                             <span class="cart-item-count ">3</span>
-                        </button>
+                        </button> -->
+                        <a href="" class="btn btn-ghost-secondary btn-icon">
+                            <i class="bi-basket"></i>
+                            <span class="cart-item-count" id="total-cart-item-count"></span>
+                        </a>
                         <!-- End Shopping Cart -->
                         {% if request.user.is_authenticated %}
+
                             <button class="btn btn-ghost-secondary btn-icon" id="dropdownMenuLink"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-
                                 <span class="avatar avatar-sm avatar-circle">
                                     <img class="avatar-img" src="{{ request.user.user_profile.avatar.url }}"
                                          alt="Image Description">
@@ -165,9 +113,10 @@
                             </button>
 
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="#">پروفایل</a>
+                                <a class="dropdown-item" href="">پروفایل</a>
                                 <a class="dropdown-item" href="{% url 'accounts:logout' %}">خروج</a>
                             </div>
+
                         {% else %}
                             <a class="btn btn-primary btn-transition" href="{% url 'accounts:login' %}">ورود</a>
                         {% endif %}
@@ -180,8 +129,12 @@
 </header>
 
 <!-- ========== END HEADER ========== -->
+
 <!-- ========== MAIN CONTENT ========== -->
-<main id="content" role="main">{% block content %}{% endblock %} </main>
+<main id="content" role="main">
+    {% block content %}{% endblock content %}
+</main>
+
 
 <!-- ========== FOOTER ========== -->
 <footer class="border-top">
@@ -190,7 +143,7 @@
             <div class="col-lg-3 mb-5">
                 <div class="d-flex align-items-start flex-column h-100">
                     <!-- Logo -->
-                    <a class="w-100 mb-3 mb-lg-auto" href="/index.html" aria-label="Front">
+                    <a class="w-100 mb-3 mb-lg-auto" href="{% url 'website:home' %}" aria-label="Front">
                         <img class="brand" src="{% static 'svg/logos/logo.svg' %}" alt="Logo">
                     </a>
                     <!-- End Logo -->
@@ -231,10 +184,10 @@
 
                 <!-- List -->
                 <ul class="list-unstyled list-py-1">
-                    <li><a class="link-sm link-secondary" href="#"><i class="bi-question-circle-fill me-1"></i> کمک</a>
-                    </li>
-                    <li><a class="link-sm link-secondary" href="#"><i class="bi-person-circle me-1"></i> حساب شما</a>
-                    </li>
+                    <li><a class="link-sm link-secondary" href="#"><i class="bi-question-circle-fill me-1"></i>
+                        کمک</a></li>
+                    <li><a class="link-sm link-secondary" href="#"><i class="bi-person-circle me-1"></i> حساب
+                        شما</a></li>
                 </ul>
                 <!-- End List -->
 
@@ -242,37 +195,37 @@
                 <div class="btn-group">
                     <button type="button" class="btn btn-white btn-sm dropdown-toggle" id="footerSelectLanguage"
                             data-bs-toggle="dropdown" aria-expanded="false" data-bs-dropdown-animation>
-              <span class="d-flex align-items-center">
-                <img class="avatar avatar-xss avatar-circle ms-2"
-                     src="{% static 'vendor/flag-icon-css/flags/1x1/us.svg' %}"
-                     alt="Image description" width="16"/>
-                <span>انگلیسی (US)</span>
-              </span>
+                            <span class="d-flex align-items-center">
+                                <img class="avatar avatar-xss avatar-circle ms-2"
+                                     src="{% static 'vendor/flag-icon-css/flags/1x1/us.svg' %}" alt="Image description"
+                                     width="16"/>
+                                <span>انگلیسی (US)</span>
+                            </span>
                     </button>
 
                     <div class="dropdown-menu" aria-labelledby="footerSelectLanguage">
                         <a class="dropdown-item d-flex align-items-center active" href="#">
                             <img class="avatar avatar-xss avatar-circle ms-2"
-                                 src="{% static 'vendor/flag-icon-css/flags/1x1/us.svg' %}"
-                                 alt="Image description" width="16"/>
+                                 src="{% static 'vendor/flag-icon-css/flags/1x1/us.svg' %}" alt="Image description"
+                                 width="16"/>
                             <span>انگلیسی</span>
                         </a>
                         <a class="dropdown-item d-flex align-items-center" href="#">
                             <img class="avatar avatar-xss avatar-circle ms-2"
-                                 src="{% static 'vendor/flag-icon-css/flags/1x1/de.svg' %}"
-                                 alt="Image description" width="16"/>
+                                 src="{% static 'vendor/flag-icon-css/flags/1x1/de.svg' %}" alt="Image description"
+                                 width="16"/>
                             <span>آلمانی</span>
                         </a>
                         <a class="dropdown-item d-flex align-items-center" href="#">
                             <img class="avatar avatar-xss avatar-circle ms-2"
-                                 src="{% static 'vendor/flag-icon-css/flags/1x1/es.svg' %}"
-                                 alt="Image description" width="16"/>
+                                 src="{% static 'vendor/flag-icon-css/flags/1x1/es.svg' %}" alt="Image description"
+                                 width="16"/>
                             <span>اسپانیایی</span>
                         </a>
                         <a class="dropdown-item d-flex align-items-center" href="#">
                             <img class="avatar avatar-xss avatar-circle ms-2"
-                                 src="{% static 'vendor/flag-icon-css/flags/1x1/cn.svg' %}"
-                                 alt="Image description" width="16"/>
+                                 src="{% static 'vendor/flag-icon-css/flags/1x1/cn.svg' %}" alt="Image description"
+                                 width="16"/>
                             <span>چینی</span>
                         </a>
                     </div>
@@ -369,14 +322,14 @@
 
                 <div class="mb-7">
                     <!-- Form -->
-                    <form>
+                    <form action="">
                         <!-- Input Card -->
                         <div class="input-card">
                             <div class="input-card-form">
                                 <input type="text" class="form-control form-control-lg" placeholder="جستجو محصولات"
-                                       aria-label="جستجو محصولات">
+                                       name="q" aria-label="جستجو محصولات">
                             </div>
-                            <button type="button" class="btn btn-primary btn-lg">جستجو کردن</button>
+                            <button type="submit" class="btn btn-primary btn-lg">جستجو کردن</button>
                         </div>
                         <!-- End Input Card -->
                     </form>
@@ -404,7 +357,8 @@
                 <div class="d-flex">
                     <div class="flex-shrink-0">
                         <div class="avatar avatar-lg ms-3">
-                            <img class="avatar-img" src="{% static 'img/320x320/img2.jpg' %}" alt="Image Description">
+                            <img class="avatar-img" src="{% static 'img/320x320/img2.jpg' %}"
+                                 alt="Image Description">
                         </div>
                     </div>
 
@@ -445,7 +399,8 @@
                 <div class="d-flex">
                     <div class="flex-shrink-0">
                         <div class="avatar avatar-lg ms-3">
-                            <img class="avatar-img" src="{% static 'img/320x320/img3.jpg' %}" alt="Image Description">
+                            <img class="avatar-img" src="{% static 'img/320x320/img3.jpg' %}"
+                                 alt="Image Description">
                         </div>
                     </div>
 
@@ -492,19 +447,25 @@
     </div>
 </div>
 <!-- ========== END SECONDARY CONTENTS ========== -->
+<!-- JS Jquery-->
+<script src="{% static 'js/jquery.min.js' %}"></script>
 
 <!-- JS Implementing Plugins -->
 <script src="{% static 'js/vendor.min.js' %}"></script>
 
 <!-- JS Front -->
 <script src="{% static 'js/theme.min.js' %}"></script>
+
 <!-- JS Toastify -->
-<script src="{% static 'vendor/src/toastify.js' %}"></script>
+<script src="{% static 'vendor/toastify/toastify.js' %}"></script>
+
 <!-- JS Plugins Init. -->
 <script>
     (function () {
-        // INITIALIZATION OF MEGA MENU
+        // INITIALIZATION OF HEADER
         // =======================================================
+        new HSHeader('#header').init()
+
         new HSMegaMenu('.js-mega-menu', {
             desktop: {
                 position: 'left'
@@ -519,12 +480,12 @@
 
         // INITIALIZATION OF BOOTSTRAP VALIDATION
         // =======================================================
-        HSBsValidation.init('.js-validate', {
-            onSubmit: data => {
-                data.event.preventDefault()
-                alert('Submited')
-            }
-        })
+        // HSBsValidation.init('.js-validate', {
+        //     onSubmit: data => {
+        //         data.event.preventDefault()
+        //         alert('Submited')
+        //     }
+        // })
 
 
         // INITIALIZATION OF BOOTSTRAP DROPDOWN
@@ -600,17 +561,95 @@
             )
         })
     })()
+
+    var swiper = new Swiper('.js-swiper-shop-product', {
+        effect: 'fade',
+        autoplay: true,
+        loop: true,
+        navigation: {
+            nextEl: '.js-swiper-shop-product-button-next',
+            prevEl: '.js-swiper-shop-product-button-prev',
+        },
+        thumbs: {
+            swiper: sliderThumbs
+        }
+    });
+
+    var sliderThumbs = new Swiper('.js-swiper-shop-product-thumb', {
+        slidesPerView: 3,
+        watchSlidesVisibility: true,
+        watchSlidesProgress: true,
+        history: false,
+    });
+    // INITIALIZATION OF  QUANTITY COUNTER
+    // =======================================================
+    new HSQuantityCounter('.js-quantity-counter')
+</script>
+<!-- JS Custom-->
+<script src="{% static 'js/custom.js' %}"></script>
+<!-- JS Cart-->
+<script>
+    function addToCart(product_id) {
+
+        //console.log(product_id)
+        $.ajax({
+            url: "",
+            method: 'POST',
+            data: {
+                product_id: product_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+
+            },
+            success: function (response) {
+                $("#total-cart-item-count").html(response.total_quantity)
+                console.log(response);
+                // do something with the response data
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(errorThrown);
+                // handle the error case
+            }
+        });
+    }
+
+    function addToWishlist(element, product_id) {
+
+        //console.log(product_id)
+        $.ajax({
+            url: "",
+            method: 'POST',
+            data: {
+                product_id: product_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+
+            },
+            success: function (response) {
+
+                Toastify({
+                    text: response.message,
+                    className: `info`,
+                    style: {
+                        background: "blue",
+                    }
+                }).showToast();
+                $(element).toggleClass('active');
+
+                // do something with the response data
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(errorThrown);
+                // handle the error case
+            }
+        });
+    }
+
 </script>
 
-{% block extera_js %}
+{% block extra_js %} {% endblock extra_js %}
 
-{% endblock %}
+{% block extra_js_no_compress %} {% endblock extra_js_no_compress %}
 
-{% block extera_js_no_compress %}
-
-{% endblock %}
 {% include 'messages.html' %}
-
 </body>
 
 </html>

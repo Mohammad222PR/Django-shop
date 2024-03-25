@@ -8,3 +8,4 @@ psycopg[binary]
 python-decouple
 django-debug-toolbar
 pillow
+faker

@@ -32,7 +32,8 @@ DEBUG = config("DEBUG", cast=bool)
 # Application definition
 APPS = [
     'website.apps.WebsiteConfig',
-    'accounts.apps.AccountsConfig'
+    'accounts.apps.AccountsConfig',
+    'shop.apps.ShopConfig'
 ]
 
 MODULE = [

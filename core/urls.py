@@ -19,10 +19,12 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
+# ________MAIN URLS________
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('website.urls', namespace='website')),  # website app main route
     path('accounts/', include('accounts.urls', namespace='accounts')),  # accounts app main route
+    path('shop/', include('shop.urls', namespace='shop')),  # shop app main route
 ]
 
 # route Debugger toolbar

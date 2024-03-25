@@ -22,10 +22,11 @@ class LogoutView(auth_views.LogoutView):
 
 class RegisterView(RegisterViewMixin, View):
     form_class = RegisterForm
+    template_name = 'accounts/register.html'
 
     def get(self, request):
         form = self.form_class()
-        return render(request, 'accounts/register.html', {'form': form})
+        return render(request, self.template_name, {'form': form})
 
     def post(self, request):
         form = self.form_class(request.POST)
@@ -36,7 +37,7 @@ class RegisterView(RegisterViewMixin, View):
             login(request, user)
             messages.success(request, 'اکانت شما با موفیت ساخته شد', 'success')
             return redirect('website:home')
-        return render(request, 'accounts/register.html', {'form': form})
+        return render(request, self.template_name, {'form': form})
 
 
 class PasswordResetView(auth_views.PasswordResetView):
