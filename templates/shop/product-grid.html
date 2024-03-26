@@ -490,7 +490,7 @@
                                     </div>
 
                                     <h4 class="card-title">
-                                        <a class="text-dark" href="/product-overview.html">{{ product.title }}</a>
+                                        <a class="text-dark" href="{% url 'shop:product-detail' slug=product.slug %}">{{ product.title }}</a>
                                     </h4>
                                     {% if product.discount_percent <= 1 %}
                                         <p class="card-text text-dark">
