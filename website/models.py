@@ -9,12 +9,21 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Status(models.IntegerChoices):
+    """
+    Bama communication status model.
+    to determine whether the admin has checked the request or is waiting to be checked or has been ignored.
+    tip:
+    The default status is Pending
+    """
     success = 1, _('مشاهده شده')
     pending = 2, _('درحال پردازش')
     ignored = 3, _('رد شده')
 
 
 class ContactUs(models.Model):
+    """
+    Contact Us Model
+    """
     first_name = models.CharField(max_length=20, default=None, verbose_name=_('first name'))
     last_name = models.CharField(max_length=20, default=None, verbose_name=_('last name'))
     phone_number = models.CharField(max_length=13, validators=[validate_iranian_cellphone_number], default=None,

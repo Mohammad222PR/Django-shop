@@ -20,6 +20,9 @@ class AboutView(TemplateView):
 
 
 class ContactUsView(View):
+    """
+    ContactUsView is for users to be able to communicate with us and raise their problems and questions
+    """
     form_class = ContactForm
     template_name = 'website/contact.html'
 
@@ -38,6 +41,13 @@ class ContactUsView(View):
 
 
 class NewsletterView(View):
+    """
+    Newsletter View for sending email for Newsletter
+    note:
+    this view have one validation
+    this validation check objects and if any object have same as the email sent
+    raise error and redirect to main page
+    """
     form_class = NewsLetterForm
     template_list_name = ['website/index.html', 'shop/product-detail', 'shop/product-grid']
 
