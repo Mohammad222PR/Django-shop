@@ -19,3 +19,4 @@ class NewsLetterForm(forms.ModelForm):
         if NewsLetter.objects.filter(email=email).exists():
             raise forms.ValidationError("این ایمیل در سیستم موجود است")
         return email
+
