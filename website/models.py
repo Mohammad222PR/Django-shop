@@ -32,3 +32,18 @@ class ContactUs(models.Model):
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
+
+
+class NewsLetter(models.Model):
+    email = models.EmailField(verbose_name=_('email address'))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created at'))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_('updated at'))
+
+    class Meta:
+        verbose_name = 'New letter'
+        verbose_name_plural = 'New letters'
+        db_table = 'new_letter'
+        ordering = ('created_at',)
+
+    def __str__(self):
+        return self.email

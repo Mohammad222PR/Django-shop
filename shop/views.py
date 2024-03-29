@@ -1,8 +1,10 @@
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
+from django.core.exceptions import ValidationError, FieldError
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from faker.utils.text import slugify
 
-from shop.models import Product, ProductStatus
+from shop.models import Product, ProductStatus, ProductCategory
 
 # Create your views here.
 status = ProductStatus
@@ -10,14 +12,34 @@ status = ProductStatus
 
 class ProductGridView(generic.ListView):
     template_name = 'shop/product-grid.html'
-    model = Product
-    queryset = Product.objects.filter(status=status.published.value)
     context_object_name = 'products'
-    paginate_by = 2
+    paginate_by = 7
+
+    def get_paginate_by(self, queryset):
+        return self.request.GET.get('page_size', self.paginate_by)
+
+    def get_queryset(self):
+        queryset = Product.objects.filter(
+            status=status.published.value)
+        if search_q := self.request.GET.get("q"):
+            queryset = queryset.filter(title__icontains=search_q)
+        if category_id := self.request.GET.get("category_id"):
+            queryset = queryset.filter(category__id=category_id)
+        if min_price := self.request.GET.get("min_price"):
+            queryset = queryset.filter(price__gte=min_price)
+        if max_price := self.request.GET.get("max_price"):
+            queryset = queryset.filter(price__lte=max_price)
+        if order_by := self.request.GET.get("order_by"):
+            try:
+                queryset = queryset.order_by(order_by)
+            except FieldError:
+                pass
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['total_items'] = self.get_queryset().count()
+        context['total_items'] = Product.objects.filter(status=status.published.value).count()
+        context['categories'] = ProductCategory.objects.all()
         return context
 
 
@@ -25,4 +47,3 @@ class ProductDetailView(generic.DetailView):
     model = Product
     template_name = 'shop/product-detail.html'
     context_object_name = 'product'
-

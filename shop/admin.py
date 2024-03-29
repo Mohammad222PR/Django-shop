@@ -13,8 +13,8 @@ class ProductImageAdmin(admin.StackedInline):
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['title', 'user', 'stock', 'price', 'discount_percent', 'slug', 'status', 'image_tag',
-                    'created_date', 'updated_date']
-    list_filter = ['status','created_date', 'updated_date']
+                    'created_date', 'updated_date', 'famous_percent']
+    list_filter = ['status', 'created_date', 'updated_date', 'famous_percent']
     inlines = [ProductImageAdmin]
     search_fields = ['title']
     ordering = ['user', 'title', 'stock', 'price', 'discount_percent', 'slug', 'status', 'image',
@@ -33,3 +33,4 @@ class ProductCategoryAdmin(admin.ModelAdmin):
     list_filter = ['created_date']
     search_fields = ['title', 'slug', ]
     ordering = ['title', 'slug', 'created_date']
+    prepopulated_fields = {'slug': ('title',)}

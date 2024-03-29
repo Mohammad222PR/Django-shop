@@ -1,10 +1,12 @@
 from django.contrib import messages
+from django.db.models import Count, Q
 from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import TemplateView, CreateView
 
-from website.forms import ContactForm
-from website.models import ContactUs
+from shop.models import Product, ProductStatus
+from website.forms import ContactForm, NewsLetterForm
+from website.models import ContactUs, NewsLetter
 
 
 # Create your views here.
@@ -31,4 +33,20 @@ class ContactUsView(View):
             form.save()
             messages.success(request, 'پیام شما با موفیت ارسال شد')
             return redirect('website:contact')
+        messages.error(request, 'پیام ارسال نشد')
         return render(request, self.template_name, {'form': form})
+
+
+class NewsletterView(View):
+    form_class = NewsLetterForm
+    template_list_name = ['website/index.html', 'shop/product-detail', 'shop/product-grid']
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'با موفقیت ثبت نام کردید برای شما اخبار را ارسال خواهیم کرد')
+            return redirect('website:home')
+        messages.error(request, "مشکلی در ارسال فرم وجود امد مجدد تلاش کنید")
+        return render(request, self.template_list_name,
+                      {'form': form})

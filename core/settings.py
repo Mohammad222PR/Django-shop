@@ -37,7 +37,7 @@ APPS = [
 ]
 
 MODULE = [
-
+    'django_ckeditor_5',
 ]
 
 INSTALLED_APPS = [
@@ -48,9 +48,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Apps.
-    *APPS
+    *APPS,
     # Modules.
-    # *MODULE
+    *MODULE
 ]
 
 MIDDLEWARE = [
@@ -141,6 +141,29 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# _______SECURITY SETTINGS_______#
+
+# content type
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+# HTTPS & SSL
+# SECURE_HSTS_SECONDS = 31536000
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# SECURE_HSTS_PRELOAD = True
+# SECURE_REDIRECT_URL = 'same-origin'
+# SECURE_SSL_REDIRECT = True
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+# sessions security
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = 'Strict'
+SESSION_COOKIE_NAME = 'prefix_sessioid'
+# CSRF
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SAMESITE = 'Strict'
+CSRF_COOKIE_NAME = 'prefix_csrftoken'
+
 # email config
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = config("EMAIL_HOST", default="smtp4dev")
@@ -171,3 +194,226 @@ LOGOUT_REDIRECT_URL = "website:home"
 # Login redirect route
 LOGIN_REDIRECT_URL = "website:home"
 
+# ckeditor settings
+customColorPalette = [
+    {"color": "hsl(4, 90%, 58%)", "label": "Red"},
+    {"color": "hsl(340, 82%, 52%)", "label": "Pink"},
+    {"color": "hsl(291, 64%, 42%)", "label": "Purple"},
+    {"color": "hsl(262, 52%, 47%)", "label": "Deep Purple"},
+    {"color": "hsl(231, 48%, 48%)", "label": "Indigo"},
+    {"color": "hsl(207, 90%, 54%)", "label": "Blue"},
+]
+
+CKEDITOR_5_CONFIGS = {
+    "default": {
+        "toolbar": {
+            "items": [
+                "heading",
+                "codeBlock",
+                "|",
+                "outdent",
+                "indent",
+                "|",
+                "bold",
+                "italic",
+                "link",
+                "underline",
+                "strikethrough",
+                "code",
+                "subscript",
+                "superscript",
+                "highlight",
+                "|",
+                "bulletedList",
+                "numberedList",
+                "todoList",
+                "|",
+                "blockQuote",
+                "insertImage",
+                "|",
+                "fontSize",
+                "fontFamily",
+                "fontColor",
+                "fontBackgroundColor",
+                "mediaEmbed",
+                "removeFormat",
+                "insertTable",
+                "sourceEditing"
+            ]
+        },
+        "image": {
+            "toolbar": [
+                "imageTextAlternative",
+                "|",
+                "imageStyle:alignLeft",
+                "imageStyle:alignRight",
+                "imageStyle:alignCenter",
+                "imageStyle:side",
+                "|",
+                "toggleImageCaption",
+                "|"
+            ],
+            "styles": [
+                "full",
+                "side",
+                "alignLeft",
+                "alignRight",
+                "alignCenter"
+            ]
+        },
+        "table": {
+            "contentToolbar": [
+                "tableColumn",
+                "tableRow",
+                "mergeTableCells",
+                "tableProperties",
+                "tableCellProperties"
+            ],
+            "tableProperties": {
+                "borderColors": "customColorPalette",
+                "backgroundColors": "customColorPalette"
+            },
+            "tableCellProperties": {
+                "borderColors": "customColorPalette",
+                "backgroundColors": "customColorPalette"
+            }
+        }
+    },
+
+    "comment": {
+        "language": {"ui": "en", "content": "en"},
+        "toolbar": [
+            "heading",
+            "|",
+            "bold",
+            "italic",
+            "link",
+            "bulletedList",
+            "numberedList",
+            "blockQuote",
+        ],
+    },
+    "extends": {
+        "language": "en",
+        "blockToolbar": [
+            "paragraph",
+            "heading1",
+            "heading2",
+            "heading3",
+            "|",
+            "bulletedList",
+            "numberedList",
+            "|",
+            "blockQuote",
+        ],
+        "toolbar": [
+            "heading",
+            "codeBlock",
+            "|",
+            "outdent",
+            "indent",
+            "|",
+            "bold",
+            "italic",
+            "link",
+            "underline",
+            "strikethrough",
+            "code",
+            "subscript",
+            "superscript",
+            "highlight",
+            "|",
+            "bulletedList",
+            "numberedList",
+            "todoList",
+            "|",
+            "blockQuote",
+            "insertImage",
+            "|",
+            "fontSize",
+            "fontFamily",
+            "fontColor",
+            "fontBackgroundColor",
+            "mediaEmbed",
+            "removeFormat",
+            "insertTable",
+            "sourceEditing",
+        ],
+        "image": {
+            "toolbar": [
+                "imageTextAlternative",
+                "|",
+                "imageStyle:alignLeft",
+                "imageStyle:alignRight",
+                "imageStyle:alignCenter",
+                "imageStyle:side",
+                "|",
+                "toggleImageCaption",
+                "|"
+            ],
+            "styles": [
+                "full",
+                "side",
+                "alignLeft",
+                "alignRight",
+                "alignCenter",
+            ],
+        },
+        "table": {
+            "contentToolbar": [
+                "tableColumn",
+                "tableRow",
+                "mergeTableCells",
+                "tableProperties",
+                "tableCellProperties",
+            ],
+            "tableProperties": {
+                "borderColors": customColorPalette,
+                "backgroundColors": customColorPalette,
+            },
+            "tableCellProperties": {
+                "borderColors": customColorPalette,
+                "backgroundColors": customColorPalette,
+            },
+        },
+        "heading": {
+            "options": [
+                {
+                    "model": "paragraph",
+                    "title": "Paragraph",
+                    "class": "ck-heading_paragraph",
+                },
+                {
+                    "model": "heading1",
+                    "view": "h1",
+                    "title": "Heading 1",
+                    "class": "ck-heading_heading1",
+                },
+                {
+                    "model": "heading2",
+                    "view": "h2",
+                    "title": "Heading 2",
+                    "class": "ck-heading_heading2",
+                },
+                {
+                    "model": "heading3",
+                    "view": "h3",
+                    "title": "Heading 3",
+                    "class": "ck-heading_heading3",
+                },
+            ]
+        },
+        "list": {
+            "properties": {
+                "styles": True,
+                "startIndex": True,
+                "reversed": True,
+            }
+        },
+        "htmlSupport": {
+            "allow": [
+                {"name": "/.*/", "attributes": True, "classes": True, "styles": True}
+            ]
+        },
+    },
+}

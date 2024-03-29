@@ -1,11 +1,12 @@
-# main modules
-django >4.2,<4.3
-
-# database modules
-psycopg[binary]
-
-# threat party
-python-decouple
-django-debug-toolbar
-pillow
-faker
+asgiref==3.8.1
+Django==4.2.11
+django-debug-toolbar==4.3.0
+Faker==24.3.0
+pillow==10.2.0
+psycopg==3.1.18
+psycopg-binary==3.1.18
+python-dateutil==2.9.0.post0
+python-decouple==3.8
+six==1.16.0
+sqlparse==0.4.4
+typing_extensions==4.10.0

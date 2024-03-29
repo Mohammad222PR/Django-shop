@@ -31,7 +31,7 @@ class Command(BaseCommand):
 
         categories = ProductCategory.objects.all()
 
-        for _ in range(10):  # Generate 10 fake products
+        for _ in range(30):  # Generate 10 fake products
             user = user
             num_categories = random.randint(1, 4)
             selected_categoreis = random.sample(list(categories), num_categories)
@@ -40,6 +40,7 @@ class Command(BaseCommand):
             selected_image = random.choice(image_list)
             image_obj = File(file=open(BASE_DIR / selected_image, "rb"), name=Path(selected_image).name)
             description = fake.paragraph(nb_sentences=10)
+            famous_percent = fake.random_int(min=0, max=1000)
             brief_description = fake.paragraph(nb_sentences=1)
             stock = fake.random_int(min=0, max=10)
             status = random.choice(ProductStatus.choices)[0]  # Replace with your actual status choices
@@ -52,6 +53,7 @@ class Command(BaseCommand):
                 slug=slug,
                 image=image_obj,
                 description=description,
+                famous_percent = famous_percent,
                 brief_description=brief_description,
                 stock=stock,
                 status=status,

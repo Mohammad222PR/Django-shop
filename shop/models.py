@@ -1,11 +1,13 @@
+from datetime import timedelta
 from decimal import Decimal
+from datetime import datetime, timedelta
 
-from django.core.validators import FileExtensionValidator
+from django.core.validators import FileExtensionValidator, MinValueValidator, MaxValueValidator
 from django.db import models
 from django.utils.html import format_html
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
-
+from django_ckeditor_5.fields import CKEditor5Field
 from accounts.models import User
 
 
@@ -38,18 +40,23 @@ class ProductStatus(models.IntegerChoices):
 class Product(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name=_('user'))
     title = models.CharField(max_length=40, verbose_name=_('title'), default=None)
-    description = models.TextField(verbose_name=_('description'))
+    description = CKEditor5Field(verbose_name=_('description'))
     brief_description = models.TextField(null=True, blank=True)
     stock = models.PositiveIntegerField(default=0, verbose_name=_('stock'))
     price = models.DecimalField(max_digits=10, decimal_places=0, default=0, verbose_name=_('price'))
-    discount_percent = models.IntegerField(default=0, verbose_name=_('discount percent'), )
+    discount_percent = models.IntegerField(default=0, verbose_name=_('discount percent'),
+                                           validators=[MinValueValidator(0), MaxValueValidator(100)])
     slug = models.SlugField(max_length=40, unique=True, verbose_name=_('slug'), default=None, allow_unicode=True)
     category = models.ManyToManyField(ProductCategory, verbose_name=_('category'), related_name='products')
     status = models.IntegerField(choices=ProductStatus.choices, default=ProductStatus.draft.value,
                                  verbose_name=_('status'))
-    image = models.ImageField(upload_to='images/products', verbose_name=_('image', validators=[
-        FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'gif'])]),
-                              default='images/products/default_img/product-default.png')
+    famous_percent = models.IntegerField(default=0, verbose_name=_('famous percent'), blank=True, null=True)
+    image = models.ImageField(
+        upload_to='images/products',
+        verbose_name=_('image'),
+        validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'gif'])],
+        default='images/products/default_img/product-default.png'
+    )
     created_date = models.DateTimeField(auto_now_add=True, verbose_name=_('created time'))
     updated_date = models.DateTimeField(auto_now=True, verbose_name=_('updated time'))
 
@@ -66,8 +73,15 @@ class Product(models.Model):
     def get_price(self):
         return "{:,}".format(round(self.price))
 
+    # def new_product(self):
+    #     date = datetime.today() + timedelta(days=7)
+    #     if self.created_date.date() != datetime.today(date):
+    #         return True
+    #     else:
+    #         return False
+
     def get_show_price(self):
-        if self.discount_percent > 1:
+        if self.discount_percent > 0:
             discount_amount = self.price * Decimal(self.discount_percent / 100)
             discounted_amount = self.price - discount_amount
             return '{:,}'.format(round(discounted_amount))
