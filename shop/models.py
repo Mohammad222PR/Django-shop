@@ -96,7 +96,7 @@ class Product(models.Model):
 
 
 class ProductImage(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name=_('product'))
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name=_('product'), related_name='product_image')
     file = models.ImageField(upload_to='images/products/many_image/',
                              default='images/products/default_img/product-default.png', verbose_name=_('file'),
                              validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'gif'])])

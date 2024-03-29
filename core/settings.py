@@ -33,7 +33,8 @@ DEBUG = config("DEBUG", cast=bool)
 APPS = [
     'website.apps.WebsiteConfig',
     'accounts.apps.AccountsConfig',
-    'shop.apps.ShopConfig'
+    'shop.apps.ShopConfig',
+    'cart.apps.CartConfig'
 ]
 
 MODULE = [

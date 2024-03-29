@@ -47,3 +47,4 @@ class ProductDetailView(generic.DetailView):
     model = Product
     template_name = 'shop/product-detail.html'
     context_object_name = 'product'
+

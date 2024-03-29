@@ -16,6 +16,8 @@ def show_latest_products():
 @register.inclusion_tag('inc/similar-products.html')
 def show_similar_products(product):
     product_categories = product.category.all()
-    similar_products = Product.objects.filter(status=ProductStatus.published.value, category__in=product_categories).order_by('-created_date')[:4]
+    similar_products = Product.objects.filter(status=ProductStatus.published.value,
+                                              category__in=product_categories).annotate(
+        count=Count('famous_percent')).order_by('-count')[:4]
 
     return {'similar_products': similar_products}
