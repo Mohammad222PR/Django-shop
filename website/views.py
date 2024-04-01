@@ -66,6 +66,7 @@ class NewsletterView(View):
             messages.success(
                 request, "با موفقیت ثبت نام کردید برای شما اخبار را ارسال خواهیم کرد"
             )
-            next_page = request.POST.get("next", "/")
-            return redirect(next_page)
+
+            # If 'next' parameter is not provided, redirect to the referrer page
+            return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
         return render(request, self.template_list_name, {"form": form})

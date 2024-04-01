@@ -17,6 +17,7 @@ class UserType(models.IntegerChoices):
     customer = 1, _("customer")
     admin = 2, _("admin")
     superuser = 3, _("superuser")
+    support = 4, _("support")
 
 
 class UserManager(BaseUserManager):
@@ -58,7 +59,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True, verbose_name=_("email address"))
     is_staff = models.BooleanField(default=False, verbose_name=_("staff status"))
     is_active = models.BooleanField(default=True, verbose_name=_("active status"))
-    is_verified = models.BooleanField(default=False, verbose_name=_("verified status"))
+    is_verified = models.BooleanField(default=True, verbose_name=_("verified status"))
     type = models.IntegerField(
         choices=UserType.choices,
         default=UserType.customer.value,

@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 
 from shop.models import Product, ProductStatus
 
-CART_SESSION_ID = 'cart'
+CART_SESSION_ID = "cart"
 
 
 class CartSession:
@@ -16,7 +16,9 @@ class CartSession:
                 item["quantity"] += int(quantity)
                 break
         else:
-            self.cart["items"].append({"product_id": product_id, "quantity": int(quantity)})
+            self.cart["items"].append(
+                {"product_id": product_id, "quantity": int(quantity)}
+            )
 
         self.save()
 
@@ -37,6 +39,7 @@ class CartSession:
         else:
             pass
         self.save()
+
     def get_cart_dict(self):
         return self.cart
 
@@ -44,14 +47,19 @@ class CartSession:
         cart_items = self.cart["items"]
         for item in cart_items:
             product_obj = self._get_product_by_id(item["product_id"])
-            item.update({"product_obj": product_obj, "total_price": item["quantity"] * product_obj.get_price()})
+            item.update(
+                {
+                    "product_obj": product_obj,
+                    "total_price": item["quantity"] * product_obj.get_price(),
+                }
+            )
         return cart_items
 
     def get_total_payment_amount(self):
         return sum(item["total_price"] for item in self.cart["items"])
 
     def get_total_quantity(self):
-        return sum(item['quantity'] for item in self.cart["items"])
+        return sum(item["quantity"] for item in self.cart["items"])
 
     def clear(self):
         self.cart = {"items": []}
@@ -62,6 +70,8 @@ class CartSession:
 
     def _get_product_by_id(self, product_id):
         try:
-            return get_object_or_404(Product, id=product_id, status=ProductStatus.published.value)
+            return get_object_or_404(
+                Product, id=product_id, status=ProductStatus.published.value
+            )
         except Product.DoesNotExist:
             return None

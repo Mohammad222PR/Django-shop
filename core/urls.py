@@ -29,11 +29,14 @@ urlpatterns = [
     ),  # accounts app main route
     path("shop/", include("shop.urls", namespace="shop")),  # shop app main route
     path("cart/", include("cart.urls", namespace="cart")),  # cart app main route
+    path(
+        "dashboard/", include("dashboard.urls", namespace="dashboard")
+    ),  # dashboard app main route
     # ______CKEDITOR_______#
     path(
         "ckeditor5/", include("django_ckeditor_5.urls"), name="ck_editor_5_upload_file"
     ),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
 
 # route Debugger toolbar
 if settings.SHOW_DEBUGGER_TOOLBAR:

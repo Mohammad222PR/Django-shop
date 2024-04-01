@@ -38,6 +38,7 @@ APPS = [
     "accounts.apps.AccountsConfig",
     "shop.apps.ShopConfig",
     "cart.apps.CartConfig",
+    "dashboard.apps.DashboardConfig",
 ]
 
 MODULE = [
