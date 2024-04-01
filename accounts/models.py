@@ -60,8 +60,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True, verbose_name=_("active status"))
     is_verified = models.BooleanField(default=False, verbose_name=_("verified status"))
     type = models.IntegerField(
-        choices=UserType.choices, default=UserType.customer.value, verbose_name=_("type user"))
-    created_date = models.DateTimeField(auto_now_add=True, verbose_name=_("created date"))
+        choices=UserType.choices,
+        default=UserType.customer.value,
+        verbose_name=_("type user"),
+    )
+    created_date = models.DateTimeField(
+        auto_now_add=True, verbose_name=_("created date")
+    )
     updated_date = models.DateTimeField(auto_now=True, verbose_name=_("updated date"))
 
     USERNAME_FIELD = "email"
@@ -74,17 +79,37 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class CustomerProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name=_("user"), related_name="user_profile")
-    phone_number = models.CharField(max_length=12, validators=[validate_iranian_cellphone_number],
-                                    verbose_name=_("phone number"), unique=True, blank=True, null=True)
-    first_name = models.CharField(max_length=30, verbose_name=_("first name"), default='')
-    last_name = models.CharField(max_length=30, verbose_name=_("last name"), default='')
-    avatar = models.ImageField(upload_to="images/profile/customer/avatars/", blank=True,
-                               default='images/profile/customer/avatars/default/OIP.jfif',
-                               verbose_name=_("avatar image"))
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name=_("user"),
+        related_name="user_profile",
+    )
+    phone_number = models.CharField(
+        max_length=12,
+        validators=[validate_iranian_cellphone_number],
+        verbose_name=_("phone number"),
+        unique=True,
+        blank=True,
+        null=True,
+    )
+    first_name = models.CharField(
+        max_length=30, verbose_name=_("first name"), default=""
+    )
+    last_name = models.CharField(max_length=30, verbose_name=_("last name"), default="")
+    avatar = models.ImageField(
+        upload_to="images/profile/customer/avatars/",
+        blank=True,
+        default="images/profile/customer/avatars/default/OIP.jfif",
+        verbose_name=_("avatar image"),
+    )
 
     def image_tag(self):
-        return format_html("<img src='{}' width=100 height=100 style='border-radius: 10px;'>".format(self.avatar.url))
+        return format_html(
+            "<img src='{}' width=100 height=100 style='border-radius: 10px;'>".format(
+                self.avatar.url
+            )
+        )
 
     image_tag.short_description = _("avatar")
 

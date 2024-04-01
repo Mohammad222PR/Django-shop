@@ -11,40 +11,99 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('shop', '0011_alter_productimage_product'),
+        ("shop", "0011_alter_productimage_product"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Cart',
+            name="Cart",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_date', models.DateTimeField(auto_now_add=True, verbose_name='created date')),
-                ('updated_date', models.DateTimeField(auto_now=True, verbose_name='updated date')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='carts', to=settings.AUTH_USER_MODEL, verbose_name='user')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "created_date",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="created date"
+                    ),
+                ),
+                (
+                    "updated_date",
+                    models.DateTimeField(auto_now=True, verbose_name="updated date"),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="carts",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="user",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'cart',
-                'verbose_name_plural': 'carts',
-                'db_table': 'cart',
-                'ordering': ('-created_date',),
+                "verbose_name": "cart",
+                "verbose_name_plural": "carts",
+                "db_table": "cart",
+                "ordering": ("-created_date",),
             },
         ),
         migrations.CreateModel(
-            name='CartItem',
+            name="CartItem",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('quantity', models.PositiveIntegerField(default=1, verbose_name='quantity')),
-                ('created_date', models.DateTimeField(auto_now_add=True, verbose_name='created date')),
-                ('updated_date', models.DateTimeField(auto_now=True, verbose_name='updated date')),
-                ('cart', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='cart_items', to='cart.cart', verbose_name='cart')),
-                ('product', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='cart_items', to='shop.product', verbose_name='product')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "quantity",
+                    models.PositiveIntegerField(default=1, verbose_name="quantity"),
+                ),
+                (
+                    "created_date",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="created date"
+                    ),
+                ),
+                (
+                    "updated_date",
+                    models.DateTimeField(auto_now=True, verbose_name="updated date"),
+                ),
+                (
+                    "cart",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="cart_items",
+                        to="cart.cart",
+                        verbose_name="cart",
+                    ),
+                ),
+                (
+                    "product",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="cart_items",
+                        to="shop.product",
+                        verbose_name="product",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'cart item',
-                'verbose_name_plural': 'cart items',
-                'db_table': 'cart_items',
-                'ordering': ('-created_date',),
+                "verbose_name": "cart item",
+                "verbose_name_plural": "cart items",
+                "db_table": "cart_items",
+                "ordering": ("-created_date",),
             },
         ),
     ]

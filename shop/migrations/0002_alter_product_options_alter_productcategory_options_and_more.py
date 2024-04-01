@@ -6,29 +6,49 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shop', '0001_initial'),
+        ("shop", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='product',
-            options={'ordering': ('created_date', 'updated_date'), 'verbose_name': 'Product', 'verbose_name_plural': 'Products'},
+            name="product",
+            options={
+                "ordering": ("created_date", "updated_date"),
+                "verbose_name": "Product",
+                "verbose_name_plural": "Products",
+            },
         ),
         migrations.AlterModelOptions(
-            name='productcategory',
-            options={'ordering': ('created_date',), 'verbose_name': 'Product category', 'verbose_name_plural': 'Product categories'},
+            name="productcategory",
+            options={
+                "ordering": ("created_date",),
+                "verbose_name": "Product category",
+                "verbose_name_plural": "Product categories",
+            },
         ),
         migrations.AlterModelOptions(
-            name='productimage',
-            options={'ordering': ('created_date', 'updated_date'), 'verbose_name': 'Product image', 'verbose_name_plural': 'Product images'},
+            name="productimage",
+            options={
+                "ordering": ("created_date", "updated_date"),
+                "verbose_name": "Product image",
+                "verbose_name_plural": "Product images",
+            },
         ),
         migrations.AlterField(
-            model_name='productcategory',
-            name='slug',
-            field=models.SlugField(allow_unicode=True, blank=True, default=None, max_length=40, null=True, unique=True, verbose_name='slug'),
+            model_name="productcategory",
+            name="slug",
+            field=models.SlugField(
+                allow_unicode=True,
+                blank=True,
+                default=None,
+                max_length=40,
+                null=True,
+                unique=True,
+                verbose_name="slug",
+            ),
         ),
         migrations.AlterModelTable(
-            name='productimage',
-            table='product_image',
+            name="productimage",
+            table="product_image",
         ),
     ]

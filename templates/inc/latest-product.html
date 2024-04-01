@@ -4,7 +4,7 @@
 <div class="container content-space-2 content-space-lg-3">
     <!-- Title -->
     <div class="w-md-75 w-lg-50 text-center mx-md-auto mb-5 mb-md-9">
-        <h2>جدیدترین محصولات</h2>
+        <h2>محصولات پرترفدار</h2>
     </div>
     <!-- End Title -->
 
@@ -70,10 +70,12 @@
                     </a>
                     <!-- End Rating -->
 
-                    <button type="button" class="btn btn-outline-primary btn-sm btn-transition rounded-pill"
-                        onclick="addToCart('{{latest_product.id}}')">افزودن به
-                        سبد
-                        خرید</button>
+                   <div class="d-grid mb-4">
+                        <button type="button" class="btn btn-primary btntransition"
+                                onclick="addToCart('{{ latest_product.id }}')">افزودن به سبد خرید
+                        </button>
+                    </div>
+
                 </div>
             </div>
             <!-- End Card -->

@@ -6,21 +6,23 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shop', '0003_alter_product_image'),
+        ("shop", "0003_alter_product_image"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='product',
-            name='category',
+            model_name="product",
+            name="category",
         ),
         migrations.AlterModelTable(
-            name='productcategory',
+            name="productcategory",
             table=None,
         ),
         migrations.AddField(
-            model_name='product',
-            name='category',
-            field=models.ManyToManyField(to='shop.productcategory', verbose_name='category'),
+            model_name="product",
+            name="category",
+            field=models.ManyToManyField(
+                to="shop.productcategory", verbose_name="category"
+            ),
         ),
     ]

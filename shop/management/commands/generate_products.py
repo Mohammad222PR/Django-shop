@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent
 
 
 class Command(BaseCommand):
-    help = 'Generate fake products'
+    help = "Generate fake products"
 
     def handle(self, *args, **options):
         fake = Faker(locale="fa_IR")
@@ -35,15 +35,20 @@ class Command(BaseCommand):
             user = user
             num_categories = random.randint(1, 4)
             selected_categoreis = random.sample(list(categories), num_categories)
-            title = ' '.join([fake.word() for _ in range(1, 3)])
+            title = " ".join([fake.word() for _ in range(1, 3)])
             slug = slugify(title, allow_unicode=True)
             selected_image = random.choice(image_list)
-            image_obj = File(file=open(BASE_DIR / selected_image, "rb"), name=Path(selected_image).name)
+            image_obj = File(
+                file=open(BASE_DIR / selected_image, "rb"),
+                name=Path(selected_image).name,
+            )
             description = fake.paragraph(nb_sentences=10)
             famous_percent = fake.random_int(min=0, max=1000)
             brief_description = fake.paragraph(nb_sentences=1)
             stock = fake.random_int(min=0, max=10)
-            status = random.choice(ProductStatus.choices)[0]  # Replace with your actual status choices
+            status = random.choice(ProductStatus.choices)[
+                0
+            ]  # Replace with your actual status choices
             price = fake.random_int(min=10000, max=100000)
             discount_percent = fake.random_int(min=0, max=50)
 
@@ -53,7 +58,7 @@ class Command(BaseCommand):
                 slug=slug,
                 image=image_obj,
                 description=description,
-                famous_percent = famous_percent,
+                famous_percent=famous_percent,
                 brief_description=brief_description,
                 stock=stock,
                 status=status,
@@ -62,4 +67,4 @@ class Command(BaseCommand):
             )
             product.category.set(selected_categoreis)
 
-        self.stdout.write(self.style.SUCCESS('Successfully generated 10 fake products'))
+        self.stdout.write(self.style.SUCCESS("Successfully generated 30 fake products"))

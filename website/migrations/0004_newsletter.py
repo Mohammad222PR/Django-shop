@@ -6,23 +6,40 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('website', '0003_alter_contactus_phone_number_alter_contactus_status'),
+        ("website", "0003_alter_contactus_phone_number_alter_contactus_status"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='NewsLetter',
+            name="NewsLetter",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('email', models.EmailField(max_length=254, verbose_name='email address')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='created at')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='updated at')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "email",
+                    models.EmailField(max_length=254, verbose_name="email address"),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(auto_now_add=True, verbose_name="created at"),
+                ),
+                (
+                    "updated_at",
+                    models.DateTimeField(auto_now=True, verbose_name="updated at"),
+                ),
             ],
             options={
-                'verbose_name': 'New letter',
-                'verbose_name_plural': 'New letters',
-                'db_table': 'new_letter',
-                'ordering': ('created_at',),
+                "verbose_name": "New letter",
+                "verbose_name_plural": "New letters",
+                "db_table": "new_letter",
+                "ordering": ("created_at",),
             },
         ),
     ]

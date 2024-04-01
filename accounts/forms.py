@@ -14,28 +14,30 @@ class AuthenticationForm(auth_forms.AuthenticationForm):
 
 class RegisterForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput())
-    password = forms.CharField(label='Enter Password', widget=forms.PasswordInput())
-    password2 = forms.CharField(label='Confrim Password', widget=forms.PasswordInput())
+    password = forms.CharField(label="Enter Password", widget=forms.PasswordInput())
+    password2 = forms.CharField(label="Confrim Password", widget=forms.PasswordInput())
 
     def clean_email(self):
-        email = self.cleaned_data['email']
+        email = self.cleaned_data["email"]
         user = User.objects.filter(email=email).exists()
         if user:
-            raise ValidationError('ایمیل شما در شبکه موجود است لطفا ایمیل دیگری استفاده کنید')
+            raise ValidationError(
+                "ایمیل شما در شبکه موجود است لطفا ایمیل دیگری استفاده کنید"
+            )
         return email
 
     def clean(self):
         cd = super().clean()
-        password = cd.get('password1')
-        password2 = cd.get('password2')
+        password = cd.get("password1")
+        password2 = cd.get("password2")
         if password and password2 and password != password2:
-            raise ValidationError('پسورد شما هماهنگ نیست لطفا دوباره تلاش کنید')
+            raise ValidationError("پسورد شما هماهنگ نیست لطفا دوباره تلاش کنید")
 
     def clean_password(self):
-        password = self.cleaned_data.get('password')
+        password = self.cleaned_data.get("password")
         try:
             password_validation.validate_password(password)
         except forms.ValidationError as error:
 
-            raise ValidationError(f'{error}')
+            raise ValidationError(f"{error}")
         return password

@@ -6,13 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('website', '0001_initial'),
+        ("website", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='contactus',
-            name='status',
-            field=models.IntegerField(choices=[(1, 'success'), (2, 'pending'), (3, 'ignored')], default=2, verbose_name='status'),
+            model_name="contactus",
+            name="status",
+            field=models.IntegerField(
+                choices=[(1, "success"), (2, "pending"), (3, "ignored")],
+                default=2,
+                verbose_name="status",
+            ),
         ),
     ]

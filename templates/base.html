@@ -27,6 +27,7 @@
     {% block extra_css %} {% endblock extra_css %}
 
     {% block extra_css_no_compress %} {% endblock extra_css_no_compress %}
+
 </head>
 
 
@@ -61,23 +62,24 @@
             <!-- Collapse -->
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link  {% if request.resolver_match.view_name  == 'website:home' %} active {% endif %}"
+                    {% with view_name=request.resolver_match.view_name %}
+                    	<li class="nav-item">
+                        <a class="nav-link  {% if view_name  == 'website:home' %} active {% endif %}"
                            href="{% url 'website:home' %}">صفحه اصلی</a>
                     </li>
 
 
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.view_name  == 'shop:product-grid' %} active {% endif %}"
+                        <a class="nav-link {% if view_name  == 'shop:product-grid' %} active {% endif %}"
                            href="{% url 'shop:product-grid' %}">لیست محصولات</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.view_name  == 'website:about' %} active {% endif %}"
+                        <a class="nav-link {% if view_name  == 'website:about' %} active {% endif %}"
                            href="{% url 'website:about' %}">درباره ما</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.view_name  == 'website:contact' %} active {% endif %}"
-                           href="{% url 'website:contact' %}">ارتباط با ما</a>
+                        <a class="nav-link {% if view_name  == 'website:contact' %} active {% endif %}"
+                           href="{% url 'website:contact' %}?next={{ request.path|urlencode }}">ارتباط با ما</a>
                     </li>
 
 
@@ -97,10 +99,12 @@
                             <i class="bi-basket"></i>
                             <span class="cart-item-count ">3</span>
                         </button> -->
-                        <a href="" class="btn btn-ghost-secondary btn-icon">
+                        <a href="{% url 'cart:session-cart-summary' %}" class="btn btn-ghost-{% if view_name == 'cart:session-cart-summary' %}primary{% else %}secondary{% endif %} btn-icon ">
                             <i class="bi-basket"></i>
-                            <span class="cart-item-count" id="total-cart-item-count"></span>
+                            <span class="cart-item-count"
+                                  id="total-cart-item-count"><sub>{{ total_quantity }}</sub></span>
                         </a>
+                    {% endwith %}
                         <!-- End Shopping Cart -->
                         {% if request.user.is_authenticated %}
 
@@ -118,7 +122,7 @@
                             </div>
 
                         {% else %}
-                            <a class="btn btn-primary btn-transition" href="{% url 'accounts:login' %}">ورود</a>
+                            <a class="btn btn-primary btn-transition" href="{% url 'accounts:login' %}?next={{ request.path|urlencode }}">ورود</a>
                         {% endif %}
                     </li>
                 </ul>
@@ -454,6 +458,9 @@
 <script src="{% static 'js/vendor.min.js' %}"></script>
 
 <!-- JS Front -->
+<script src="{% static 'js/ordering.js' %}"></script>
+{#<script src="{% static 'js/add-product.js' %}"></script>#}
+
 <script src="{% static 'js/theme.min.js' %}"></script>
 
 <!-- JS Toastify -->
@@ -589,61 +596,76 @@
 <script src="{% static 'js/custom.js' %}"></script>
 <!-- JS Cart-->
 <script>
-    function addToCart(product_id) {
+function addToCart(product_id) {
+    var quantity = $("#quantity-add-to-cart").val();
+    $.ajax({
+        url: "{% url 'cart:session-add-product' %}",
+        method: 'POST',
+        data: {
+            product_id: product_id,
+            quantity: quantity,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        success: function (response) {
+            $("#total-cart-item-count").html(response.total_quantity);
+            console.log(response);
+            Toastify({
+                text: "محصول به سبد خرید اضافه شد",
+                className: "success",
+                style: {
+                    background: "blue",
+                }
+            }).showToast();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(errorThrown);
+            Toastify({
+                text: "خطا در افزودن محصول به سبد خرید",
+                className: "error",
+                style: {
+                    background: "red",
+                }
+            }).showToast();
+        }
+    });
+}
 
-        //console.log(product_id)
-        $.ajax({
-            url: "",
-            method: 'POST',
-            data: {
-                product_id: product_id,
-                csrfmiddlewaretoken: '{{ csrf_token }}'
 
-            },
-            success: function (response) {
-                $("#total-cart-item-count").html(response.total_quantity)
-                console.log(response);
-                // do something with the response data
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.log(errorThrown);
-                // handle the error case
-            }
-        });
-    }
 
-    function addToWishlist(element, product_id) {
-
-        //console.log(product_id)
-        $.ajax({
-            url: "",
-            method: 'POST',
-            data: {
-                product_id: product_id,
-                csrfmiddlewaretoken: '{{ csrf_token }}'
-
-            },
-            success: function (response) {
-
-                Toastify({
-                    text: response.message,
-                    className: `info`,
-                    style: {
-                        background: "blue",
-                    }
-                }).showToast();
-                $(element).toggleClass('active');
-
-                // do something with the response data
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.log(errorThrown);
-                // handle the error case
-            }
-        });
-    }
+    {#function addToWishlist(element, product_id) {#}
+    {##}
+    {#    //console.log(product_id)#}
+    {#    $.ajax({#}
+    {#        url: "",#}
+    {#        method: 'POST',#}
+    {#        data: {#}
+    {#            product_id: product_id,#}
+    {#            csrfmiddlewaretoken: '{{ csrf_token }}'#}
+    {##}
+    {#        },#}
+    {#        success: function (response) {#}
+    {##}
+    {#            Toastify({#}
+    {#                text: response.message,#}
+    {#                className: `info`,#}
+    {#                style: {#}
+    {#                    background: "blue",#}
+    {#                }#}
+    {#            }).showToast();#}
+    {#            $(element).toggleClass('active');#}
+    {##}
+    {#            // do something with the response data#}
+    {#        },#}
+    {#        error: function (jqXHR, textStatus, errorThrown) {#}
+    {#            console.log(errorThrown);#}
+    {#            // handle the error case#}
+    {#        }#}
+    {#    });#}
+    {##}
 
 </script>
+
+
 
 {% block extra_js %} {% endblock extra_js %}
 

@@ -7,13 +7,13 @@ import django_ckeditor_5.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shop', '0008_alter_product_discount_percent'),
+        ("shop", "0008_alter_product_discount_percent"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='product',
-            name='description',
-            field=django_ckeditor_5.fields.CKEditor5Field(verbose_name='description'),
+            model_name="product",
+            name="description",
+            field=django_ckeditor_5.fields.CKEditor5Field(verbose_name="description"),
         ),
     ]

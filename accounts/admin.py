@@ -60,7 +60,7 @@ class UserAdmin(UserAdmin):
                     "is_active",
                     "is_superuser",
                     "is_verified",
-                    "type"
+                    "type",
                 ),
             },
         ),
@@ -69,7 +69,14 @@ class UserAdmin(UserAdmin):
 
 @admin.register(CustomerProfile)
 class CustomProfileAdmin(admin.ModelAdmin):
-    list_display = ("id", "user", "first_name", "image_tag", "last_name", "phone_number")
+    list_display = (
+        "id",
+        "user",
+        "first_name",
+        "image_tag",
+        "last_name",
+        "phone_number",
+    )
     searching_fields = ("user", "first_name", "last_name", "phone_number")
     list_filter = ("id", "user", "first_name", "last_name", "phone_number")
     ordering = ("id",)

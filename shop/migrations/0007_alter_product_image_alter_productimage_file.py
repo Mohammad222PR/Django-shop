@@ -7,18 +7,36 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shop', '0006_alter_product_category'),
+        ("shop", "0006_alter_product_category"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='product',
-            name='image',
-            field=models.ImageField(default='images/products/default_img/product-default.png', upload_to='images/products', validators=[django.core.validators.FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'gif'])], verbose_name='image'),
+            model_name="product",
+            name="image",
+            field=models.ImageField(
+                default="images/products/default_img/product-default.png",
+                upload_to="images/products",
+                validators=[
+                    django.core.validators.FileExtensionValidator(
+                        allowed_extensions=["jpg", "jpeg", "png", "gif"]
+                    )
+                ],
+                verbose_name="image",
+            ),
         ),
         migrations.AlterField(
-            model_name='productimage',
-            name='file',
-            field=models.ImageField(default='images/products/default_img/product-default.png', upload_to='images/products/many_image/', validators=[django.core.validators.FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'gif'])], verbose_name='file'),
+            model_name="productimage",
+            name="file",
+            field=models.ImageField(
+                default="images/products/default_img/product-default.png",
+                upload_to="images/products/many_image/",
+                validators=[
+                    django.core.validators.FileExtensionValidator(
+                        allowed_extensions=["jpg", "jpeg", "png", "gif"]
+                    )
+                ],
+                verbose_name="file",
+            ),
         ),
     ]

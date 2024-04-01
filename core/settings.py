@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+
 import os
 from pathlib import Path
 from decouple import config
@@ -16,7 +17,9 @@ from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda v: [item.strip() for item in v.split(',')], default="*")
+ALLOWED_HOSTS = config(
+    "ALLOWED_HOSTS", cast=lambda v: [item.strip() for item in v.split(",")], default="*"
+)
 SHOW_DEBUGGER_TOOLBAR = config("SHOW_DEBUGGER_TOOLBAR", cast=bool, default=True)
 
 # Quick-start development settings - unsuitable for production
@@ -31,70 +34,71 @@ DEBUG = config("DEBUG", cast=bool)
 
 # Application definition
 APPS = [
-    'website.apps.WebsiteConfig',
-    'accounts.apps.AccountsConfig',
-    'shop.apps.ShopConfig',
-    'cart.apps.CartConfig'
+    "website.apps.WebsiteConfig",
+    "accounts.apps.AccountsConfig",
+    "shop.apps.ShopConfig",
+    "cart.apps.CartConfig",
 ]
 
 MODULE = [
-    'django_ckeditor_5',
+    "django_ckeditor_5",
 ]
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
     # Apps.
     *APPS,
     # Modules.
-    *MODULE
+    *MODULE,
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = 'core.urls'
+ROOT_URLCONF = "core.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [BASE_DIR / "templates"],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+                "cart.context_processors.cart_processor",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'core.wsgi.application'
+WSGI_APPLICATION = "core.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config("PGDB_NAME", default='postgres'),
-        'USER': config("PGDB_USER", default='postgres'),
-        'PASSWORD': config("PGDB_PASSWORD", default='postgres'),
-        'HOST': config("PGDB_HOST", default='db'),
-        'PORT': config("PGDB_PORT", cast=int, default=5432),
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": config("PGDB_NAME", default="postgres"),
+        "USER": config("PGDB_USER", default="postgres"),
+        "PASSWORD": config("PGDB_PASSWORD", default="postgres"),
+        "HOST": config("PGDB_HOST", default="db"),
+        "PORT": config("PGDB_PORT", cast=int, default=5432),
     }
 }
 
@@ -103,25 +107,25 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'fa'
+LANGUAGE_CODE = "fa"
 
-TIME_ZONE = config('TIME_ZONE', default='Asia/Tehran')
+TIME_ZONE = config("TIME_ZONE", default="Asia/Tehran")
 
 USE_I18N = True
 
@@ -130,23 +134,21 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-MEDIA_ROOT = BASE_DIR / 'media'
-STATICFILES_DIRS = [
-    BASE_DIR / 'static'
-]
+STATIC_URL = "/static/"
+MEDIA_URL = "/media/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+MEDIA_ROOT = BASE_DIR / "media"
+STATICFILES_DIRS = [BASE_DIR / "static"]
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # _______SECURITY SETTINGS_______#
 
 # content type
 SECURE_CONTENT_TYPE_NOSNIFF = True
-X_FRAME_OPTIONS = 'SAMEORIGIN'
+X_FRAME_OPTIONS = "SAMEORIGIN"
 # HTTPS & SSL
 # SECURE_HSTS_SECONDS = 31536000
 # SECURE_HSTS_INCLUDE_SUBDOMAINS = True
@@ -157,13 +159,13 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 # sessions security
 SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_HTTPONLY = True
-SESSION_COOKIE_SAMESITE = 'Strict'
-SESSION_COOKIE_NAME = 'prefix_sessioid'
+SESSION_COOKIE_SAMESITE = "Strict"
+SESSION_COOKIE_NAME = "prefix_sessioid"
 # CSRF
 CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = True
-CSRF_COOKIE_SAMESITE = 'Strict'
-CSRF_COOKIE_NAME = 'prefix_csrftoken'
+CSRF_COOKIE_SAMESITE = "Strict"
+CSRF_COOKIE_NAME = "prefix_csrftoken"
 
 # email config
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
@@ -185,7 +187,10 @@ if SHOW_DEBUGGER_TOOLBAR:
     import socket  # only if you haven't already imported this
 
     hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
-    INTERNAL_IPS = [ip[: ip.rfind(".")] + ".1" for ip in ips] + ["127.0.0.1", "10.0.2.2"]
+    INTERNAL_IPS = [ip[: ip.rfind(".")] + ".1" for ip in ips] + [
+        "127.0.0.1",
+        "10.0.2.2",
+    ]
 
 # config custom user model.
 AUTH_USER_MODEL = "accounts.User"
@@ -239,7 +244,7 @@ CKEDITOR_5_CONFIGS = {
                 "mediaEmbed",
                 "removeFormat",
                 "insertTable",
-                "sourceEditing"
+                "sourceEditing",
             ]
         },
         "image": {
@@ -252,15 +257,9 @@ CKEDITOR_5_CONFIGS = {
                 "imageStyle:side",
                 "|",
                 "toggleImageCaption",
-                "|"
+                "|",
             ],
-            "styles": [
-                "full",
-                "side",
-                "alignLeft",
-                "alignRight",
-                "alignCenter"
-            ]
+            "styles": ["full", "side", "alignLeft", "alignRight", "alignCenter"],
         },
         "table": {
             "contentToolbar": [
@@ -268,19 +267,18 @@ CKEDITOR_5_CONFIGS = {
                 "tableRow",
                 "mergeTableCells",
                 "tableProperties",
-                "tableCellProperties"
+                "tableCellProperties",
             ],
             "tableProperties": {
                 "borderColors": "customColorPalette",
-                "backgroundColors": "customColorPalette"
+                "backgroundColors": "customColorPalette",
             },
             "tableCellProperties": {
                 "borderColors": "customColorPalette",
-                "backgroundColors": "customColorPalette"
-            }
-        }
+                "backgroundColors": "customColorPalette",
+            },
+        },
     },
-
     "comment": {
         "language": {"ui": "en", "content": "en"},
         "toolbar": [
@@ -350,7 +348,7 @@ CKEDITOR_5_CONFIGS = {
                 "imageStyle:side",
                 "|",
                 "toggleImageCaption",
-                "|"
+                "|",
             ],
             "styles": [
                 "full",

@@ -7,13 +7,20 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shop', '0007_alter_product_image_alter_productimage_file'),
+        ("shop", "0007_alter_product_image_alter_productimage_file"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='product',
-            name='discount_percent',
-            field=models.IntegerField(default=0, validators=[django.core.validators.MinValueValidator(0), django.core.validators.MaxValueValidator(100)], verbose_name='discount percent'),
+            model_name="product",
+            name="discount_percent",
+            field=models.IntegerField(
+                default=0,
+                validators=[
+                    django.core.validators.MinValueValidator(0),
+                    django.core.validators.MaxValueValidator(100),
+                ],
+                verbose_name="discount percent",
+            ),
         ),
     ]
