@@ -37,7 +37,6 @@ class CartSession:
         else:
             pass
         self.save()
-
     def get_cart_dict(self):
         return self.cart
 
