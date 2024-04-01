@@ -13,7 +13,6 @@ class SessionAddProduct(View):
         cart = CartSession(request.session)
         product_id = request.POST.get('product_id')
         quantity = request.POST.get('quantity', 1)
-
         if product_id:
             cart.add_product(product_id, quantity)
         return JsonResponse({"cart": cart.get_cart_dict(), "total_quantity": cart.get_total_quantity()})
@@ -45,6 +44,7 @@ class SessionUpdateProductQuantityView(View):
         else:
             messages.error(request, "خطا در به‌روزرسانی تعداد محصول", 'danger')
         return JsonResponse({"cart": cart.get_cart_dict(), "total_quantity": cart.get_total_quantity()})
+
 
 
 class SessionRemoveProductView(View):
