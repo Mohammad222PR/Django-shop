@@ -1,1 +1,25 @@
 {% extends 'dashboard/admin/base.html' %}
+{% block breadcrumb %}
+    حساب/ <a href="{% url 'dashboard:admin:home' %}">داشبورد ادمین</a>
+{% endblock %}
+{% block title %}
+    پنل مدیریت
+{% endblock %}
+{% block content %}
+    <!-- Card -->
+    <div class="card">
+        <!-- Header -->
+        <div class="card-header border-bottom">
+            <h5 class="card-header-title">خلاصه داشبورد</h5>
+        </div>
+        <!-- End Header -->
+
+        <!-- Body -->
+        <div class="card-body">
+            <div class="row">
+
+            </div>
+            <!-- End Row -->
+        </div>
+    </div>
+{% endblock %}

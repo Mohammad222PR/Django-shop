@@ -39,11 +39,7 @@ class RegisterView(RegisterViewMixin, View):
             user = authenticate(username=cd["email"], password=cd["password"])
             login(request, user)
             messages.success(request, "اکانت شما با موفیت ساخته شد", "success")
-            next_url = request.POST.get("next")
-            if next_url:
-                return redirect(next_url)
-            else:
-                return redirect("website:home")
+            return redirect("website:home")
         return render(request, self.template_name, {"form": form})
 
 

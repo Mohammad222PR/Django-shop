@@ -119,6 +119,7 @@ class Product(models.Model):
             discounted_amount = self.price - discount_amount
             return round(discounted_amount)
 
+
     def image_tag(self):
         return format_html(
             "<img src='{}' width=100 height=100 style='border-radius: 10px;'>".format(

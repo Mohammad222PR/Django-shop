@@ -13,10 +13,7 @@
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="/favicon.ico">
-
     <!-- Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-
     <!-- CSS Implementing Plugins -->
     <link rel="stylesheet" href="{% static 'css/vendor.min.css' %}">
     <link rel="stylesheet" href="{% static 'vendor/bootstrap-icons/font/bootstrap-icons.css' %}">
@@ -64,27 +61,27 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
                     {% with view_name=request.resolver_match.view_name %}
-                    	<li class="nav-item">
-                        <a class="nav-link  {% if view_name  == 'website:home' %} active {% endif %}"
-                           href="{% url 'website:home' %}">صفحه اصلی</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link  {% if view_name  == 'website:home' %} active {% endif %}"
+                               href="{% url 'website:home' %}">صفحه اصلی</a>
+                        </li>
 
 
-                    <li class="nav-item">
-                        <a class="nav-link {% if view_name  == 'shop:product-grid' %} active {% endif %}"
-                           href="{% url 'shop:product-grid' %}">لیست محصولات</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if view_name  == 'website:about' %} active {% endif %}"
-                           href="{% url 'website:about' %}">درباره ما</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if view_name  == 'website:contact' %} active {% endif %}"
-                           href="{% url 'website:contact' %}?next={{ request.path|urlencode }}">ارتباط با ما</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if view_name  == 'shop:product-grid' %} active {% endif %}"
+                               href="{% url 'shop:product-grid' %}">لیست محصولات</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if view_name  == 'website:about' %} active {% endif %}"
+                               href="{% url 'website:about' %}">درباره ما</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if view_name  == 'website:contact' %} active {% endif %}"
+                               href="{% url 'website:contact' %}?next={{ request.path|urlencode }}">ارتباط با ما</a>
+                        </li>
 
 
-                    <li class="nav-item">
+                        <li class="nav-item">
                         <!-- Search -->
                         <button class="btn btn-ghost-secondary btn-icon" type="button" data-bs-toggle="offcanvas"
                                 data-bs-target="#offcanvasNavbarSearch" aria-controls="offcanvasNavbarSearch">
@@ -100,31 +97,33 @@
                             <i class="bi-basket"></i>
                             <span class="cart-item-count ">3</span>
                         </button> -->
-                        <a href="{% url 'cart:session-cart-summary' %}" class="btn btn-ghost-{% if view_name == 'cart:session-cart-summary' %}primary{% else %}secondary{% endif %} btn-icon ">
+                        <a href="{% url 'cart:session-cart-summary' %}"
+                           class="btn btn-ghost-{% if view_name == 'cart:session-cart-summary' %}primary{% else %}secondary{% endif %} btn-icon ">
                             <i class="bi-basket"></i>
                             <span class="cart-item-count"
                                   id="total-cart-item-count"><sub>{{ total_quantity }}</sub></span>
                         </a>
                     {% endwith %}
-                        <!-- End Shopping Cart -->
-                        {% if request.user.is_authenticated %}
+                    <!-- End Shopping Cart -->
+                    {% if request.user.is_authenticated %}
 
-                            <button class="btn btn-ghost-secondary btn-icon" id="dropdownMenuLink"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-ghost-secondary btn-icon" id="dropdownMenuLink"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="avatar avatar-sm avatar-circle">
                                     <img class="avatar-img" src="{{ request.user.user_profile.avatar.url }}"
                                          alt="Image Description">
                                 </span>
-                            </button>
+                        </button>
 
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="{% url 'dashboard:home' %}">پروفایل</a>
-                                <a class="dropdown-item" href="{% url 'accounts:logout' %}">خروج</a>
-                            </div>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="{% url 'dashboard:home' %}">پروفایل</a>
+                            <a class="dropdown-item" href="{% url 'accounts:logout' %}">خروج</a>
+                        </div>
 
-                        {% else %}
-                            <a class="btn btn-primary btn-transition" href="{% url 'accounts:login' %}?next={{ request.path|urlencode }}">ورود</a>
-                        {% endif %}
+                    {% else %}
+                        <a class="btn btn-primary btn-transition"
+                           href="{% url 'accounts:login' %}?next={{ request.path|urlencode }}">ورود</a>
+                    {% endif %}
                     </li>
                 </ul>
             </div>
@@ -597,40 +596,39 @@
 <script src="{% static 'js/custom.js' %}"></script>
 <!-- JS Cart-->
 <script>
-function addToCart(product_id) {
-    var quantity = $("#quantity-add-to-cart").val();
-    $.ajax({
-        url: "{% url 'cart:session-add-product' %}",
-        method: 'POST',
-        data: {
-            product_id: product_id,
-            quantity: quantity,
-            csrfmiddlewaretoken: '{{ csrf_token }}'
-        },
-        success: function (response) {
-            $("#total-cart-item-count").html(response.total_quantity);
-            console.log(response);
-            Toastify({
-                text: "محصول به سبد خرید اضافه شد",
-                className: "success",
-                style: {
-                    background: "blue",
-                }
-            }).showToast();
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.log(errorThrown);
-            Toastify({
-                text: "خطا در افزودن محصول به سبد خرید",
-                className: "error",
-                style: {
-                    background: "red",
-                }
-            }).showToast();
-        }
-    });
-}
-
+    function addToCart(product_id) {
+        var quantity = $("#quantity-add-to-cart").val();
+        $.ajax({
+            url: "{% url 'cart:session-add-product' %}",
+            method: 'POST',
+            data: {
+                product_id: product_id,
+                quantity: quantity,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function (response) {
+                $("#total-cart-item-count").html(response.total_quantity);
+                console.log(response);
+                Toastify({
+                    text: "محصول به سبد خرید اضافه شد",
+                    className: "success",
+                    style: {
+                        background: "blue",
+                    }
+                }).showToast();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(errorThrown);
+                Toastify({
+                    text: "خطا در افزودن محصول به سبد خرید",
+                    className: "error",
+                    style: {
+                        background: "red",
+                    }
+                }).showToast();
+            }
+        });
+    }
 
 
     {#function addToWishlist(element, product_id) {#}
