@@ -1,6 +1,13 @@
 {% extends 'dashboard/admin/base.html' %}
 {% block breadcrumb %}
-    حساب/ <a href="{% url 'dashboard:admin:home' %}">داشبورد ادمین</a>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-light mb-0">
+        <li class="breadcrumb-item">حساب</li>
+        <li class="breadcrumb-item active" aria-current="page">
+            داشبورد ادمین
+        </li>
+    </ol>
+</nav>
 {% endblock %}
 {% block title %}
     پنل مدیریت

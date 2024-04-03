@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomerProfile
+from .models import Profile
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -67,7 +67,7 @@ class UserAdmin(UserAdmin):
     )
 
 
-@admin.register(CustomerProfile)
+@admin.register(Profile)
 class CustomProfileAdmin(admin.ModelAdmin):
     list_display = (
         "id",

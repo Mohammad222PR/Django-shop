@@ -1,0 +1,146 @@
+{% extends 'dashboard/admin/base.html' %}
+{% load static %}
+{% block breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb breadcrumb-light mb-0">
+            <li class="breadcrumb-item">حساب</li>
+            <li class="breadcrumb-item active" aria-current="page">
+                داشبورد ادمین
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                ویرایش پروفایل
+            </li>
+        </ol>
+    </nav>{% endblock %}
+{% block title %}
+    امنیت حساب
+{% endblock %}
+{% block content %}
+    <div class="d-grid gap-3 gap-lg-5">
+        <!-- Card -->
+        <div class="card">
+            <div class="card-header border-bottom">
+                <h4 class="card-header-title">اطلاعات پایه</h4>
+            </div>
+
+            <!-- Body -->
+            <div class="card-body">
+                <form method="post" action="{% url 'dashboard:admin:profile-edit' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <!-- Form -->
+                    <div class="row mb-4">
+                        <label class="col-sm-3 col-form-label form-label">عکس پروفایل</label>
+
+                        <div class="col-sm-9">
+                            <!-- Media -->
+                            <div class="d-flex align-items-center">
+                                <!-- Avatar -->
+                                <label class="avatar avatar-xl avatar-circle" for="avatarUploader">
+                                    <img id="avatarImg" class="avatar-img" src="{{ profile.avatar.url }}"
+                                         alt="Image Description">
+                                </label>
+
+                                <div class="d-grid d-sm-flex gap-2 me-4">
+                                    <div class="form-attachment-btn btn btn-primary btn-sm">آپلود عکس
+                                        <input type="file" name="avatar"
+                                               class="js-file-attach form-attachment-btn-label" id="avatarUploader"
+                                               data-hs-file-attach-options='{
+                                      "textTarget": "#avatarImg",
+                                      "mode": "image",
+                                      "targetAttr": "src",
+                                      "resetTarget": ".js-file-attach-reset-img",
+                                      "resetImg": "./assets/img/160x160/img1.jpg",
+                                      "allowTypes": [".png", ".jpeg", ".jpg"]
+                                   }'>
+                                    </div>
+                                    <!-- End Avatar -->
+
+                                </div>
+                            </div>
+                            <!-- End Media -->
+                        </div>
+                    </div>
+
+                    <!-- End Form -->
+
+                    <!-- Form -->
+                    <div class="row mb-4">
+                        <label for="firstNameLabel" class="col-sm-3 col-form-label form-label">Full name <i
+                                class="bi-question-circle text-body ms-1" data-bs-toggle="tooltip"
+                                data-bs-placement="top"
+                                title="Displayed on public forums, such as Front."></i></label>
+
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="first_name" id="firstNameLabel"
+                                       placeholder="Clarice" aria-label="Clarice" value="{{ profile.first_name }}">
+                                <input type="text" class="form-control" name="last_name" id="lastNameLabel"
+                                       placeholder="Boone"
+                                       aria-label="Boone" value="{{ profile.last_name }}">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Form -->
+
+                    <!-- Form -->
+                    <div class="row mb-4">
+                        <label for="emailLabel" class="col-sm-3 col-form-label form-label">ایمیل</label>
+
+                        <div class="col-sm-9">
+                            <input type="email" class="form-control" name="email" id="emailLabel"
+                                   placeholder="clarice@example.com" aria-label="clarice@example.com"
+                                   value="{{ request.user.email }}" disabled>
+                        </div>
+                    </div>
+                    <!-- End Form -->
+
+                    <!-- Form -->
+                    <div class="js-add-field row mb-4" data-hs-add-field-options='{
+                          "template": "#addPhoneFieldTemplate",
+                          "container": "#addPhoneFieldContainer",
+                          "defaultCreated": 0
+                        }'>
+                        <label for="phoneLabel" class="col-sm-3 col-form-label form-label">تلفن <span
+                                class="form-label-secondary">(اختیاری)</span></label>
+
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <input type="text" class="js-input-mask form-control" name="phone_number"
+                                       id="phoneLabel"
+                                       placeholder="+x(xxx)xxx-xx-xx" aria-label="+x(xxx)xxx-xx-xx"
+                                       value="{{ profile.phone_number }}"
+                                       data-hs-mask-options='{
+                                 "mask": "+{0}(000)000-00-00"
+                               }'>
+                            </div>
+
+
+                            <!-- Add Phone Input Field -->
+
+
+
+                        </div>
+                        <!-- End Add Phone Input Field -->
+
+                    </div>
+                    <!-- End Body -->
+
+                    <!-- Footer -->
+                    <div class="card-footer pt-0">
+                        <div class="d-flex justify-content-end gap-3">
+                            <a class="btn btn-white" href="{% url 'dashboard:admin:profile-edit' %}">لغو</a>
+                            <button class="btn btn-primary" type="submit">ذخیره تغییرات</button>
+                        </div>
+                    </div>
+                    <!-- End Footer -->
+                </form>
+
+            <!-- End Card -->
+
+        </div>
+    </div>
+    <!-- End Col -->
+    </div>
+    <!-- End Row -->
+
+{% endblock %}

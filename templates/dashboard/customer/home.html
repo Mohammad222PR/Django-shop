@@ -1,7 +1,13 @@
 {% extends 'dashboard/customer/base.html' %}
 {% block breadcrumb %}
-    حساب/ <a href="{% url 'dashboard:customer:home' %}">داشبورد کاربر</a>
-{% endblock %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-light mb-0">
+        <li class="breadcrumb-item">حساب</li>
+        <li class="breadcrumb-item active" aria-current="page">
+            داشبورد کاربر
+        </li>
+    </ol>
+</nav>{% endblock %}
 {% block title %}
     پنل کاربری
 {% endblock %}

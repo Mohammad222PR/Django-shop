@@ -79,7 +79,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.email
 
 
-class CustomerProfile(models.Model):
+class Profile(models.Model):
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
@@ -105,6 +105,7 @@ class CustomerProfile(models.Model):
         verbose_name=_("avatar image"),
     )
 
+
     def image_tag(self):
         return format_html(
             "<img src='{}' width=100 height=100 style='border-radius: 10px;'>".format(
@@ -115,12 +116,15 @@ class CustomerProfile(models.Model):
     image_tag.short_description = _("avatar")
 
     def full_name(self):
-        return self.first_name + " " + self.last_name
+        if self.first_name and self.last_name:
+            return self.first_name + " " + self.last_name
+        else:
+            return "کاربر جدید"
 
     full_name.short_description = _("full name")
 
 
 @receiver(post_save, sender=User)
 def create_user_customer_profile(sender, instance, created, **kwargs):
-    if created and instance.type == UserType.customer.value:
-        CustomerProfile.objects.create(user=instance, pk=instance.pk)
+    if created:
+        Profile.objects.create(user=instance, pk=instance.pk)
