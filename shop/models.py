@@ -1,6 +1,4 @@
-from datetime import timedelta
 from decimal import Decimal
-from datetime import datetime, timedelta
 
 from django.core.validators import (
     FileExtensionValidator,
@@ -12,6 +10,7 @@ from django.utils.html import format_html
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from django_ckeditor_5.fields import CKEditor5Field
+
 from accounts.models import User
 
 
@@ -87,7 +86,10 @@ class Product(models.Model):
         upload_to="images/products",
         verbose_name=_("image"),
         validators=[
-            FileExtensionValidator(allowed_extensions=["jpg", "jpeg", "png", "gif"])
+            FileExtensionValidator(
+                allowed_extensions=["jpg", "jpeg", "png", "jfif"],
+                message="اپلود تصویر با پسوند“%(extension)s” مجاز نیست پسوند های مجاز jpg, png, jfif, jpeg",
+            )
         ],
         default="images/products/default_img/product-default.png",
     )
@@ -119,7 +121,6 @@ class Product(models.Model):
             discounted_amount = self.price - discount_amount
             return round(discounted_amount)
 
-
     def image_tag(self):
         return format_html(
             "<img src='{}' width=100 height=100 style='border-radius: 10px;'>".format(
@@ -128,6 +129,12 @@ class Product(models.Model):
         )
 
     image_tag.short_description = _("image")
+
+    def is_published(self):
+        return self.status == ProductStatus.published.value
+
+    def is_discount(self):
+        return self.discount_percent != 0
 
     def __str__(self):
         return self.title

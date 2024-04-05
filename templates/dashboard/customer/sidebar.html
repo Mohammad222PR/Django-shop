@@ -20,27 +20,30 @@
           <!-- Nav -->
           <span class="text-cap">حساب</span>
 
-          <!-- List -->
-          <ul class="nav nav-sm nav-tabs nav-vertical mb-4">
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'dashboard:customer:home' %}">
-                <i class="bi-person-badge nav-icon"></i>داشبورد
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'dashboard:customer:security-edit' %}">
-                <i class="bi-shield-shaded nav-icon"></i> امنیت
-              </a>
-            </li>
+           <span class="text-cap">حساب</span>
+                {% with view_name=request.resolver_match.view_name %}
 
-            <li class="nav-item">
-              <a class="nav-link" href="">
-                <i class="bi-sliders nav-icon"></i> تنظیمات پروفایل
-              </a>
-            </li>
-          </ul>
-          <!-- End List -->
+                    <!-- List -->
+                    <ul class="nav nav-sm nav-tabs nav-vertical mb-4">
+                        <li class="nav-item ">
+                            <a class="nav-link {% if view_name == 'dashboard:customer:home' %}active{% endif %}" href="{% url 'dashboard:customer:home' %}">
+                                <i class="bi-person-badge nav-icon "></i>داشبورد
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if view_name == 'dashboard:customer:security-edit' %}active{% endif %}" href="{% url 'dashboard:customer:security-edit' %}">
+                                <i class="bi-shield-shaded nav-icon "></i> امنیت
+                            </a>
+                        </li>
 
+                        <li class="nav-item">
+                            <a class="nav-link {% if view_name == 'dashboard:customer:profile-edit' %}active{% endif %}" href="{% url 'dashboard:customer:profile-edit' %}">
+                                <i class="bi-sliders nav-icon"></i> تنظیمات پروفایل
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- End List -->
+        
           <span class="text-cap">خريد كردن</span>
 
           <!-- List -->
@@ -64,6 +67,7 @@
 
           </ul>
           <!-- End List -->
+        {% endwith %}
 
 
 

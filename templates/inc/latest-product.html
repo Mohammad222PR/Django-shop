@@ -41,7 +41,7 @@
                         <a class="text-dark"
                             href="{% url 'shop:product-detail' slug=latest_product.slug %}">{{latest_product.title}}</a>
                     </h4>
-                    {% if latest_product.is_discounted %}
+                    {% if latest_product.is_discount%}
                     <p class="card-text text-dark fs-4">
                         <span class="formatted-price">{{latest_product.get_price}}</span>
                         <span

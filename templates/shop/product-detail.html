@@ -109,11 +109,12 @@
                 <div class="mb-5">
                     <span class="d-block mb-2">قیمت کل:</span>
                     <div class="d-flex align-items-center">
-                        {% if product.discount_percent == 0 %}
-                            <h3 class="mb-0 formatted-price">{{ product.price }}</h3>
-                        {% else %}
-                            <h3 class="mb-0 formatted-price">{{ product.get_price }}</h3>
+                        {% if product.is_discount %}
                             <span class="me-2  formatted-price text-decoration-line-through">{{ product.price }}</span>
+
+                            <h3 class="mb-0 formatted-price">{{ product.get_price }}</h3>
+                        {% else %}
+                            <h3 class="mb-0 formatted-price">{{ product.price }}</h3>
                         {% endif %}
 
                     </div>

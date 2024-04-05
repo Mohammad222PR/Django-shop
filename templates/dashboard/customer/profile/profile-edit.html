@@ -1,11 +1,11 @@
-{% extends 'dashboard/admin/base.html' %}
+{% extends 'dashboard/customer/base.html' %}
 {% load static %}
 {% block breadcrumb %}
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb breadcrumb-light mb-0">
             <li class="breadcrumb-item">حساب</li>
             <li class="breadcrumb-item active" aria-current="page">
-                داشبورد ادمین
+                داشبورد کاربر
             </li>
             <li class="breadcrumb-item active" aria-current="page">
                 ویرایش پروفایل
@@ -25,7 +25,7 @@
 
             <!-- Body -->
             <div class="card-body">
-                <form method="post" action="{% url 'dashboard:admin:profile-edit' %}" enctype="multipart/form-data">
+                <form method="post" action="{% url 'dashboard:customer:profile-edit' %}" enctype="multipart/form-data">
                     {% csrf_token %}
                     <!-- Form -->
                     <div class="row mb-4">
@@ -55,9 +55,10 @@
                                    }'>
                                     </div>
                                     <!-- End Avatar -->
-<button id="removeAvatarBtn" class="js-file-attach-reset-img btn btn-white btn-sm" onclick="removeAvatar()">حذف تصویر </button>
-
+                                    <button id="removeAvatarBtn" class="js-file-attach-reset-img btn btn-white btn-sm"
+                                            onclick="removeAvatar()">حذف تصویر
                                     </button>
+
 
                                 </div>
                             </div>
@@ -131,7 +132,7 @@
                     <!-- Footer -->
                     <div class="card-footer pt-0">
                         <div class="d-flex justify-content-end gap-3">
-                            <a class="btn btn-white" href="{% url 'dashboard:admin:profile-edit' %}">لغو</a>
+                            <a class="btn btn-white" href="{% url 'dashboard:customer:profile-edit' %}">لغو</a>
                             <button class="btn btn-primary" type="submit">ذخیره تغییرات</button>
                         </div>
                     </div>
@@ -215,9 +216,5 @@ function updateProfileAvatar(avatarUrl) {
 }
 
 
-
-
     </script>
-
-
 {% endblock %}

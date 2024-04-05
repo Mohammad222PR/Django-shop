@@ -210,16 +210,17 @@
                                         <a class="text-dark"
                                            href="{% url 'shop:product-detail' slug=product.slug %}">{{ product.title }}</a>
                                     </h4>
-                                    {% if product.discount_percent == 0 %}
+                                    {% if product.is_discount %}
                                         <p class="card-text text-dark fs-4">
-                                            <span class="formatted-price">{{ product.price }}</span>
+                                            <span class="text-body me-1 fs-6 formatted-price text-decoration-line-through">{{ product.price }}</span>
+                                            <span class="formatted-price">{{ product.get_price }}</span>
+
 
                                         </p>
                                     {% else %}
                                         <p class="card-text text-dark fs-4">
-                                            <span class=" formatted-price"> {{ product.get_price }}</span>
+                                            <span class=" formatted-price"> {{ product.price }}</span>
 
-                                            <span class="text-body me-1 fs-6 formatted-price text-decoration-line-through">{{ product.price }}</span>
                                         </p>
                                     {% endif %}
                                 </div>
@@ -332,7 +333,7 @@
                                 <input type="email" class="form-control form-control-lg" name="email"
                                        placeholder="ایمیل خود را وارد نمایید" aria-label="ایمیل خود را وارد کنید">
                             </div>
-{#                                                            <input type="hidden" name="next" value="{{ request.path }}">#}
+                            {#                                                            <input type="hidden" name="next" value="{{ request.path }}">#}
 
                             <button type="submit" class="btn btn-primary btn-lg rounded-pill">ثبت نام</button>
                         </div>

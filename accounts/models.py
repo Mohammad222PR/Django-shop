@@ -5,7 +5,7 @@ from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator, FileExtensionValidator
 
 from accounts.validators import validate_iranian_cellphone_number
 
@@ -101,10 +101,15 @@ class Profile(models.Model):
     avatar = models.ImageField(
         upload_to="images/profile/customer/avatars/",
         blank=True,
+        validators=[
+            FileExtensionValidator(
+                allowed_extensions=["jpg", "jpeg", "png", "jfif"],
+                message="اپلود تصویر با پسوند“%(extension)s” مجاز نیست پسوند های مجاز jpg, png, jfif, jpeg",
+            )
+        ],
         default="images/profile/customer/avatars/default/OIP.jfif",
         verbose_name=_("avatar image"),
     )
-
 
     def image_tag(self):
         return format_html(

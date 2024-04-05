@@ -453,7 +453,7 @@
         {#                                        <a class="text-dark"#}
         {#                                           href="{% url 'shop:product-detail' slug=product.slug %}">{{ product.title }}</a>#}
         {#                                    </h4>#}
-        {#                                    {% if product.discount_percent <= 1 %}#}
+        {#                                    {% if product.is_discount %}#}
         {#                                        <p class="card-text text-dark">#}
         {#                                            تومان{{ product.get_price }}</p>#}
         {#                                    {% else %}#}

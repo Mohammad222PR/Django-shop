@@ -11,4 +11,4 @@ from dashboard.mixins.dashboard import SupportDashBoardMixin
 
 
 class SupportDashBoardHomeView(SupportDashBoardMixin, LoginRequiredMixin, TemplateView):
-    template_name = 'dashboard/support/home.html'
+    template_name = "dashboard/support/home.html"

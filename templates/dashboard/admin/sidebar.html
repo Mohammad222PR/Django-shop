@@ -13,7 +13,7 @@
 
                     </div>
 
-                    <h4 class="card-title mb-0">{{ request.user.user_profile.full_name }}</h4>
+                    <h4 class="card-title mb-2">{{ request.user.user_profile.full_name }}</h4>
                     <p class="card-text small">{{ request.user.email }}</p>
                 </div>
                 <!-- End Avatar -->
@@ -48,7 +48,7 @@
                     <!-- List -->
                     <ul class="nav nav-sm nav-tabs nav-vertical mb-4">
                         <li class="nav-item">
-                            <a class="nav-link " href="">
+                            <a class="nav-link {% if view_name == 'dashboard:admin:product-list' %}active{% endif %}" href="{% url 'dashboard:admin:product-list' %}">
                                 <i class="bi-shop-window nav-icon"></i> محصولات
                             </a>
                         </li>

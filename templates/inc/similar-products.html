@@ -42,15 +42,19 @@
                         <a class="text-dark"
                             href="{% url 'shop:product-detail' slug=similar_product.slug %}">{{similar_product.title}}</a>
                     </h4>
-                    {% if similar_product.is_discounted %}
-                    <p class="card-text text-dark fs-4">
-                        <span class="formatted-price">{{similar_product.get_price}}</span>
-                        <span
-                            class="text-body me-1 fs-6 formatted-price text-decoration-line-through">{{similar_product.price}}</span>
-                    </p>
-                    {% else %}
-                    <p class="card-text text-dark fs-4 formatted-price"> {{similar_product.price}} </p>
-                    {% endif %}
+                    {% if similar_product.is_discount %}
+                                        <p class="card-text text-dark fs-4">
+                                            <span class="text-body me-1 fs-6 formatted-price text-decoration-line-through">{{ similar_product.price }}</span>
+                                            <span class="formatted-price">{{ similar_product.get_price }}</span>
+
+
+                                        </p>
+                                    {% else %}
+                                        <p class="card-text text-dark fs-4">
+                                            <span class=" formatted-price"> {{ similar_product.price }}</span>
+
+                                        </p>
+                                    {% endif %}
                 </div>
 
                 <div class="card-footer pt-0">
