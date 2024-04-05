@@ -1,6 +1,6 @@
 from django import forms
 
-from shop.models import Product
+from shop.models import Product, ProductImage
 
 
 class ProductForm(forms.ModelForm):
@@ -33,3 +33,14 @@ class ProductForm(forms.ModelForm):
         self.fields['status'].widget.attrs['class'] = 'form-select'
         self.fields['price'].widget.attrs['class'] = 'form-control'
         self.fields['discount_percent'].widget.attrs['class'] = 'form-control'
+
+
+class ProductImageForm(forms.ModelForm):
+    class Meta:
+        model = ProductImage
+        fields = ('file',)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['file'].widget.attrs['class'] = 'form-control'
+        self.fields['file'].widget.attrs['accept'] = 'image/png, image/jpg, image/jpeg'

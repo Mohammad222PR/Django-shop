@@ -28,7 +28,7 @@
             <li class="breadcrumb-item">داشبورد ادمین</li>
             <li class="breadcrumb-item">محصولات</li>
             <li class="breadcrumb-item active" aria-current="page">
-                ویرایش محصول
+                ایجاد محصول
             </li>
         </ol>
     </nav>
@@ -100,22 +100,22 @@
 
                             <div class="col-md-12 mb-3">
                                 <label for="validationValidFileInput1">تصویر محصول</label>
-                                {{ form.image }}
+                                <!-- Input برای انتخاب تصویر -->
+                                <input type="file" name="image" id="imageInput" class="form-control">
                                 <br>
-                                <img id="productImage" src="{{ product.image.url }}" width="30%"
-                                     style="border-radius: 20px" alt="">
+                                <!-- تصویر نمایش داده شده -->
+                                <img id="productImage" src="{% if product.image %}{{ product.image.url }}{% endif %}"
+                                     width="30%" style="border-radius: 20px" alt="">
                                 <br>
                                 <br>
-                                <button id="removeImageButton" class="js-file-attach-reset-img btn btn-danger btn-sm"
-                                        style="display: none; align-content: center; margin: 0">حذف تصویر
-                                </button>
                             </div>
 
 
                         </div>
                         <div class="card-footer">
                             <div class=" d-flex pt-5 justify-content-end">
-
+                                <a class="btn btn-danger ms-3"
+                                   href="">حذف</a>
                                 <a class="btn btn-secondary ms-3"
                                    href="{% url 'dashboard:admin:product-list' %}">بازگشت</a>
                                 <button class="btn btn-primary ms-3" type="submit">ثبت تغییرات</button>
@@ -124,85 +124,26 @@
                 </form>
             </div>
         </div>
-        <div>
-            <div class="card">
-                <!-- Header -->
-                <div class="card-header border-bottom d-flex justify-content-between align-items-center">
-                    <h5 class="card-header-title">ویرایش تصاویر بیشتر</h5>
-                </div>
-                <!-- End Header -->
-
-                <!-- Body -->
-                <form action="{% url 'dashboard:admin:product-add-image' pk=product.id %}" method="post"
-                      enctype="multipart/form-data">
-
-                    {% csrf_token %}
-                    <div class="card-body">
-                        <div class="row d-flex align-items-center">
-                            <div class="col-md-9 mb-3 d-flex align-items-center">
-                                <label>تصویر محصول</label>
-                                {{ image_form.file }}
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <button class="btn btn-primary ms-3" type="submit">ثبت تصویر</button>
-                            </div>
-                        </div>
-                    </div>
 
 
-                </form>
-
-                <div class="card-body">
-                    <div class="row d-flex ">
-                            {% for product_image in product.product_image.all %}
-                            <div class="col-md-2">
-                                <img class="img-fluid" style="width:100px; height:100px"
-                                     src="{{ product_image.file.url }}"
-                                     alt="Image Description">
-                                <form action="{% url 'dashboard:admin:product-remove-image' pk=product.id image_id=product_image.id %}"
-                                      method="post">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-danger btn-sm">حذف تصویر</button>
-                                </form>
-                            </div>
-                        {% endfor %}
-
-
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 {% endblock %}
 
 {% block extra_js %}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const currentImageURL = "{{ product.image.url }}";
-            const removeImageButton = document.getElementById('removeImageButton');
-
-            document.querySelector('input[type="file"]').addEventListener('change', function (e) {
-                const file = e.target.files[0];
+            // اضافه کردن event listener به فیلد انتخاب تصویر
+            document.getElementById('imageInput').addEventListener('change', function (e) {
+                var file = e.target.files[0];
                 if (!file) {
                     return;
                 }
-                const reader = new FileReader();
+                var reader = new FileReader();
                 reader.onload = function (event) {
-                    const newImageURL = event.target.result;
+                    var newImageURL = event.target.result;
                     document.getElementById('productImage').setAttribute('src', newImageURL);
-                    removeImageButton.style.display = 'inline-block'; // Show remove button
                 };
                 reader.readAsDataURL(file);
-            });
-
-            // Remove image functionality
-            removeImageButton.addEventListener('click', function (event) {
-                event.preventDefault(); // Prevent form submission
-                document.getElementById('productImage').setAttribute('src', currentImageURL);
-                removeImageButton.style.display = 'none'; // Hide remove button again
-                document.querySelector('input[type="file"]').value = ''; // Reset file input
             });
         });
 

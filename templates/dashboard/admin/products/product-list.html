@@ -2,88 +2,89 @@
 {% load static %}
 
 {% block breadcrumb %}
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb breadcrumb-light mb-0">
-        <li class="breadcrumb-item">حساب</li>
-        <li class="breadcrumb-item">داشبورد ادمین</li>
-        <li class="breadcrumb-item active" aria-current="page">
-            محصولات
-        </li>
-    </ol>
-</nav>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb breadcrumb-light mb-0">
+            <li class="breadcrumb-item">حساب</li>
+            <li class="breadcrumb-item">داشبورد ادمین</li>
+            <li class="breadcrumb-item active" aria-current="page">
+                محصولات
+            </li>
+        </ol>
+    </nav>
 {% endblock %}
 
 {% block content %}
-<!-- Card -->
-<div class="card">
-    <!-- Header -->
-    <div class="card-header border-bottom">
-        <div class="d-flex justify-content-between align-items-center">
-            <h5 class="">لیست محصولات</h5>
-            <a class="btn btn-primary" href="">ایجاد محصول</a>
+    <!-- Card -->
+    <div class="card">
+        <!-- Header -->
+        <div class="card-header border-bottom">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="">لیست محصولات</h5>
+                <a class="btn btn-primary" href="{% url 'dashboard:admin:product-create' %}">ایجاد محصول</a>
+            </div>
         </div>
-    </div>
-    <!-- End Header -->
+        <!-- End Header -->
 
-    <!-- Body -->
-    <div class="card-body">
+        <!-- Body -->
+        <div class="card-body">
 
-        <div class="container pb-5">
-            <form action="." class="row">
+            <div class="container pb-5">
+                <form action="." class="row">
 
-                <!-- Input Card -->
-                <div class="col-md-3 py-1">
-                    <input type="text" class="form-control form-control-sm" placeholder="جستو جوی کالا" name="q"
-                        id="search-query-filter">
+                    <!-- Input Card -->
+                    <div class="col-md-3 py-1">
+                        <input type="text" class="form-control form-control-sm" placeholder="جستو جوی کالا" name="q"
+                               id="search-query-filter">
 
-                </div>
-                <!-- End Input Card -->
-                <div class="col-md-3 py-1">
-                    <select class="form-select form-select-sm" name="category_id" id="category-id-filter">
-                        <option value="" selected>دسته بندی</option>
-                        {% for category in categories %}
-                        <option value="{{category.id}}">{{category.title}}</option>
+                    </div>
+                    <!-- End Input Card -->
+                    <div class="col-md-3 py-1">
+                        <select class="form-select form-select-sm" name="category_id" id="category-id-filter">
+                            <option value="" selected>دسته بندی</option>
+                            {% for category in categories %}
+                                <option value="{{ category.id }}">{{ category.title }}</option>
                             {% empty %}
-                            <div class="row text-center w-100 py-5">
-                            <p class="text-center">هیچ دسته بندی برای نمایش وجود ندارد</p>
-                        </div>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-md-3 py-1">
-                    <select class="form-select form-select-sm" id="order-by-filter">
-                        <option value="" selected>مرتب سازی</option>
-                        <option value="-created_date">جدیدترین</option>
-                        <option value="created_date">قدیمی ترین</option>
-                        <option value="-price">بیشترین قیمت</option>
-                        <option value="price">کمترین قیمت</option>
-                    </select>
-                </div>
+                                <div class="row text-center w-100 py-5">
+                                    <p class="text-center">هیچ دسته بندی برای نمایش وجود ندارد</p>
+                                </div>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-3 py-1">
+                        <select class="form-select form-select-sm" id="order-by-filter">
+                            <option value="" selected>مرتب سازی</option>
+                            <option value="-created_date">جدیدترین</option>
+                            <option value="created_date">قدیمی ترین</option>
+                            <option value="-price">بیشترین قیمت</option>
+                            <option value="price">کمترین قیمت</option>
+                        </select>
+                    </div>
 
-                <div class="col-md-2 py-1">
-                    <select class="form-select form-select-sm" id="page-size-filter">
-                        <option value="" selected>تعداد</option>
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="30">30</option>
-                        <option value="50">50</option>
-                    </select>
-                </div>
+                    <div class="col-md-2 py-1">
+                        <select class="form-select form-select-sm" id="page-size-filter">
+                            <option value="" selected>تعداد</option>
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select>
+                    </div>
 
-                <div class="col-md-1 py-1">
-                    <button type="submit" class="btn btn-sm btn-icon btn-primary btn-search"><i class="bi-search"></i></button>
-                </div>
-            </form>
+                    <div class="col-md-1 py-1">
+                        <button type="submit" class="btn btn-sm btn-icon btn-primary btn-search"><i
+                                class="bi-search"></i></button>
+                    </div>
+                </form>
 
-        </div>
+            </div>
 
-        <div class="row">
+            <div class="row">
 
-            <!-- Table -->
-            <div class="table-responsive">
-                <table class="table">
-                    <thead class="thead-light">
+                <!-- Table -->
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="thead-light">
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">نام محصول</th>
@@ -92,143 +93,150 @@
                             <th scope="col">تعداد</th>
                             <th scope="col">وضعیت</th>
                             <th scope="col">تخفیف</th>
+                            <th scope="col">قیمت پایانی</th>
                             <th scope="col">عملیات</th>
                         </tr>
-                    </thead>
-                    <tbody>
+                        </thead>
+                        <tbody>
                         {% for product in products %}
-                        <tr>
-                            <th scope="row">{{product.id}}</th>
-                            <td>{{product.title}}</td>
-                            <td>{% for category in product.category.all %} {{category.title}}
-                                {% if not forloop.last %},{% endif %}
+                            <tr>
+                                <th scope="row">{{ product.id }}</th>
+                                <td>{{ product.title }}</td>
+                                <td>{% for category in product.category.all %} {{ category.title }}
+                                    {% if not forloop.last %},{% endif %}
 
-                            {% endfor %}</td>
-                            <td class="formatted-price">{{product.price}}</td>
-                            <td>{{product.stock}}</td>
-                            <td> {% if product.is_published %}<span class="badge bg-success">نشر شده</span>
+                                {% endfor %}</td>
+                                <td class="formatted-price">{{ product.price }}</td>
+                                <td>{{ product.stock }}</td>
+                                <td> {% if product.is_published %}<span class="badge bg-success">نشر شده</span>
                                 {% else %}
-                                <span class="badge bg-danger">ذخیره</span> {% endif %}
-                            </td>
-                            <td>%{{ product.discount_percent}}</td>
+                                    <span class="badge bg-danger">ذخیره</span> {% endif %}
+                                </td>
+                                <td>%{{ product.discount_percent }}</td>
+                                <td class="formatted-price">{{ product.get_price }}</td>
 
-                            <td class="d-flex">
-                                <a class="btn btn-sm btn-icon btn-ghost-secondary"
-                                    href="{% url 'dashboard:admin:product-update' pk=product.id %}"><i class="bi-pencil-square"></i></a>
+                                <td>
+                                    <a class="btn btn-sm btn-icon btn-ghost-secondary"
+                                       href="{% url 'dashboard:admin:product-update' pk=product.id %}"><i
+                                            class="bi-pencil-square"></i></a>
 
-                                {% if product.is_published %}
-                                <a class="btn btn-sm btn-icon btn-ghost-primary" target="_blank"
-                                    href="{% url 'shop:product-detail' slug=product.slug %}"><i class="bi-eye"></i></a>
-                                {% endif %}
+                                    {% if product.is_published %}
+                                        <a class="btn btn-sm btn-icon btn-ghost-primary" target="_blank"
+                                           href="{% url 'shop:product-detail' slug=product.slug %}"><i
+                                                class="bi-eye"></i></a>
+                                    {% endif %}
 
-                            </td>
-                        </tr>
-                            {% empty %}
+                                </td>
+                            </tr>
+                        {% empty %}
                             <div class="row text-center w-100 py-5">
-                            <p class="text-center">هیچ کالایی برای نمایش وجود ندارد</p>
-                        </div>
+                                <p class="text-center">هیچ کالایی برای نمایش وجود ندارد</p>
+                            </div>
                         {% endfor %}
 
-                    </tbody>
-                </table>
-            </div>
-            <!-- End Table -->
-            <div class="row m-1 py-0 ">
-                <div class="d-flex justify-content-start">
-                    <div>
-                        {{total_items}} محصول
-                    </div>
-
-
+                        </tbody>
+                    </table>
                 </div>
-            </div>
+                <!-- End Table -->
+                <div class="row m-1 py-0 ">
+                    <div class="d-flex justify-content-start">
+                        <div>
+                            {{ total_items }} محصول
+                        </div>
 
-            <!-- Pagination -->
 
-            <div class="row pt-5 mt-3">
-                {% if page_obj.has_other_pages %}
+                    </div>
+                </div>
+
                 <!-- Pagination -->
-                <nav aria-label="Page navigation">
-                    <ul class="pagination justify-content-center">
-                        {% if page_obj.has_previous %}
-                        <li class="page-item">
-                            <button class="page-link" onclick="changePage(`{{ page_obj.previous_page_number }}`)"
-                                aria-label="Previous">
+
+                <div class="row pt-5 mt-3">
+                    {% if page_obj.has_other_pages %}
+                        <!-- Pagination -->
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center">
+                                {% if page_obj.has_previous %}
+                                    <li class="page-item">
+                                        <button class="page-link"
+                                                onclick="changePage(`{{ page_obj.previous_page_number }}`)"
+                                                aria-label="Previous">
                                 <span aria-hidden="true">
                                     <i class="bi-chevron-double-right small"></i>
                                 </span>
-                            </button>
-                        </li>
-                        {% endif %}
-                        {{page_obj.page_range}}
-                        {% for i in page_obj.paginator.page_range %}
-                        {% if page_obj.number == i %}
-                        <li class="page-item active"><a class="page-link">{{ i }}</a></li>
-                        {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %} <li class="page-item">
-                            <button class="page-link" onclick="changePage(`{{i}}`)">{{ i }}</button></li>
+                                        </button>
+                                    </li>
+                                {% endif %}
+                                {{ page_obj.page_range }}
+                                {% for i in page_obj.paginator.page_range %}
+                                    {% if page_obj.number == i %}
+                                        <li class="page-item active"><a class="page-link">{{ i }}</a></li>
+                                    {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %}
+                                        <li class="page-item">
+                                            <button class="page-link" onclick="changePage(`{{ i }}`)">{{ i }}</button>
+                                        </li>
 
-                            {% endif %}
+                                    {% endif %}
 
-                            {% endfor %}
+                                {% endfor %}
 
 
-                            {% if page_obj.has_next %}
-                            <li class="page-item">
-                                <button class="page-link" onclick="changePage(`{{ page_obj.next_page_number }}`)"
-                                    aria-label="Previous">
+                                {% if page_obj.has_next %}
+                                    <li class="page-item">
+                                        <button class="page-link"
+                                                onclick="changePage(`{{ page_obj.next_page_number }}`)"
+                                                aria-label="Previous">
                                     <span aria-hidden="true">
                                         <i class="bi-chevron-double-left small"></i>
                                     </span>
-                                </button>
-                            </li>
-                            {% endif %}
+                                        </button>
+                                    </li>
+                                {% endif %}
 
-                    </ul>
-                </nav>
-                {% endif %}
+                            </ul>
+                        </nav>
+                    {% endif %}
+                    <!-- End Pagination -->
+                </div>
                 <!-- End Pagination -->
+
+
             </div>
-            <!-- End Pagination -->
-
-
+            <!-- End Row -->
 
         </div>
-        <!-- End Row -->
-
+        <!-- End Body -->
     </div>
-    <!-- End Body -->
-</div>
-<!-- End Card -->
+    <!-- End Card -->
 {% endblock %}
 
 
 {% block extra_js %}
-<script>
+    <script>
 
-    $(document).ready(function () {
-        let current_url_params = new URLSearchParams(window.location.search)
-        $("#page-size-filter").val(current_url_params.get("page_size") || "10")
-        $("#order-by-filter").val(current_url_params.get("order_by") || "")
-        $("#search-query-filter").val(current_url_params.get("q") || "")
-        $("#min-price-filter").val(current_url_params.get("min_price") || "")
-        $("#max-price-filter").val(current_url_params.get("max_price") || "")
-        $("#category-id-filter").val(current_url_params.get("category_id") || "")
+        $(document).ready(function () {
+            let current_url_params = new URLSearchParams(window.location.search)
+            $("#page-size-filter").val(current_url_params.get("page_size") || "10")
+            $("#order-by-filter").val(current_url_params.get("order_by") || "")
+            $("#search-query-filter").val(current_url_params.get("q") || "")
+            $("#min-price-filter").val(current_url_params.get("min_price") || "")
+            $("#max-price-filter").val(current_url_params.get("max_price") || "")
+            $("#category-id-filter").val(current_url_params.get("category_id") || "")
 
-    });
-    $('#page-size-filter').change(function () {
-        let current_url_params = new URLSearchParams(window.location.search)
-        var selectedOption = $(this).val();
-        current_url_params.set("page_size", selectedOption)
-        let new_url = window.location.pathname + "?" + current_url_params.toString()
-        window.location.href = new_url
-    });
-    $('#order-by-filter').change(function () {
-        let current_url_params = new URLSearchParams(window.location.search)
-        var selectedOption = $(this).val();
-        current_url_params.set("order_by", selectedOption)
-        let new_url = window.location.pathname + "?" + current_url_params.toString()
-        window.location.href = new_url
-    });
+        });
+        $('#page-size-filter').change(function () {
+            let current_url_params = new URLSearchParams(window.location.search)
+            var selectedOption = $(this).val();
+            current_url_params.set("page_size", selectedOption)
+            let new_url = window.location.pathname + "?" + current_url_params.toString()
+            window.location.href = new_url
+        });
+        $('#order-by-filter').change(function () {
+            let current_url_params = new URLSearchParams(window.location.search)
+            var selectedOption = $(this).val();
+            current_url_params.set("order_by", selectedOption)
+            let new_url = window.location.pathname + "?" + current_url_params.toString()
+            window.location.href = new_url
+        });
 
-</script>
+    </script>
 {% endblock %}

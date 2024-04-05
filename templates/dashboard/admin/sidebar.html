@@ -48,7 +48,7 @@
                     <!-- List -->
                     <ul class="nav nav-sm nav-tabs nav-vertical mb-4">
                         <li class="nav-item">
-                            <a class="nav-link {% if view_name == 'dashboard:admin:product-list' %}active{% endif %}" href="{% url 'dashboard:admin:product-list' %}">
+                            <a class="nav-link {% if view_name == 'dashboard:admin:product-list' or view_name == 'dashboard:admin:product-update' or view_name == 'dashboard:admin:product-delete' or view_name == 'dashboard:admin:product-create' %}active{% endif %}" href="{% url 'dashboard:admin:product-list' %}">
                                 <i class="bi-shop-window nav-icon"></i> محصولات
                             </a>
                         </li>
