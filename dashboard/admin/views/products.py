@@ -111,7 +111,7 @@ class AdminProductAddImageView(LoginRequiredMixin, AdminDashBoardMixin, CreateVi
 
     def form_invalid(self, form):
         messages.error(
-            self.request, 'اشکالی در ارسال تصویر رخ داد لطفا مجدد امتحان نمایید')
+            self.request, 'تصویر ارسال نشد لطفا مجدد امتحان نمایید')
         return redirect(reverse_lazy('dashboard:admin:product-update', kwargs={'pk': self.kwargs.get('pk')}))
 
 
@@ -126,3 +126,4 @@ class AdminProductImageDeleteView(AdminDashBoardMixin, LoginRequiredMixin, Succe
 
     def get_object(self, queryset=None):
         return self.get_queryset().get(pk=self.kwargs.get('image_id'))
+

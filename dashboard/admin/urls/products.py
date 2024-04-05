@@ -10,3 +10,4 @@ urlpatterns = [
    path("product/add-image/<int:pk>/", views.AdminProductAddImageView.as_view(), name="product-add-image"),
    path("product/<int:pk>/remove-image/<int:image_id>/", views.AdminProductImageDeleteView.as_view(), name="product-remove-image"),
 ]
+
