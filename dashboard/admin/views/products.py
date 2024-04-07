@@ -15,7 +15,7 @@ status = ProductStatus
 
 
 class AdminProductListView(AdminDashBoardMixin, LoginRequiredMixin, ListView):
-    template_name = 'dashboard/admin/products/product-list.html'
+    template_name = "dashboard/admin/products/product-list.html"
     context_object_name = "products"
     paginate_by = 7
 
@@ -49,14 +49,18 @@ class AdminProductListView(AdminDashBoardMixin, LoginRequiredMixin, ListView):
         return context
 
 
-class AdminProductUpdateView(AdminDashBoardMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+class AdminProductUpdateView(
+    AdminDashBoardMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateView
+):
     template_name = "dashboard/admin/products/product-update.html"
     queryset = Product.objects.all()
     form_class = ProductForm
     success_message = "ویرایش محصول با موفقیت انجام شد"
 
     def get_success_url(self):
-        return reverse_lazy("dashboard:admin:product-update", kwargs={"pk": self.get_object().pk})
+        return reverse_lazy(
+            "dashboard:admin:product-update", kwargs={"pk": self.get_object().pk}
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -69,7 +73,9 @@ class AdminProductUpdateView(AdminDashBoardMixin, LoginRequiredMixin, SuccessMes
         return obj
 
 
-class AdminProductDeleteView(LoginRequiredMixin, AdminDashBoardMixin, SuccessMessageMixin, DeleteView):
+class AdminProductDeleteView(
+    LoginRequiredMixin, AdminDashBoardMixin, SuccessMessageMixin, DeleteView
+):
     template_name = "dashboard/admin/products/product-delete.html"
     queryset = Product.objects.all()
     success_url = reverse_lazy("dashboard:admin:product-list")
@@ -77,7 +83,9 @@ class AdminProductDeleteView(LoginRequiredMixin, AdminDashBoardMixin, SuccessMes
     context_object_name = "product"
 
 
-class AdminProductCreateView(LoginRequiredMixin, AdminDashBoardMixin, SuccessMessageMixin, CreateView):
+class AdminProductCreateView(
+    LoginRequiredMixin, AdminDashBoardMixin, SuccessMessageMixin, CreateView
+):
     template_name = "dashboard/admin/products/product-create.html"
     queryset = Product.objects.all()
     form_class = ProductForm
@@ -87,7 +95,11 @@ class AdminProductCreateView(LoginRequiredMixin, AdminDashBoardMixin, SuccessMes
     def form_valid(self, form):
         form.instance.user = self.request.user
         super().form_valid(form)
-        return redirect(reverse_lazy("dashboard:admin:product-update", kwargs={"pk": form.instance.pk}))
+        return redirect(
+            reverse_lazy(
+                "dashboard:admin:product-update", kwargs={"pk": form.instance.pk}
+            )
+        )
 
     def get_success_url(self):
         return reverse_lazy("dashboard:admin:product-list")
@@ -97,33 +109,39 @@ class AdminProductAddImageView(LoginRequiredMixin, AdminDashBoardMixin, CreateVi
     form_class = ProductImageForm
 
     def get_success_url(self):
-        return reverse_lazy('dashboard:admin:product-update', kwargs={'pk': self.kwargs.get('pk')})
+        return reverse_lazy(
+            "dashboard:admin:product-update", kwargs={"pk": self.kwargs.get("pk")}
+        )
 
     def get_queryset(self):
-        return ProductImage.objects.filter(product__id=self.kwargs.get('pk'))
+        return ProductImage.objects.filter(product__id=self.kwargs.get("pk"))
 
     def form_valid(self, form):
-        form.instance.product = Product.objects.get(
-            pk=self.kwargs.get('pk'))
-        messages.success(
-            self.request, 'تصویر مورد نظر با موفقیت ثبت شد')
+        form.instance.product = Product.objects.get(pk=self.kwargs.get("pk"))
+        messages.success(self.request, "تصویر مورد نظر با موفقیت ثبت شد")
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        messages.error(
-            self.request, 'تصویر ارسال نشد لطفا مجدد امتحان نمایید')
-        return redirect(reverse_lazy('dashboard:admin:product-update', kwargs={'pk': self.kwargs.get('pk')}))
+        messages.error(self.request, "تصویر ارسال نشد لطفا مجدد امتحان نمایید")
+        return redirect(
+            reverse_lazy(
+                "dashboard:admin:product-update", kwargs={"pk": self.kwargs.get("pk")}
+            )
+        )
 
 
-class AdminProductImageDeleteView(AdminDashBoardMixin, LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+class AdminProductImageDeleteView(
+    AdminDashBoardMixin, LoginRequiredMixin, SuccessMessageMixin, DeleteView
+):
     success_message = "تصویر با موفقیت حذف شد"
 
     def get_queryset(self):
-        return ProductImage.objects.filter(product__id=self.kwargs.get('pk'))
+        return ProductImage.objects.filter(product__id=self.kwargs.get("pk"))
 
     def get_success_url(self):
-        return reverse_lazy('dashboard:admin:product-update', kwargs={'pk': self.kwargs.get('pk')})
+        return reverse_lazy(
+            "dashboard:admin:product-update", kwargs={"pk": self.kwargs.get("pk")}
+        )
 
     def get_object(self, queryset=None):
-        return self.get_queryset().get(pk=self.kwargs.get('image_id'))
-
+        return self.get_queryset().get(pk=self.kwargs.get("image_id"))

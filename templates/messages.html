@@ -18,7 +18,7 @@
         {% for field in form %}
           {% if field.errors %}
             {% for error in field.errors %}
-              
+
               <script>
                 Toastify({
                     text:`{{ error|escape }}`,

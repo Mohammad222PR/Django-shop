@@ -30,7 +30,6 @@ urlpatterns = [
     path("shop/", include("shop.urls", namespace="shop")),  # shop app main route
     path("cart/", include("cart.urls", namespace="cart")),  # cart app main route
     path("order/", include("order.urls", namespace="order")),  # order app main route
-
     path(
         "dashboard/", include("dashboard.urls", namespace="dashboard")
     ),  # dashboard app main route

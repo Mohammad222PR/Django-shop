@@ -13,7 +13,6 @@ from dashboard.mixins.dashboard import AdminDashBoardMixin
 # Create your views here.
 
 
-
 class AdminSecurityEditView(
     AdminDashBoardMixin,
     LoginRequiredMixin,

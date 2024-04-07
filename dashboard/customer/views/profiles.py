@@ -6,7 +6,10 @@ from django.urls import reverse_lazy
 from django.views.generic import View, TemplateView, UpdateView
 
 from accounts.models import Profile
-from dashboard.customer.forms.profiles import CustomerPasswordChangeForm, CustomerProfileEditForm
+from dashboard.customer.forms.profiles import (
+    CustomerPasswordChangeForm,
+    CustomerProfileEditForm,
+)
 from dashboard.mixins.dashboard import CustomerDashBoardMixin
 
 

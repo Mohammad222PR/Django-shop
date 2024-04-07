@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import UserPassesTestMixin
+
 from accounts.models import UserType
 
 

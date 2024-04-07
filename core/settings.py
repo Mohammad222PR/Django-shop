@@ -39,7 +39,7 @@ APPS = [
     "shop.apps.ShopConfig",
     "cart.apps.CartConfig",
     "dashboard.apps.DashboardConfig",
-    "order.apps.OrderConfig"
+    "order.apps.OrderConfig",
 ]
 
 MODULE = [

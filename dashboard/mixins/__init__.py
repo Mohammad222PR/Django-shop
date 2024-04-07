@@ -1,1 +1,2 @@
-from . import dashboard
+from .dashboard import *
+from .customer import *
