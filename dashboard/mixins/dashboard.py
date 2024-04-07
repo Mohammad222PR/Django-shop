@@ -18,7 +18,6 @@ class CustomerDashBoardMixin(UserPassesTestMixin):
         if self.request.user.is_authenticated:
             return (
                 self.request.user.type == UserType.customer.value
-                or self.request.user.type == UserType.superuser.value
             )
         return False
 
@@ -28,6 +27,5 @@ class SupportDashBoardMixin(UserPassesTestMixin):
         if self.request.user.is_authenticated:
             return (
                 self.request.user.type == UserType.support.value
-                or self.request.user.type == UserType.superuser.value
             )
         return False

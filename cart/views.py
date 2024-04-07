@@ -15,6 +15,8 @@ class SessionAddProduct(View):
         quantity = request.POST.get("quantity", 1)
         if product_id:
             cart.add_product(product_id, quantity)
+        if request.user.is_authenticated:
+            cart.merge_session_cart_in_db(user=request.user)
         return JsonResponse(
             {"cart": cart.get_cart_dict(), "total_quantity": cart.get_total_quantity()}
         )
@@ -42,6 +44,8 @@ class SessionUpdateProductQuantityView(View):
         quantity = request.POST.get("quantity")
         if product_id and quantity:
             cart.update_product_quantity(product_id, quantity)
+        if request.user.is_authenticated:
+            cart.merge_session_cart_in_db(user=request.user)
             messages.success(request, "تعداد محصول با موفقیت به‌روزرسانی شد", "success")
         else:
             messages.error(request, "خطا در به‌روزرسانی تعداد محصول", "danger")
@@ -56,6 +60,8 @@ class SessionRemoveProductView(View):
         product_id = request.POST.get("product_id")
         if product_id:
             cart.remove_product(product_id)
+        if request.user.is_authenticated:
+            cart.merge_session_cart_in_db(user=request.user)
             messages.success(request, "محصول با موفقیت حذف شد", "success")
         else:
             messages.error(request, "خطا در حذف محصول", "danger")

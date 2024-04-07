@@ -6,23 +6,23 @@ app_name = "cart"
 urlpatterns = [
     # cart urls
     path(
-        "session/add-product/",
+        "add-product/",
         views.SessionAddProduct.as_view(),
-        name="session-add-product",
+        name="add-product",
     ),
     path(
-        "session/cart-summary/",
+        "cart-summary/",
         views.SessionCartSummaryView.as_view(),
-        name="session-cart-summary",
+        name="cart-summary",
     ),
     path(
-        "session/update-product-quantity/",
+        "update-product-quantity/",
         views.SessionUpdateProductQuantityView.as_view(),
-        name="session-update-product-quantity",
+        name="update-product-quantity",
     ),
     path(
-        "session/cart-remove-product/",
+        "cart-remove-product/",
         views.SessionRemoveProductView.as_view(),
-        name="session-remove-product",
+        name="remove-product",
     ),
 ]

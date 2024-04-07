@@ -71,7 +71,7 @@
                                                         <!-- Select -->
                                                         <select class="form-select form-select-sm mb-3"
                                                                 onchange="changeProductQuantity('{{ cart_item.product_id }}', this.value)">
-                                                            {% with ''|center:cart_item.product_obj.stock as range %}
+                                                            {% with ''|center:10 as range %}
                                                                 {% for _ in range %}
                                                                     <option value="{{ forloop.counter }}"
                                                                             {% if forloop.counter == cart_item.quantity %}
@@ -86,7 +86,8 @@
 
                                                     <div class="col-auto">
                                                         <div class="d-grid gap-2">
-                                                            <button class="btn btn-sm btn-icon small" onclick="removeProduct('{{ cart_item.product_id }}')" >
+                                                            <button class="btn btn-sm btn-icon small"
+                                                                    onclick="removeProduct('{{ cart_item.product_id }}')">
                                                                 <i class="bi-trash me-1"></i> حذف
                                                             </button>
 
@@ -153,7 +154,7 @@
                                 </div>
 
                                 <div class="d-grid">
-                                    <a class="btn btn-primary btn-lg" href="/checkout.html">ثبت سفارش</a>
+                                    <a class="btn btn-primary btn-lg" href="{% url 'order:checkout' %}">ثبت سفارش</a>
                                 </div>
                             </form>
                         </div>
@@ -194,48 +195,49 @@
 
 {% block extra_js %}
     <script>
-    function changeProductQuantity(product_id,quantity){
-        $.ajax({
-            url: "{%  url 'cart:session-update-product-quantity' %}",
-            method: 'POST',
-            data: {
-                product_id: product_id,
-                quantity: quantity,
-                csrfmiddlewaretoken: '{{ csrf_token }}'
+        function changeProductQuantity(product_id, quantity) {
+            $.ajax({
+                url: "{%  url 'cart:update-product-quantity' %}",
+                method: 'POST',
+                data: {
+                    product_id: product_id,
+                    quantity: quantity,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
 
-            },
-            success: function (response) {
-                console.log(response);
-                window.location.reload();
-                // do something with the response data
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.log(errorThrown);
-                // handle the error case
-            }
-        });
-    }
+                },
+                success: function (response) {
+                    console.log(response);
+                    window.location.reload();
+                    // do something with the response data
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                    // handle the error case
+                }
+            });
+        }
 
-   function removeProduct(product_id){
-        $.ajax({
-            url: "{%  url 'cart:session-remove-product' %}",
-            method: 'POST',
-            data: {
-                product_id: product_id,
-                csrfmiddlewaretoken: '{{ csrf_token }}'
+        function removeProduct(product_id) {
+            $.ajax({
+                url: "{%  url 'cart:remove-product' %}",
+                method: 'POST',
+                data: {
+                    product_id: product_id,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
 
-            },
-            success: function (response) {
-                console.log(response);
-                window.location.reload();
-                // do something with the response data
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.log(errorThrown);
-                // handle the error case
-            }
-        });
-    }
+                },
+                success: function (response) {
+                    console.log(response);
+                    window.location.reload();
+
+                    // do something with the response data
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                    // handle the error case
+                }
+            });
+        }
     </script>
 {% endblock %}
 

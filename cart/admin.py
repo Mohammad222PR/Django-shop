@@ -1,5 +1,5 @@
 from django.contrib import admin
-
+from django.contrib.sessions.models import Session
 from cart.models import Cart, CartItem
 
 
@@ -20,9 +20,6 @@ class CartItemAdmin(admin.ModelAdmin):
     list_filter = ["created_date", "updated_date"]
     search_fields = ["cart"]
     ordering = ["cart", "product", "quantity", "created_date", "updated_date"]
-
-
-from django.contrib.sessions.models import Session
 
 
 class SessionAdmin(admin.ModelAdmin):
