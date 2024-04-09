@@ -80,9 +80,8 @@ class CartSession:
         return sum(item["quantity"] for item in self.cart["items"])
 
     def clear(self):
-        self.cart = {"items": []}
+        self.cart = self.session["cart"] = {"items": []}
         self.save()
-
     def save(self):
         self.session.modified = True
 

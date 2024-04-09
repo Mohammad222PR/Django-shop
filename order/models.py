@@ -8,11 +8,11 @@ from shop.models import Product
 
 
 class OrderStatus(models.IntegerChoices):
-    processing = 1, _("درحال پردازش")
-    pending = 2, _("درانتظار پرداخت")
-    shipping = 3, _("ارسال شده")
-    delivered = 4, _("تحویل شده")
-    cancelled = 5, _("لغو شده")
+    processing = 1, _("processing")
+    pending = 2, _("pending")
+    shipping = 3, _("shipping")
+    delivered = 4, _("delivered")
+    cancelled = 5, _("cancelled")
 
 
 # Create your models here.
@@ -77,7 +77,7 @@ class Order(models.Model):
         default=OrderStatus.pending.value,
         verbose_name=_("status"),
     )
-    shipping_address = models.OneToOneField(
+    shipping_address = models.ForeignKey(
         UserAddress,
         on_delete=models.PROTECT,
         related_name="shipping_address",
@@ -106,6 +106,9 @@ class Order(models.Model):
 
     def __str__(self):
         return self.user.user_profile.full_name()
+
+    def calculate_total_price(self):
+        return sum(item.price * item.quantity for item in self.order_item.all())
 
 
 class OrderItem(models.Model):
