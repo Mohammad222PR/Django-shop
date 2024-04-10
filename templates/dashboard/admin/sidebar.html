@@ -58,7 +58,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="">
+                            <a class="nav-link {% if view_name == 'dashboard:admin:coupon-list'%}active{% endif %}" href="{% url 'dashboard:admin:coupon-list' %}">
                                 <i class="bi-ticket-perforated nav-icon"></i> کد تخفیف
                             </a>
                         </li>

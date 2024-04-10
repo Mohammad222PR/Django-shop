@@ -19,7 +19,7 @@ class OrderStatus(models.IntegerChoices):
 
 
 class Coupon(models.Model):
-    code = models.CharField(max_length=100)
+    code = models.CharField(max_length=100, unique=True)
     discount_percent = models.PositiveSmallIntegerField(
         default=0,
         verbose_name=_("discount percent"),
@@ -37,12 +37,8 @@ class Coupon(models.Model):
     )
     updated_date = models.DateTimeField(auto_now=True, verbose_name=_("updated time"))
 
-
-class Meta:
-    verbose_name = _("Coupon")
-    verbose_name_plural = _("Coupons")
-    ordering = ("created_date", "updated_date")
-    db_table = "coupon"
+    def __str__(self):
+        return self.code
 
 
 class UserAddress(models.Model):
@@ -57,6 +53,7 @@ class UserAddress(models.Model):
         auto_now_add=True, verbose_name=_("created time")
     )
     updated_date = models.DateTimeField(auto_now=True, verbose_name=_("updated time"))
+
     class Meta:
         verbose_name = _("User address")
         verbose_name_plural = _("User addresses")
