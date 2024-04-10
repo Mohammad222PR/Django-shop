@@ -34,3 +34,4 @@ class CouponValidationForm(forms.ModelForm):
         if expired_date == timezone.now():
             raise forms.ValidationError('کد تخفیف نمیتواند برابر با امروز باشد')
         return expired_date
+

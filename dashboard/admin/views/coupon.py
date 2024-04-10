@@ -64,3 +64,4 @@ class AdminCouponDeleteView(AdminDashBoardMixin, SuccessMessageMixin, LoginRequi
 
     def get_success_url(self):
         return reverse_lazy('dashboard:admin:coupon-list')
+

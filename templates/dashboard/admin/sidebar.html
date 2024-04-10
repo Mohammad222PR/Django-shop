@@ -25,18 +25,21 @@
                     <!-- List -->
                     <ul class="nav nav-sm nav-tabs nav-vertical mb-4">
                         <li class="nav-item ">
-                            <a class="nav-link {% if view_name == 'dashboard:admin:home' %}active{% endif %}" href="{% url 'dashboard:admin:home' %}">
+                            <a class="nav-link {% if view_name == 'dashboard:admin:home' %}active{% endif %}"
+                               href="{% url 'dashboard:admin:home' %}">
                                 <i class="bi-person-badge nav-icon "></i>داشبورد
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {% if view_name == 'dashboard:admin:security-edit' %}active{% endif %}" href="{% url 'dashboard:admin:security-edit' %}">
+                            <a class="nav-link {% if view_name == 'dashboard:admin:security-edit' %}active{% endif %}"
+                               href="{% url 'dashboard:admin:security-edit' %}">
                                 <i class="bi-shield-shaded nav-icon "></i> امنیت
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link {% if view_name == 'dashboard:admin:profile-edit' %}active{% endif %}" href="{% url 'dashboard:admin:profile-edit' %}">
+                            <a class="nav-link {% if view_name == 'dashboard:admin:profile-edit' %}active{% endif %}"
+                               href="{% url 'dashboard:admin:profile-edit' %}">
                                 <i class="bi-sliders nav-icon"></i> تنظیمات پروفایل
                             </a>
                         </li>
@@ -48,7 +51,8 @@
                     <!-- List -->
                     <ul class="nav nav-sm nav-tabs nav-vertical mb-4">
                         <li class="nav-item">
-                            <a class="nav-link {% if view_name == 'dashboard:admin:product-list' or view_name == 'dashboard:admin:product-update' or view_name == 'dashboard:admin:product-delete' or view_name == 'dashboard:admin:product-create' %}active{% endif %}" href="{% url 'dashboard:admin:product-list' %}">
+                            <a class="nav-link {% if view_name == 'dashboard:admin:product-list' or view_name == 'dashboard:admin:product-update' or view_name == 'dashboard:admin:product-delete' or view_name == 'dashboard:admin:product-create' %}active{% endif %}"
+                               href="{% url 'dashboard:admin:product-list' %}">
                                 <i class="bi-shop-window nav-icon"></i> محصولات
                             </a>
                         </li>
@@ -58,7 +62,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {% if view_name == 'dashboard:admin:coupon-list'%}active{% endif %}" href="{% url 'dashboard:admin:coupon-list' %}">
+                            <a class="nav-link {% if view_name == 'dashboard:admin:coupon-list' %}active{% endif %}"
+                               href="{% url 'dashboard:admin:coupon-list' %}">
                                 <i class="bi-ticket-perforated nav-icon"></i> کد تخفیف
                             </a>
                         </li>
