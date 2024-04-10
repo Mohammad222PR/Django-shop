@@ -9,3 +9,4 @@ urlpatterns = [
     path("coupon/delete/<int:pk>/", views.AdminCouponDeleteView.as_view(), name="coupon-delete"),
 
 ]
+
