@@ -45,3 +45,4 @@ class NovinoPay:
         return f'{self._payment_page_url}{authority}'
 
 
+

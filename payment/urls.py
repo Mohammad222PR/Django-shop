@@ -6,5 +6,4 @@ urlpatterns = [
     path("verify/zarin/", views.PaymentZarinVerifyView.as_view(), name="verify"),
     path("verify/zibal/", views.PaymentZibalVerifyView.as_view(), name="verify"),
     path("verify/novin/", views.PaymentZibalVerifyView.as_view(), name="verify"),
-
 ]
