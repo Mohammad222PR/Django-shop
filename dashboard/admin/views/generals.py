@@ -3,11 +3,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 
 
-from dashboard.mixins.dashboard import AdminDashBoardMixin
+from dashboard.mixins.admin import HasAdminAccessPermission
 
 
 # Create your views here.
 
 
-class AdminDashBoardHomeView(AdminDashBoardMixin, LoginRequiredMixin, TemplateView):
+class AdminDashBoardHomeView(HasAdminAccessPermission, LoginRequiredMixin, TemplateView):
     template_name = "dashboard/admin/home.html"

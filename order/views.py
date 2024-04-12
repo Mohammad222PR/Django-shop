@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import ValidationError
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views import View
@@ -15,6 +15,10 @@ from cart.models import Cart
 from order.forms import CheckOutOrderForm
 from order.models import UserAddress, Order, OrderItem, Coupon
 from order.permissions import HasCustomerAccessPermission
+from payment.models import PaymentZarin, PaymentZibal
+from payment.novin_pay import NovinoPay
+from payment.zarinpal_client import ZarinPalSandbox
+from payment.zibal_client import Zibal
 
 
 # Create your views here.
@@ -35,9 +39,9 @@ class CheckOutOrderView(LoginRequiredMixin, HasCustomerAccessPermission, Success
     def form_valid(self, form):
         user = self.request.user
         cleaned_data = form.cleaned_data
-        address = cleaned_data['address_id']
+        address = cleaned_data.get('address_id')
         coupon = cleaned_data.get('coupon')
-
+        payment = self.request.POST.get('payment')
         cart = Cart.objects.get(user=user)
         order = self.create_order(address)
 
@@ -47,7 +51,45 @@ class CheckOutOrderView(LoginRequiredMixin, HasCustomerAccessPermission, Success
         total_price = order.calculate_total_price()
         self.apply_coupon(coupon, order, user, total_price)
         order.save()
-        return super().form_valid(form)
+        if payment == "zarinpal":
+            return redirect(self.create_payment_zarinpal_url(order))
+        if payment == "zibal":
+            return redirect(self.create_payment_zibal_url(order))
+        if payment == "novin":
+            return redirect(self.create_payment_novin_url(order))
+
+    def create_payment_zibal_url(self, order):
+        zibal = Zibal()
+        response = zibal.payment_request(order.total_price)
+        payment_obj = PaymentZibal.objects.create(
+            trackId=str(response.get("trackId")),
+            amount=order.total_price
+        )
+        order.payment_zibal = payment_obj
+        order.save()
+        return zibal.generate_payment_url(response.get("trackId"))
+
+    def create_payment_novin_url(self, order):
+        novin = NovinoPay()
+        response = novin.payment_request(order.total_price)
+        payment_obj = PaymentZarin.objects.create(
+            authority_id=response.get("authority"),
+            amount=order.total_price
+        )
+        order.payment_novin = payment_obj
+        order.save()
+        return novin.generate_payment_url(response.get("authority"))
+
+    def create_payment_zarinpal_url(self, order):
+        zarinpal = ZarinPalSandbox()
+        response = zarinpal.payment_request(order.total_price)
+        payment_obj = PaymentZarin.objects.create(
+            authority_id=response.get("Authority"),
+            amount=order.total_price
+        )
+        order.payment_zarin = payment_obj
+        order.save()
+        return zarinpal.generate_payment_url(response.get("Authority"))
 
     def create_order(self, address):
         return Order.objects.create(
@@ -81,9 +123,6 @@ class CheckOutOrderView(LoginRequiredMixin, HasCustomerAccessPermission, Success
             pass
 
         order.total_price = total_price
-
-    def form_invalid(self, form):
-        return super().form_invalid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -126,10 +165,15 @@ class ValidateCouponView(LoginRequiredMixin, HasCustomerAccessPermission, View):
 
                 total_price = cart.calculate_total_price()
                 total_price = round(
-                    total_price - (total_price * (coupon.discount_percent/100)))
-                total_tax = round((total_price * 9)/100)
-        return JsonResponse({"message": message, "total_tax": total_tax, "total_price": total_price}, status=status_code)
+                    total_price - (total_price * (coupon.discount_percent / 100)))
+                total_tax = round((total_price * 9) / 100)
+        return JsonResponse({"message": message, "total_tax": total_tax, "total_price": total_price},
+                            status=status_code)
 
 
 class OrderCompletedView(LoginRequiredMixin, HasCustomerAccessPermission, TemplateView):
     template_name = 'order/order-completed.html'
+
+
+class OrderFaliedView(LoginRequiredMixin, HasCustomerAccessPermission, TemplateView):
+    template_name = 'order/order-failed.html'

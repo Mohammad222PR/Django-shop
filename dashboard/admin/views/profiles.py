@@ -7,14 +7,14 @@ from django.views.generic import View, TemplateView, UpdateView
 
 from accounts.models import Profile
 from dashboard.admin.forms.profiles import AdminPasswordChangeForm, AdminProfileEditForm
-from dashboard.mixins.dashboard import AdminDashBoardMixin
+from dashboard.mixins.admin import HasAdminAccessPermission
 
 
 # Create your views here.
 
 
 class AdminSecurityEditView(
-    AdminDashBoardMixin,
+    HasAdminAccessPermission,
     LoginRequiredMixin,
     SuccessMessageMixin,
     auth_views.PasswordChangeView,
@@ -26,7 +26,7 @@ class AdminSecurityEditView(
 
 
 class AdminProfileEditView(
-    AdminDashBoardMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateView
+    HasAdminAccessPermission, LoginRequiredMixin, SuccessMessageMixin, UpdateView
 ):
     template_name = "dashboard/admin/profile/profile-edit.html"
     form_class = AdminProfileEditForm
@@ -39,7 +39,7 @@ class AdminProfileEditView(
 
 
 class AdminProfileDeleteAvatarView(
-    AdminDashBoardMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateView
+    HasAdminAccessPermission, LoginRequiredMixin, SuccessMessageMixin, UpdateView
 ):
     template_name = "dashboard/admin/profile/profile-edit.html"
     fields = ("avatar",)

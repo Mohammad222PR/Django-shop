@@ -32,7 +32,33 @@
                             <a class="" href="{% url 'dashboard:customer:address-list' %}">مدیریت آدرس ها</a>
                         </div>
                     </div>
+                    <hr class="my-4">
 
+                    <h4 class="mb-3">درگاه پرداخت</h4>
+
+                    <div class="my-3">
+                        <!-- Check -->
+                        <div class="form-check">
+                            <input name="payment" type="radio" class="form-check-input"
+                                   value="zarinpal" required>
+
+                            <label class="form-check-label" for="payment">زرین پال</label>
+                        </div>
+                        <!-- End Check -->
+
+                        <!-- Check -->
+                        <div class="form-check">
+                            <input name="payment" type="radio" class="form-check-input"
+                                   value="zibal" required>
+                            <label class="form-check-label" for="payment">زیبال</label>
+                        </div>
+                        <!-- End Check -->
+                        <div class="form-check">
+                            <input name="payment" type="radio" class="form-check-input"
+                                   value="novin" required>
+                            <label class="form-check-label" for="payment">نوین پی</label>
+                        </div>
+                    </div>
                     <hr class="my-4">
 
 
@@ -52,6 +78,7 @@
             </div>
             <!-- End Col -->
 
+
             <div class="col-lg-4">
                 <div class="ps-lg-4">
                     <!-- Card -->
@@ -61,14 +88,12 @@
                                 <h3 class="card-header-title">خلاصه سفارش</h3>
                             </div>
 
-                            <div class="input-group border-bottom pb-4 mb-3">
+
+                            <div class="input-group border-bottom pb-4 mb-3 ">
                                 <input type="text" class="form-control text-center" name="coupon" placeholder="کد تخفیف"
                                        aria-label="کد تخفیف" form="checkout-form" id="coupon-input">
                                 <button class="btn btn-primary" type="button" onclick="validateCoupon()"> بررسی</button>
-                                <button class="btn btn-danger" type="button" onclick="removeCoupon()"> حذف کد تخفیف
-                                </button>
                             </div>
-
 
                             <div class="border-bottom pb-4 mb-4">
                                 <div class="d-grid gap-3">
@@ -107,6 +132,7 @@
                                 <button class="btn btn-primary btn-lg" type="submit" form="checkout-form">ثبت نهایی
                                 </button>
                             </div>
+
 
                         </div>
                         <!-- End Card -->
@@ -190,17 +216,6 @@
                     }).showToast();
                     // handle the error case
                 }
-            });
-        }
-
-        function removeCoupon() {
-            // حذف کد تخفیف از ورودی
-            $('#coupon-input').val('');
-            // حذف کلاس disabled و تغییر استایل‌ها
-            $('#coupon-input').removeClass('disabled').css({
-                'background-color': '#ffffff',
-                'color': '#000000',
-                'cursor': 'auto'
             });
         }
 

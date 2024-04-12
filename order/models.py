@@ -1,18 +1,19 @@
+import uuid
+
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
 from accounts.models import User
 from django.utils.translation import gettext_lazy as _
 
+from payment.models import PaymentZarin, PaymentZibal, PaymentNovin
 from shop.models import Product
 
 
 class OrderStatus(models.IntegerChoices):
-    processing = 1, _("processing")
-    pending = 2, _("pending")
-    shipping = 3, _("shipping")
-    delivered = 4, _("delivered")
-    cancelled = 5, _("cancelled")
+    success = 1, _("Success")
+    pending = 2, _("Pending")
+    cancelled = 3, _("Cancelled")
 
 
 # Create your models here.
@@ -80,6 +81,10 @@ class Order(models.Model):
         related_name="shipping_address",
         verbose_name=_("shipping"),
     )
+    payment_zarin = models.ForeignKey(PaymentZarin, on_delete=models.SET_NULL, verbose_name='payment zarin', null=True, blank=True)
+    payment_zibal = models.ForeignKey(PaymentZibal, on_delete=models.SET_NULL, verbose_name='payment zibal', null=True, blank=True)
+    payment_novin = models.ForeignKey(PaymentNovin, on_delete=models.SET_NULL, verbose_name='payment novin', null=True, blank=True)
+
     total_price = models.DecimalField(
         max_digits=10, decimal_places=0, default=0, verbose_name=_("total_price")
     )

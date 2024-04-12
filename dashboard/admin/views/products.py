@@ -8,13 +8,13 @@ from django.utils.text import slugify
 from django.views.generic import ListView, UpdateView, CreateView, DeleteView
 
 from dashboard.admin.forms import ProductForm, ProductImageForm
-from dashboard.mixins.dashboard import AdminDashBoardMixin
+from dashboard.mixins.admin import HasAdminAccessPermission
 from shop.models import Product, ProductStatus, ProductCategory, ProductImage
 
 status = ProductStatus
 
 
-class AdminProductListView(AdminDashBoardMixin, LoginRequiredMixin, ListView):
+class AdminProductListView(HasAdminAccessPermission, LoginRequiredMixin, ListView):
     template_name = "dashboard/admin/products/product-list.html"
     context_object_name = "products"
     paginate_by = 7
@@ -50,7 +50,7 @@ class AdminProductListView(AdminDashBoardMixin, LoginRequiredMixin, ListView):
 
 
 class AdminProductUpdateView(
-    AdminDashBoardMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateView
+    HasAdminAccessPermission, LoginRequiredMixin, SuccessMessageMixin, UpdateView
 ):
     template_name = "dashboard/admin/products/product-update.html"
     queryset = Product.objects.all()
@@ -74,7 +74,7 @@ class AdminProductUpdateView(
 
 
 class AdminProductDeleteView(
-    LoginRequiredMixin, AdminDashBoardMixin, SuccessMessageMixin, DeleteView
+    LoginRequiredMixin, HasAdminAccessPermission, SuccessMessageMixin, DeleteView
 ):
     template_name = "dashboard/admin/products/product-delete.html"
     queryset = Product.objects.all()
@@ -84,7 +84,7 @@ class AdminProductDeleteView(
 
 
 class AdminProductCreateView(
-    LoginRequiredMixin, AdminDashBoardMixin, SuccessMessageMixin, CreateView
+    LoginRequiredMixin, HasAdminAccessPermission, SuccessMessageMixin, CreateView
 ):
     template_name = "dashboard/admin/products/product-create.html"
     queryset = Product.objects.all()
@@ -105,7 +105,7 @@ class AdminProductCreateView(
         return reverse_lazy("dashboard:admin:product-list")
 
 
-class AdminProductAddImageView(LoginRequiredMixin, AdminDashBoardMixin, CreateView):
+class AdminProductAddImageView(LoginRequiredMixin, HasAdminAccessPermission, CreateView):
     form_class = ProductImageForm
 
     def get_success_url(self):
@@ -131,7 +131,7 @@ class AdminProductAddImageView(LoginRequiredMixin, AdminDashBoardMixin, CreateVi
 
 
 class AdminProductImageDeleteView(
-    AdminDashBoardMixin, LoginRequiredMixin, SuccessMessageMixin, DeleteView
+    HasAdminAccessPermission, LoginRequiredMixin, SuccessMessageMixin, DeleteView
 ):
     success_message = "تصویر با موفقیت حذف شد"
 

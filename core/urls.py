@@ -33,6 +33,9 @@ urlpatterns = [
     path(
         "dashboard/", include("dashboard.urls", namespace="dashboard")
     ),  # dashboard app main route
+    path(
+        "payment/", include("payment.urls", namespace="payment")
+    ),  # payment app main route
     # ______CKEDITOR_______#
     path(
         "ckeditor5/", include("django_ckeditor_5.urls"), name="ck_editor_5_upload_file"

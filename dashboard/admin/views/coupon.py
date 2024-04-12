@@ -5,11 +5,11 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, UpdateView, CreateView, DeleteView
 
 from dashboard.admin.forms.coupon import CouponValidationForm
-from dashboard.mixins import AdminDashBoardMixin
+from dashboard.mixins import HasAdminAccessPermission
 from order.models import Coupon
 
 
-class AdminCouponListView(AdminDashBoardMixin, LoginRequiredMixin, ListView):
+class AdminCouponListView(HasAdminAccessPermission, LoginRequiredMixin, ListView):
     template_name = 'dashboard/admin/coupon/coupon-list.html'
     context_object_name = 'coupons'
     paginate_by = 10
@@ -34,7 +34,7 @@ class AdminCouponListView(AdminDashBoardMixin, LoginRequiredMixin, ListView):
         return context
 
 
-class AdminCouponCreateView(AdminDashBoardMixin, SuccessMessageMixin, LoginRequiredMixin, CreateView):
+class AdminCouponCreateView(HasAdminAccessPermission, SuccessMessageMixin, LoginRequiredMixin, CreateView):
     template_name = 'dashboard/admin/coupon/coupon-create.html'
     context_object_name = 'coupon'
     form_class = CouponValidationForm
@@ -45,7 +45,7 @@ class AdminCouponCreateView(AdminDashBoardMixin, SuccessMessageMixin, LoginRequi
         return reverse_lazy('dashboard:admin:coupon-update', kwargs={'pk': self.object.pk})
 
 
-class AdminCouponUpdateView(AdminDashBoardMixin, SuccessMessageMixin, LoginRequiredMixin, UpdateView):
+class AdminCouponUpdateView(HasAdminAccessPermission, SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     template_name = 'dashboard/admin/coupon/coupon-update.html'
     context_object_name = 'coupon'
     form_class = CouponValidationForm
@@ -56,7 +56,7 @@ class AdminCouponUpdateView(AdminDashBoardMixin, SuccessMessageMixin, LoginRequi
         return reverse_lazy('dashboard:admin:coupon-update', kwargs={'pk': self.object.pk})
 
 
-class AdminCouponDeleteView(AdminDashBoardMixin, SuccessMessageMixin, LoginRequiredMixin, DeleteView):
+class AdminCouponDeleteView(HasAdminAccessPermission, SuccessMessageMixin, LoginRequiredMixin, DeleteView):
     template_name = 'dashboard/admin/coupon/coupon-delete.html'
     context_object_name = 'coupon'
     queryset = Coupon.objects.all()

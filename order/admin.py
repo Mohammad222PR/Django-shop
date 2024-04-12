@@ -41,7 +41,6 @@ class UserAddressAdmin(admin.ModelAdmin):
     search_fields = ["state", "city", ]
 
 
-
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = [
