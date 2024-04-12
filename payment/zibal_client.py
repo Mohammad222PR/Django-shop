@@ -42,3 +42,4 @@ class Zibal:
 
     def generate_payment_url(self, trackId):
         return f'{self._payment_page_url}{trackId}'
+

@@ -144,3 +144,4 @@ class PaymentNovinVerifyView(HasCustomerAccessPermission, LoginRequiredMixin, Vi
 
         order.status = OrderStatus.cancelled.value
         order.save()
+
