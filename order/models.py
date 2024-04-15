@@ -1,4 +1,5 @@
 import uuid
+from decimal import Decimal
 
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
@@ -81,9 +82,12 @@ class Order(models.Model):
         related_name="shipping_address",
         verbose_name=_("shipping"),
     )
-    payment_zarin = models.ForeignKey(PaymentZarin, on_delete=models.SET_NULL, verbose_name='payment zarin', null=True, blank=True)
-    payment_zibal = models.ForeignKey(PaymentZibal, on_delete=models.SET_NULL, verbose_name='payment zibal', null=True, blank=True)
-    payment_novin = models.ForeignKey(PaymentNovin, on_delete=models.SET_NULL, verbose_name='payment novin', null=True, blank=True)
+    payment_zarin = models.ForeignKey(PaymentZarin, on_delete=models.SET_NULL, verbose_name='payment zarin', null=True,
+                                      blank=True)
+    payment_zibal = models.ForeignKey(PaymentZibal, on_delete=models.SET_NULL, verbose_name='payment zibal', null=True,
+                                      blank=True)
+    payment_novin = models.ForeignKey(PaymentNovin, on_delete=models.SET_NULL, verbose_name='payment novin', null=True,
+                                      blank=True)
 
     total_price = models.DecimalField(
         max_digits=10, decimal_places=0, default=0, verbose_name=_("total_price")
@@ -111,6 +115,20 @@ class Order(models.Model):
 
     def calculate_total_price(self):
         return sum(item.price * item.quantity for item in self.order_item.all())
+
+    def get_status(self):
+        return {
+            "id": self.status,
+            "title": OrderStatus(self.status).name,
+            "label": OrderStatus(self.status).label,
+        }
+
+    def get_price(self):
+
+        if self.coupon:
+            return round(self.total_price - (self.total_price * Decimal(self.coupon.discount_percent / 100)))
+        else:
+            return self.total_price
 
 
 class OrderItem(models.Model):
@@ -143,4 +161,3 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return self.product.title
-

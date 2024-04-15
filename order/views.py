@@ -168,6 +168,7 @@ class ValidateCouponView(LoginRequiredMixin, HasCustomerAccessPermission, View):
                 total_price = round(
                     total_price - (total_price * (coupon.discount_percent / 100)))
                 total_tax = round((total_price * 9) / 100)
+                total_price += total_tax
         return JsonResponse({"message": message, "total_tax": total_tax, "total_price": total_price},
                             status=status_code)
 

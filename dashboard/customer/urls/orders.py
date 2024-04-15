@@ -1,0 +1,8 @@
+from django.urls import path
+from dashboard.customer.views import orders as views
+
+urlpatterns = [
+    path("orders/list", views.CustomerOrderListView.as_view(), name="order-list"),
+    path("orders/detail/<int:pk>/", views.CustomerOrderDetailView.as_view(), name="order-detail"),
+
+]
