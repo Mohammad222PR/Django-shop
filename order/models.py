@@ -12,9 +12,9 @@ from shop.models import Product
 
 
 class OrderStatus(models.IntegerChoices):
-    success = 1, _("Success")
-    pending = 2, _("Pending")
-    cancelled = 3, _("Cancelled")
+    success = 1, _("موفقیت امیز")
+    pending = 2, _("درحال پردازش")
+    cancelled = 3, _("لغو شده")
 
 
 # Create your models here.
@@ -114,7 +114,7 @@ class Order(models.Model):
         return self.user.user_profile.full_name()
 
     def calculate_total_price(self):
-        return sum(item.price * item.quantity for item in self.order_item.all())
+        return sum(item.price * item.quantity for item in self.order_items.all())
 
     def get_status(self):
         return {
@@ -130,12 +130,17 @@ class Order(models.Model):
         else:
             return self.total_price
 
+    @property
+    def is_successful(self):
+        return self.status == OrderStatus.success.value
+
+
 
 class OrderItem(models.Model):
     order = models.ForeignKey(
         Order,
         on_delete=models.CASCADE,
-        related_name="order_item",
+        related_name="order_items",
         verbose_name=_("order"),
     )
     product = models.ForeignKey(

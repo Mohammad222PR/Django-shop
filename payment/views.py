@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import View
@@ -43,6 +44,13 @@ class PaymentZarinVerifyView(HasCustomerAccessPermission, LoginRequiredMixin, Vi
         payment_obj.save()
 
         order.status = OrderStatus.success.value
+        if order.order_items.product.stock >= order.order_items.quantity:
+            for item in order.order_items.all:
+                item.product.stock -= item.quantity
+                item.save()
+        else:
+            raise ValidationError(
+                f"تعداد محصوص {order.order_items.product.title} میخواهید موجود نمی باشد به اندازه ای که شما ")
         order.save()
 
     def handle_failed_payment(self, payment_obj, order, response):
@@ -88,6 +96,13 @@ class PaymentZibalVerifyView(HasCustomerAccessPermission, LoginRequiredMixin, Vi
         payment_obj.save()
 
         order.status = OrderStatus.success.value
+        if order.order_items.product.stock >= order.order_items.quantity:
+            for item in order.order_items.all:
+                item.product.stock -= item.quantity
+                item.save()
+        else:
+            raise ValidationError(
+                f"تعداد محصوص {order.order_items.product.title} میخواهید موجود نمی باشد به اندازه ای که شما ")
         order.save()
 
     def handle_failed_payment(self, payment_obj, order, response):
@@ -133,6 +148,13 @@ class PaymentNovinVerifyView(HasCustomerAccessPermission, LoginRequiredMixin, Vi
         payment_obj.save()
 
         order.status = OrderStatus.success.value
+        if order.order_items.product.stock >= order.order_items.quantity:
+            for item in order.order_items.all:
+                item.product.stock -= item.quantity
+                item.save()
+        else:
+            raise ValidationError(
+                f"تعداد محصوص {order.order_items.product.title} میخواهید موجود نمی باشد به اندازه ای که شما ")
         order.save()
 
     def handle_failed_payment(self, payment_obj, order, response):
