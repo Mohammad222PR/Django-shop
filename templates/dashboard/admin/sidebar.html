@@ -57,7 +57,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="">
+                            <a class="nav-link {% if view_name == 'dashboard:admin:order-list' or view_name == 'dashboard:admin:order-detail' or view_name == 'dashboard:admin:order-invoice' %}active{% endif %}" href="{% url 'dashboard:admin:order-list' %}">
                                 <i class="bi-receipt-cutoff nav-icon"></i> سفارشات
                             </a>
                         </li>

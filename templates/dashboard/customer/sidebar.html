@@ -52,7 +52,7 @@
                     <!-- List -->
                     <ul class="nav nav-sm nav-tabs nav-vertical mb-4">
                         <li class="nav-item">
-                            <a class="nav-link {% if view_name == 'dashboard:customer:order-list' %}active{% endif %}" href="{% url 'dashboard:customer:order-list' %}">
+                            <a class="nav-link {% if view_name == 'dashboard:customer:order-list' or view_name == 'dashboard:customer:order-detail' or view_name == 'dashboard:customer:order-invoice' %}active{% endif %}" href="{% url 'dashboard:customer:order-list' %}">
                                 <i class="bi-basket nav-icon"></i> سفارشات شما
                             </a>
                         </li>
