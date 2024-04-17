@@ -6,7 +6,6 @@ from shop.models import Product, ProductStatus
 
 CART_SESSION_ID = "cart"
 
-
 class CartSession:
     def __init__(self, session):
         self.session = session
