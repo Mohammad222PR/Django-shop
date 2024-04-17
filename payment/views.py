@@ -10,6 +10,7 @@ from order.permissions import HasCustomerAccessPermission
 from payment.models import PaymentZarin, PaymentStatusType, PaymentZibal
 from payment.zarinpal_client import ZarinPalSandbox
 from payment.zibal_client import Zibal
+from shop.models import Product
 
 
 class PaymentZarinVerifyView(HasCustomerAccessPermission, LoginRequiredMixin, View):
@@ -44,13 +45,16 @@ class PaymentZarinVerifyView(HasCustomerAccessPermission, LoginRequiredMixin, Vi
         payment_obj.save()
 
         order.status = OrderStatus.success.value
-        if order.order_items.product.stock >= order.order_items.quantity:
-            for item in order.order_items.all:
-                item.product.stock -= item.quantity
-                item.save()
-        else:
-            raise ValidationError(
-                f"تعداد محصوص {order.order_items.product.title} میخواهید موجود نمی باشد به اندازه ای که شما ")
+
+        for item in order.order_items.all():
+            product = Product.objects.get(pk=item.product_id)
+            if product.stock >= item.quantity:
+                product.stock -= item.quantity
+                product.famous_percent += 1
+                product.save()
+            else:
+                raise ValidationError(
+                    f"تعداد محصوص {order.order_items.product.title} میخواهید موجود نمی باشد به اندازه ای که شما ")
         order.save()
 
     def handle_failed_payment(self, payment_obj, order, response):
@@ -96,13 +100,15 @@ class PaymentZibalVerifyView(HasCustomerAccessPermission, LoginRequiredMixin, Vi
         payment_obj.save()
 
         order.status = OrderStatus.success.value
-        if order.order_items.product.stock >= order.order_items.quantity:
-            for item in order.order_items.all:
-                item.product.stock -= item.quantity
-                item.save()
-        else:
-            raise ValidationError(
-                f"تعداد محصوص {order.order_items.product.title} میخواهید موجود نمی باشد به اندازه ای که شما ")
+        for item in order.order_items.all():
+            product = Product.objects.get(pk=item.product_id)
+            if product.stock >= item.quantity:
+                product.stock -= item.quantity
+                product.famous_percent += 1
+                product.save()
+            else:
+                raise ValidationError(
+                    f"تعداد محصوص {order.order_items.product.title} میخواهید موجود نمی باشد به اندازه ای که شما ")
         order.save()
 
     def handle_failed_payment(self, payment_obj, order, response):
@@ -148,13 +154,15 @@ class PaymentNovinVerifyView(HasCustomerAccessPermission, LoginRequiredMixin, Vi
         payment_obj.save()
 
         order.status = OrderStatus.success.value
-        if order.order_items.product.stock >= order.order_items.quantity:
-            for item in order.order_items.all:
-                item.product.stock -= item.quantity
-                item.save()
-        else:
-            raise ValidationError(
-                f"تعداد محصوص {order.order_items.product.title} میخواهید موجود نمی باشد به اندازه ای که شما ")
+        for item in order.order_items.all():
+            product = Product.objects.get(pk=item.product_id)
+            if product.stock >= item.quantity:
+                product.stock -= item.quantity
+                product.famous_percent += 1
+                product.save()
+            else:
+                raise ValidationError(
+                    f"تعداد محصولی {order.order_items.product.title} میخواهید موجود نمی باشد به اندازه ای که شما ")
         order.save()
 
     def handle_failed_payment(self, payment_obj, order, response):

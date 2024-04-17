@@ -82,7 +82,7 @@ class CheckOutOrderView(LoginRequiredMixin, HasCustomerAccessPermission, Success
 
     def create_payment_zarinpal_url(self, order):
         zarinpal = ZarinPalSandbox()
-        response = zarinpal.payment_request(order.total_price)
+        response = zarinpal.payment_request()
         payment_obj = PaymentZarin.objects.create(
             authority_id=response.get("Authority"),
             amount=order.total_price
@@ -167,7 +167,6 @@ class ValidateCouponView(LoginRequiredMixin, HasCustomerAccessPermission, View):
                 total_price = round(
                     total_price - (total_price * (coupon.discount_percent / 100)))
                 total_tax = round((total_price * 9) / 100)
-                total_price += total_tax
         return JsonResponse({"message": message, "total_tax": total_tax, "total_price": total_price},
                             status=status_code)
 

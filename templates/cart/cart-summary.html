@@ -68,20 +68,37 @@
                                             <div class="col-sm-3">
                                                 <div class="row">
                                                     <div class="col-auto">
-                                                        <!-- Select -->
-                                                        <select class="form-select form-select-sm mb-3"
-                                                                onchange="changeProductQuantity('{{ cart_item.product_id }}', this.value)">
-                                                            {% with ''|center:10 as range %}
-                                                                {% for _ in range %}
-                                                                    <option value="{{ forloop.counter }}"
-                                                                            {% if forloop.counter == cart_item.quantity %}
-                                                                            selected {% endif %}>{{ forloop.counter }}</option>
-                                                                {% endfor %}
+                                                        {% if cart_item.product_obj.stock < 10 %}
+                                                            <!-- Select -->
+                                                            <select class="form-select form-select-sm mb-3"
+                                                                    onchange="changeProductQuantity('{{ cart_item.product_id }}', this.value)">
+                                                                {% with ''|center:cart_item.product_obj.stock as range %}
+                                                                    {% for _ in range %}
+                                                                        <option value="{{ forloop.counter }}"
+                                                                                {% if forloop.counter == cart_item.quantity %}
+                                                                                selected {% endif %}>{{ forloop.counter }}</option>
+                                                                    {% endfor %}
 
-                                                            {% endwith %}
+                                                                {% endwith %}
 
-                                                        </select>
-                                                        <!-- End Select -->
+                                                            </select>
+                                                            <!-- End Select -->
+                                                            {% else %}
+                                                            <!-- Select -->
+                                                            <select class="form-select form-select-sm mb-3"
+                                                                    onchange="changeProductQuantity('{{ cart_item.product_id }}', this.value)">
+                                                                {% with ''|center:10 as range %}
+                                                                    {% for _ in range %}
+                                                                        <option value="{{ forloop.counter }}"
+                                                                                {% if forloop.counter == cart_item.quantity %}
+                                                                                selected {% endif %}>{{ forloop.counter }}</option>
+                                                                    {% endfor %}
+
+                                                                {% endwith %}
+
+                                                            </select>
+                                                            <!-- End Select -->
+                                                        {% endif %}
                                                     </div>
 
                                                     <div class="col-auto">
