@@ -9,5 +9,7 @@ from dashboard.mixins.admin import HasAdminAccessPermission
 # Create your views here.
 
 
-class AdminDashBoardHomeView(HasAdminAccessPermission, LoginRequiredMixin, TemplateView):
+class AdminDashBoardHomeView(
+    HasAdminAccessPermission, LoginRequiredMixin, TemplateView
+):
     template_name = "dashboard/admin/home.html"

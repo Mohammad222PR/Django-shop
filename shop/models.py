@@ -82,6 +82,7 @@ class Product(models.Model):
     famous_percent = models.IntegerField(
         default=0, verbose_name=_("famous percent"), blank=True, null=True
     )
+    avg_rate = models.FloatField(default=0, verbose_name=_("avg rate"))
     image = models.ImageField(
         upload_to="images/products",
         verbose_name=_("image"),
@@ -168,3 +169,28 @@ class ProductImage(models.Model):
 
     def __str__(self):
         return str(self.product.title)
+
+
+class WishList(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="wish_list", verbose_name=_("user")
+    )
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+        related_name="wish_list",
+        verbose_name=_("product"),
+    )
+    created_date = models.DateTimeField(
+        auto_now_add=True, verbose_name=_("created time")
+    )
+    updated_date = models.DateTimeField(auto_now=True, verbose_name=_("updated time"))
+
+    class Meta:
+        verbose_name = _("WishList")
+        verbose_name_plural = _("WishLists")
+        db_table = "wish_list"
+        ordering = ("created_date", "updated_date")
+
+    def __str__(self):
+        return f"{self.product.title} - {self.user.user_profile.full_name()}"

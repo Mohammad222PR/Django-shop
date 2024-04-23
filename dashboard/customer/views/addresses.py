@@ -12,7 +12,9 @@ from dashboard.mixins import HasCustomerAccessPermission
 from order.models import UserAddress
 
 
-class CustomerAddressListView(HasCustomerAccessPermission, LoginRequiredMixin, ListView):
+class CustomerAddressListView(
+    HasCustomerAccessPermission, LoginRequiredMixin, ListView
+):
     template_name = "dashboard/customer/addresses/address-list.html"
     paginate_by = 3
 
@@ -22,11 +24,13 @@ class CustomerAddressListView(HasCustomerAccessPermission, LoginRequiredMixin, L
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['total_addresses'] = self.get_queryset().count()
+        context["total_addresses"] = self.get_queryset().count()
         return context
 
 
-class CustomerAddressCreateView(HasCustomerAccessPermission, SuccessMessageMixin, LoginRequiredMixin, CreateView):
+class CustomerAddressCreateView(
+    HasCustomerAccessPermission, SuccessMessageMixin, LoginRequiredMixin, CreateView
+):
     template_name = "dashboard/customer/addresses/address-create.html"
     form_class = UserAddressForm
     success_message = "ادرس شما با موفقیت اضافه شد"
@@ -38,19 +42,27 @@ class CustomerAddressCreateView(HasCustomerAccessPermission, SuccessMessageMixin
         if not self.get_queryset().count() >= 3:
             form.instance.user = self.request.user
             super().form_valid(form)
-            next_page = self.request.POST.get('next')
+            next_page = self.request.POST.get("next")
             if next_page:
                 return redirect(next_page)
-            return redirect(reverse_lazy("dashboard:customer:address-update", kwargs={"pk": form.instance.pk}))
+            return redirect(
+                reverse_lazy(
+                    "dashboard:customer:address-update", kwargs={"pk": form.instance.pk}
+                )
+            )
         else:
-            messages.error(self.request, "شما بیش از سه ادرس دارید حد مجاز ادرس 3 تا است")
+            messages.error(
+                self.request, "شما بیش از سه ادرس دارید حد مجاز ادرس 3 تا است"
+            )
             return redirect(reverse_lazy("dashboard:customer:address-list"))
 
     def get_success_url(self):
         return reverse_lazy("dashboard:customer:address-list")
 
 
-class CustomerAddressUpdateView(HasCustomerAccessPermission, SuccessMessageMixin, LoginRequiredMixin, UpdateView):
+class CustomerAddressUpdateView(
+    HasCustomerAccessPermission, SuccessMessageMixin, LoginRequiredMixin, UpdateView
+):
     template_name = "dashboard/customer/addresses/address-update.html"
     form_class = UserAddressForm
     success_message = "ادرس شما با موفقیت بروزرسانی شد"
@@ -59,10 +71,14 @@ class CustomerAddressUpdateView(HasCustomerAccessPermission, SuccessMessageMixin
         return UserAddress.objects.filter(user=self.request.user).distinct()
 
     def get_success_url(self):
-        return reverse_lazy("dashboard:customer:address-update", kwargs={'pk': self.get_object().pk})
+        return reverse_lazy(
+            "dashboard:customer:address-update", kwargs={"pk": self.get_object().pk}
+        )
 
 
-class CustomerAddressDeleteView(HasCustomerAccessPermission, SuccessMessageMixin, LoginRequiredMixin, DeleteView):
+class CustomerAddressDeleteView(
+    HasCustomerAccessPermission, SuccessMessageMixin, LoginRequiredMixin, DeleteView
+):
     template_name = "dashboard/customer/addresses/address-delete.html"
     success_message = "حذف ادرس با موفقیت انجام شد"
 

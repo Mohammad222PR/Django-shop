@@ -9,11 +9,11 @@ class CheckOutOrderForm(forms.Form):
     coupon = forms.CharField(required=False)
 
     def __init__(self, *args, **kwargs):
-        self.request = kwargs.pop('request', None)
+        self.request = kwargs.pop("request", None)
         super(CheckOutOrderForm, self).__init__(*args, **kwargs)
 
     def clean_address_id(self):
-        address_id = self.cleaned_data.get('address_id')
+        address_id = self.cleaned_data.get("address_id")
 
         # Check if the address_id belongs to the requested user
         user = self.request.user  # Assuming the user is available in the request object
@@ -25,7 +25,7 @@ class CheckOutOrderForm(forms.Form):
         return address
 
     def clean_coupon(self):
-        code = self.cleaned_data.get('coupon')
+        code = self.cleaned_data.get("coupon")
         if code == "":
             return None
         user = self.request.user
@@ -43,5 +43,7 @@ class CheckOutOrderForm(forms.Form):
                 raise forms.ValidationError("کد تخفیف منقضی شده است")
 
             if user in coupon.used_by.all():
-                raise forms.ValidationError("این کد تخفیف قبلا توسط شما استفاده شده است")
+                raise forms.ValidationError(
+                    "این کد تخفیف قبلا توسط شما استفاده شده است"
+                )
         return coupon

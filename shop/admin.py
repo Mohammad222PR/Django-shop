@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.db.models import Q
 from django.utils.translation import ngettext
 from accounts.models import User, UserType
-from shop.models import Product, ProductCategory, ProductImage
+from shop.models import Product, ProductCategory, ProductImage, WishList
 from django.contrib import messages
 
 
@@ -60,3 +60,9 @@ class ProductCategoryAdmin(admin.ModelAdmin):
     ]
     ordering = ["title", "slug", "created_date"]
     prepopulated_fields = {"slug": ("title",)}
+
+
+@admin.register(WishList)
+class WishListAdmin(admin.ModelAdmin):
+    list_display = ["user", "product", "created_date"]
+    list_filter = ["created_date"]

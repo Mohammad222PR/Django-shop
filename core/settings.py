@@ -43,6 +43,7 @@ APPS = [
     "dashboard.apps.DashboardConfig",
     "order.apps.OrderConfig",
     "payment.apps.PaymentConfig",
+    "review.apps.ReviewConfig",
 ]
 
 MODULE = [
@@ -60,7 +61,7 @@ INSTALLED_APPS = [
     # Modules.
     *MODULE,
     # Add 'django.contrib.sites' here:
-    'django.contrib.sites',
+    "django.contrib.sites",
 ]
 SITE_ID = 1
 
@@ -213,5 +214,5 @@ CKEDITOR_5_CONFIGS = CKEDITOR_5
 
 
 # payment gateway settings
-MERCHANT_ID = config("MERCHANT_ID", default='4ced0a1e-4ad8-4309-9668-3ea3ae8e8897')
+MERCHANT_ID = config("MERCHANT_ID", default="4ced0a1e-4ad8-4309-9668-3ea3ae8e8897")
 SANDBOX_MODE = config("SANDBOX_MODE", default=True, cast=bool)

@@ -7,4 +7,3 @@ urlpatterns = [
     path("verify/zibal/", views.PaymentZibalVerifyView.as_view(), name="verify"),
     path("verify/novin/", views.PaymentZibalVerifyView.as_view(), name="verify"),
 ]
-

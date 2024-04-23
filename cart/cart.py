@@ -6,6 +6,7 @@ from shop.models import Product, ProductStatus
 
 CART_SESSION_ID = "cart"
 
+
 class CartSession:
     def __init__(self, session):
         self.session = session
@@ -18,7 +19,11 @@ class CartSession:
                 if not item["quantity"] >= 10:
                     item["quantity"] += int(quantity)
                 else:
-                    return JsonResponse({'message': 'شما نمیتوانید بیش از 10 محصول از هر محصول داشته باشید'})
+                    return JsonResponse(
+                        {
+                            "message": "شما نمیتوانید بیش از 10 محصول از هر محصول داشته باشید"
+                        }
+                    )
                 # product.stock -= int(quantity)
                 # product.save()
                 break
@@ -58,7 +63,11 @@ class CartSession:
                 if not item["quantity"] >= 10:
                     item["quantity"] = int(quantity)
                 else:
-                    return JsonResponse({'message': 'شما نمیتوانید بیش از 10 محصول از هر محصول داشته باشید'})
+                    return JsonResponse(
+                        {
+                            "message": "شما نمیتوانید بیش از 10 محصول از هر محصول داشته باشید"
+                        }
+                    )
                 break
         else:
             pass

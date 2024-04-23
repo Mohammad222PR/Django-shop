@@ -9,7 +9,7 @@ from order.models import Order, OrderStatus
 class CustomerOrderListView(HasCustomerAccessPermission, LoginRequiredMixin, ListView):
     template_name = "dashboard/customer/orders/order-list.html"
     paginate_by = 5
-    context_object_name = 'orders'
+    context_object_name = "orders"
 
     def get_queryset(self):
         queryset = Order.objects.filter(user=self.request.user)
@@ -31,19 +31,24 @@ class CustomerOrderListView(HasCustomerAccessPermission, LoginRequiredMixin, Lis
         return context
 
 
-class CustomerOrderDetailView(HasCustomerAccessPermission, LoginRequiredMixin, DetailView):
+class CustomerOrderDetailView(
+    HasCustomerAccessPermission, LoginRequiredMixin, DetailView
+):
     template_name = "dashboard/customer/orders/order-detail.html"
-    context_object_name = 'order'
+    context_object_name = "order"
 
     def get_queryset(self):
         queryset = Order.objects.filter(user=self.request.user)
         return queryset
 
 
-class CustomerOrderInvoiceDetailView(HasCustomerAccessPermission, LoginRequiredMixin, DetailView):
+class CustomerOrderInvoiceDetailView(
+    HasCustomerAccessPermission, LoginRequiredMixin, DetailView
+):
     template_name = "dashboard/customer/orders/order-invoice.html"
-    context_object_name = 'order'
+    context_object_name = "order"
 
     def get_queryset(self):
-        return Order.objects.filter(user=self.request.user, status=OrderStatus.success.value)
-
+        return Order.objects.filter(
+            user=self.request.user, status=OrderStatus.success.value
+        )

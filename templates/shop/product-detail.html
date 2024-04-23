@@ -79,17 +79,32 @@
         </div>
         <!-- End Col -->
 
+
         <div class="col-md-5">
-            <!-- Rating -->
-            <a class="d-flex gap-1 mb-4" href="#reviewSection">
-                <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating" width="16">
-                <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating" width="16">
-                <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating" width="16">
-                <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating" width="16">
-                <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating" width="16">
-                <span class="ms-1">287 نظر</span>
-            </a>
-            <!-- End Rating -->
+            <div class="d-flex justify-content-between">
+
+                <!-- Rating -->
+                <a class="d-flex gap-1 mb-4" href="#reviewSection">
+                    {% for i in "12345" %}
+                    {% if i|add:0 <= object.avg_rate %} <span><i class="bi bi-star-fill star-rate"></i></span>
+                        {% else %}
+                        <span><i class="bi bi-star star-rate"></i></span>
+                        {% endif %}
+
+                        {% endfor %}
+                        <span class="ms-1">{{object.avg_rate}}/5</span>
+                </a>
+                <!-- End Rating -->
+                {% if request.user.is_authenticated %}
+                <button type="button"
+                    class="btn btn-outline-secondary btn-xs btn-icon rounded-circle {% if is_wished %} active {% endif %}"
+                    data-bs-toggle="tooltip" data-bs-placement="top" title="افزودن به علایق"
+                    onclick="addToWishlist(this,`{{object.id}}`)">
+                    <i class="bi-heart"></i>
+                </button>
+                {% endif %}
+            </div>
+
 
             <!-- Heading -->
             <div class="mb-5">
@@ -275,7 +290,7 @@
     </div>
 
     <!-- Card Grid -->
-    {% show_similar_products product=product %}
+    {% show_similar_products product %}
     <!-- End Card Grid -->
 
     <!-- Review Section -->

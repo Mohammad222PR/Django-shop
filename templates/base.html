@@ -630,37 +630,37 @@
         });
     }
 
+    function addToWishlist(element,product_id) {
 
-    {#function addToWishlist(element, product_id) {#}
-    {##}
-    {#    //console.log(product_id)#}
-    {#    $.ajax({#}
-    {#        url: "",#}
-    {#        method: 'POST',#}
-    {#        data: {#}
-    {#            product_id: product_id,#}
-    {#            csrfmiddlewaretoken: '{{ csrf_token }}'#}
-    {##}
-    {#        },#}
-    {#        success: function (response) {#}
-    {##}
-    {#            Toastify({#}
-    {#                text: response.message,#}
-    {#                className: `info`,#}
-    {#                style: {#}
-    {#                    background: "blue",#}
-    {#                }#}
-    {#            }).showToast();#}
-    {#            $(element).toggleClass('active');#}
-    {##}
-    {#            // do something with the response data#}
-    {#        },#}
-    {#        error: function (jqXHR, textStatus, errorThrown) {#}
-    {#            console.log(errorThrown);#}
-    {#            // handle the error case#}
-    {#        }#}
-    {#    });#}
-    {##}
+            //console.log(product_id)
+            $.ajax({
+                url: "{%  url 'shop:add-or-remove-wishlist' %}",
+                method: 'POST',
+                data: {
+                    product_id: product_id,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+
+                },
+                success: function (response) {
+
+                    Toastify({
+                        text:response.message,
+                        className: `info`,
+                        style: {
+                          background: "blue",
+                        }
+                      }).showToast();
+                    $(element).toggleClass('active');
+
+                    // do something with the response data
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                    // handle the error case
+                }
+            });
+        }
+
 
 </script>
 

@@ -15,9 +15,15 @@ class CouponAdmin(admin.ModelAdmin):
         "created_date",
         "updated_date",
     ]
-    list_filter = ["expired_date", "created_date", "updated_date", ]
+    list_filter = [
+        "expired_date",
+        "created_date",
+        "updated_date",
+    ]
 
-    search_fields = ["code", ]
+    search_fields = [
+        "code",
+    ]
     ordering = [
         "code",
         "discount_percent",
@@ -34,11 +40,24 @@ class CouponAdmin(admin.ModelAdmin):
 
 @admin.register(UserAddress)
 class UserAddressAdmin(admin.ModelAdmin):
-    list_display = ["user", "address", "state", "city", "zip_code", "created_date",
-                    "updated_date", ]
-    list_filter = ["state", "city", ]
+    list_display = [
+        "user",
+        "address",
+        "state",
+        "city",
+        "zip_code",
+        "created_date",
+        "updated_date",
+    ]
+    list_filter = [
+        "state",
+        "city",
+    ]
 
-    search_fields = ["state", "city", ]
+    search_fields = [
+        "state",
+        "city",
+    ]
 
 
 @admin.register(Order)
@@ -52,8 +71,14 @@ class OrderAdmin(admin.ModelAdmin):
         "created_date",
         "updated_date",
     ]
-    list_filter = ["created_date", "updated_date", "status", ]
-    search_fields = ["user", ]
+    list_filter = [
+        "created_date",
+        "updated_date",
+        "status",
+    ]
+    search_fields = [
+        "user",
+    ]
     ordering = [
         "user",
         "status",
@@ -75,6 +100,19 @@ class OrderItemAdmin(admin.ModelAdmin):
         "created_date",
         "updated_date",
     ]
-    list_filter = ["created_date", "updated_date", ]
-    search_fields = ["order", "product", ]
-    ordering = ["order", "product", "price", "quantity", "created_date", "updated_date", ]
+    list_filter = [
+        "created_date",
+        "updated_date",
+    ]
+    search_fields = [
+        "order",
+        "product",
+    ]
+    ordering = [
+        "order",
+        "product",
+        "price",
+        "quantity",
+        "created_date",
+        "updated_date",
+    ]

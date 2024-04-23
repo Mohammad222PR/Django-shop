@@ -42,5 +42,3 @@ class PaymentAdmin(admin.ModelAdmin):
         "created_date",
         "updated_date",
     ]
-
-

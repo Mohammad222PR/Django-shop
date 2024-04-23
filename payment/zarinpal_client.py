@@ -5,16 +5,21 @@ from django.conf import settings
 
 def get_domain():
     from django.contrib.sites.models import Site
+
     return Site.objects.get_current().domain
 
 
 def get_protocol():
-    return 'https' if getattr(settings, 'SECURE_SSL_REDIRECT', False) else 'http'
+    return "https" if getattr(settings, "SECURE_SSL_REDIRECT", False) else "http"
 
 
 class ZarinPalSandbox:
-    _payment_request_url = "https://sandbox.zarinpal.com/pg/rest/WebGate/PaymentRequest.json"
-    _payment_verify_url = "https://sandbox.zarinpal.com/pg/rest/WebGate/PaymentVerification.json"
+    _payment_request_url = (
+        "https://sandbox.zarinpal.com/pg/rest/WebGate/PaymentRequest.json"
+    )
+    _payment_verify_url = (
+        "https://sandbox.zarinpal.com/pg/rest/WebGate/PaymentVerification.json"
+    )
     _payment_page_url = "https://sandbox.zarinpal.com/pg/StartPay/"
 
     def __init__(self, merchant_id=None):
@@ -28,12 +33,11 @@ class ZarinPalSandbox:
             "CallbackURL": self._callback_url,
             "Description": description,
         }
-        headers = {
-            'Content-Type': 'application/json'
-        }
+        headers = {"Content-Type": "application/json"}
 
         response = requests.post(
-            self._payment_request_url, headers=headers, data=json.dumps(payload))
+            self._payment_request_url, headers=headers, data=json.dumps(payload)
+        )
 
         return response.json()
 
@@ -41,13 +45,13 @@ class ZarinPalSandbox:
         payload = {
             "MerchantID": self.merchant_id,
             "Amount": amount,
-            "Authority": authority
+            "Authority": authority,
         }
-        headers = {
-            'Content-Type': 'application/json'
-        }
+        headers = {"Content-Type": "application/json"}
 
-        response = requests.post(self._payment_verify_url, headers=headers, data=json.dumps(payload))
+        response = requests.post(
+            self._payment_verify_url, headers=headers, data=json.dumps(payload)
+        )
         return response.json()
 
     def generate_payment_url(self, authority):

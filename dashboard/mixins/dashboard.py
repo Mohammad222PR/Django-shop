@@ -9,19 +9,28 @@ from accounts.models import UserType
 class AdminDashBoardMixin(UserPassesTestMixin):
     def test_func(self):
         if self.request.user.is_authenticated:
-            return self.request.user.type == UserType.superuser.value or self.request.user.type == UserType.admin.value
+            return (
+                self.request.user.type == UserType.superuser.value
+                or self.request.user.type == UserType.admin.value
+            )
         return False
 
 
 class CustomerDashBoardMixin(UserPassesTestMixin):
     def test_func(self):
         if self.request.user.is_authenticated:
-            return self.request.user.type == UserType.customer.value or self.request.user.type == UserType.superuser.value
+            return (
+                self.request.user.type == UserType.customer.value
+                or self.request.user.type == UserType.superuser.value
+            )
         return False
 
 
 class SupportDashBoardMixin(UserPassesTestMixin):
     def test_func(self):
         if self.request.user.is_authenticated:
-            return self.request.user.type == UserType.support.value or self.request.user.type == UserType.superuser.value
+            return (
+                self.request.user.type == UserType.support.value
+                or self.request.user.type == UserType.superuser.value
+            )
         return False

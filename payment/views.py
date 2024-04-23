@@ -15,22 +15,24 @@ from shop.models import Product
 
 class PaymentZarinVerifyView(HasCustomerAccessPermission, LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        authority_id = request.GET.get('Authority')
-        status = request.GET.get('status')
+        authority_id = request.GET.get("Authority")
+        status = request.GET.get("status")
 
         payment_obj, order = self.get_payment_and_order(authority_id)
         if not payment_obj or not order:
-            return redirect(reverse_lazy('order:order-faild'))
+            return redirect(reverse_lazy("order:order-faild"))
 
         zarin_pal = ZarinPalSandbox()
-        response = zarin_pal.payment_verify(amount=int(payment_obj.amount), authority=authority_id)
+        response = zarin_pal.payment_verify(
+            amount=int(payment_obj.amount), authority=authority_id
+        )
 
         if response["Status"] in [100, 101]:
             self.handle_success_payment(payment_obj, order, response)
-            return redirect(reverse_lazy('order:order-completed'))
+            return redirect(reverse_lazy("order:order-completed"))
         else:
             self.handle_failed_payment(payment_obj, order, response)
-            return redirect(reverse_lazy('order:order-faild'))
+            return redirect(reverse_lazy("order:order-faild"))
 
     def get_payment_and_order(self, authority_id):
         payment_obj = get_object_or_404(PaymentZarin, authority_id=authority_id)
@@ -54,7 +56,8 @@ class PaymentZarinVerifyView(HasCustomerAccessPermission, LoginRequiredMixin, Vi
                 product.save()
             else:
                 raise ValidationError(
-                    f"تعداد محصوص {order.order_items.product.title} میخواهید موجود نمی باشد به اندازه ای که شما ")
+                    f"تعداد محصوص {order.order_items.product.title} میخواهید موجود نمی باشد به اندازه ای که شما "
+                )
         order.save()
 
     def handle_failed_payment(self, payment_obj, order, response):
@@ -70,22 +73,22 @@ class PaymentZarinVerifyView(HasCustomerAccessPermission, LoginRequiredMixin, Vi
 
 class PaymentZibalVerifyView(HasCustomerAccessPermission, LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        trackId = request.GET.get('trackId')
-        status = request.GET.get('status')
+        trackId = request.GET.get("trackId")
+        status = request.GET.get("status")
 
         payment_obj, order = self.get_payment_and_order(trackId)
         if not payment_obj or not order:
-            return redirect(reverse_lazy('order:order-faild'))
+            return redirect(reverse_lazy("order:order-faild"))
 
         zibal = Zibal()
         response = zibal.payment_verify(trackId=trackId)
 
         if response["status"] in [1, 2] or response["result"] in [100, 201]:
             self.handle_success_payment(payment_obj, order, response)
-            return redirect(reverse_lazy('order:order-completed'))
+            return redirect(reverse_lazy("order:order-completed"))
         else:
             self.handle_failed_payment(payment_obj, order, response)
-            return redirect(reverse_lazy('order:order-faild'))
+            return redirect(reverse_lazy("order:order-faild"))
 
     def get_payment_and_order(self, trackId):
         payment_obj = get_object_or_404(PaymentZibal, trackId=trackId)
@@ -108,7 +111,8 @@ class PaymentZibalVerifyView(HasCustomerAccessPermission, LoginRequiredMixin, Vi
                 product.save()
             else:
                 raise ValidationError(
-                    f"تعداد محصوص {order.order_items.product.title} میخواهید موجود نمی باشد به اندازه ای که شما ")
+                    f"تعداد محصوص {order.order_items.product.title} میخواهید موجود نمی باشد به اندازه ای که شما "
+                )
         order.save()
 
     def handle_failed_payment(self, payment_obj, order, response):
@@ -124,22 +128,24 @@ class PaymentZibalVerifyView(HasCustomerAccessPermission, LoginRequiredMixin, Vi
 
 class PaymentNovinVerifyView(HasCustomerAccessPermission, LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        authority_id = request.GET.get('authority')
-        status = request.GET.get('status')
+        authority_id = request.GET.get("authority")
+        status = request.GET.get("status")
 
         payment_obj, order = self.get_payment_and_order(authority_id)
         if not payment_obj or not order:
-            return redirect(reverse_lazy('order:order-faild'))
+            return redirect(reverse_lazy("order:order-faild"))
 
         zarin_pal = ZarinPalSandbox()
-        response = zarin_pal.payment_verify(amount=int(payment_obj.amount), authority=authority_id)
+        response = zarin_pal.payment_verify(
+            amount=int(payment_obj.amount), authority=authority_id
+        )
 
         if response["status	"] in [100, 101]:
             self.handle_success_payment(payment_obj, order, response)
-            return redirect(reverse_lazy('order:order-completed'))
+            return redirect(reverse_lazy("order:order-completed"))
         else:
             self.handle_failed_payment(payment_obj, order, response)
-            return redirect(reverse_lazy('order:order-faild'))
+            return redirect(reverse_lazy("order:order-faild"))
 
     def get_payment_and_order(self, authority_id):
         payment_obj = get_object_or_404(PaymentZarin, authority_id=authority_id)
@@ -162,7 +168,8 @@ class PaymentNovinVerifyView(HasCustomerAccessPermission, LoginRequiredMixin, Vi
                 product.save()
             else:
                 raise ValidationError(
-                    f"تعداد محصولی {order.order_items.product.title} میخواهید موجود نمی باشد به اندازه ای که شما ")
+                    f"تعداد محصولی {order.order_items.product.title} میخواهید موجود نمی باشد به اندازه ای که شما "
+                )
         order.save()
 
     def handle_failed_payment(self, payment_obj, order, response):

@@ -31,7 +31,11 @@ class Coupon(models.Model):
         default=10, verbose_name=_("max limit usage")
     )
     used_by = models.ManyToManyField(
-        User, verbose_name=_("used by"), related_name="coupon_user", null=True, blank=True
+        User,
+        verbose_name=_("used by"),
+        related_name="coupon_user",
+        null=True,
+        blank=True,
     )
     expired_date = models.DateTimeField(verbose_name=_("expired date"))
     created_date = models.DateTimeField(
@@ -82,12 +86,27 @@ class Order(models.Model):
         related_name="shipping_address",
         verbose_name=_("shipping"),
     )
-    payment_zarin = models.ForeignKey(PaymentZarin, on_delete=models.SET_NULL, verbose_name='payment zarin', null=True,
-                                      blank=True)
-    payment_zibal = models.ForeignKey(PaymentZibal, on_delete=models.SET_NULL, verbose_name='payment zibal', null=True,
-                                      blank=True)
-    payment_novin = models.ForeignKey(PaymentNovin, on_delete=models.SET_NULL, verbose_name='payment novin', null=True,
-                                      blank=True)
+    payment_zarin = models.ForeignKey(
+        PaymentZarin,
+        on_delete=models.SET_NULL,
+        verbose_name="payment zarin",
+        null=True,
+        blank=True,
+    )
+    payment_zibal = models.ForeignKey(
+        PaymentZibal,
+        on_delete=models.SET_NULL,
+        verbose_name="payment zibal",
+        null=True,
+        blank=True,
+    )
+    payment_novin = models.ForeignKey(
+        PaymentNovin,
+        on_delete=models.SET_NULL,
+        verbose_name="payment novin",
+        null=True,
+        blank=True,
+    )
 
     total_price = models.DecimalField(
         max_digits=10, decimal_places=0, default=0, verbose_name=_("total_price")
@@ -126,14 +145,16 @@ class Order(models.Model):
     def get_price(self):
 
         if self.coupon:
-            return round(self.total_price - (self.total_price * Decimal(self.coupon.discount_percent / 100)))
+            return round(
+                self.total_price
+                - (self.total_price * Decimal(self.coupon.discount_percent / 100))
+            )
         else:
             return self.total_price
 
     @property
     def is_successful(self):
         return self.status == OrderStatus.success.value
-
 
 
 class OrderItem(models.Model):

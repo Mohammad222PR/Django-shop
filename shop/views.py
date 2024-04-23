@@ -1,11 +1,15 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.core.exceptions import ValidationError, FieldError
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
-from django.views import generic
+from django.views import generic, View
 from faker.utils.text import slugify
 from typing import Any
+
+from accounts.models import UserType
 from cart.cart import CartSession
-from shop.models import Product, ProductStatus, ProductCategory
+from shop.models import Product, ProductStatus, ProductCategory, WishList
 
 # Create your views here.
 status = ProductStatus
@@ -41,6 +45,13 @@ class ProductGridView(generic.ListView):
         context["total_items"] = Product.objects.filter(
             status=status.published.value
         ).count()
+        context["wishlist_items"] = (
+            WishList.objects.filter(user=self.request.user).values_list(
+                "product__id", flat=True
+            )
+            if self.request.user.is_authenticated
+            else []
+        )
         context["categories"] = ProductCategory.objects.all().distinct()
         return context
 
@@ -49,3 +60,35 @@ class ProductDetailView(generic.DetailView):
     model = Product
     template_name = "shop/product-detail.html"
     context_object_name = "product"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product = self.get_object()
+        context["is_wished"] = (
+            WishList.objects.filter(
+                user=self.request.user, product__id=product.id
+            ).exists()
+            if self.request.user.is_authenticated
+            else False
+        )
+
+        return context
+
+
+class AddOrRemoveWishlistView(LoginRequiredMixin, View):
+
+    def post(self, request, *args, **kwargs):
+        product_id = request.POST.get("product_id")
+        message = ""
+        if product_id and UserType.superuser.value or UserType.customer.value:
+            try:
+                wishlist_item = WishList.objects.get(
+                    user=request.user, product__id=product_id
+                )
+                wishlist_item.delete()
+                message = "محصول از لیست علایق حذف شد"
+            except WishList.DoesNotExist:
+                WishList.objects.create(user=request.user, product_id=product_id)
+                message = "محصول به لیست علایق اضافه شد"
+
+        return JsonResponse({"message": message})

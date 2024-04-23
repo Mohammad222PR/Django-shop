@@ -12,10 +12,10 @@ from order.models import Order, OrderStatus
 class AdminOrderListView(LoginRequiredMixin, HasAdminAccessPermission, ListView):
     template_name = "dashboard/admin/orders/order-list.html"
     paginate_by = 5
-    context_object_name = 'orders'
+    context_object_name = "orders"
 
     def get_paginate_by(self, queryset):
-        return self.request.GET.get('page_size', self.paginate_by)
+        return self.request.GET.get("page_size", self.paginate_by)
 
     def get_queryset(self):
         queryset = Order.objects.filter(user=self.request.user)
@@ -37,24 +37,30 @@ class AdminOrderListView(LoginRequiredMixin, HasAdminAccessPermission, ListView)
         return context
 
 
-class AdminOrderDetailView(HasAdminAccessPermission, LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+class AdminOrderDetailView(
+    HasAdminAccessPermission, LoginRequiredMixin, SuccessMessageMixin, UpdateView
+):
     template_name = "dashboard/admin/orders/order-detail.html"
-    context_object_name = 'order'
+    context_object_name = "order"
     form_class = OrderForm
     queryset = Order.objects.all()
-    success_message = 'با موفقیت انجام شد'
+    success_message = "با موفقیت انجام شد"
 
     def get_queryset(self):
         queryset = Order.objects.all()
         return queryset
 
     def get_success_url(self):
-        return reverse_lazy('dashboard:admin:order-detail', kwargs={'pk': self.object.pk})
+        return reverse_lazy(
+            "dashboard:admin:order-detail", kwargs={"pk": self.object.pk}
+        )
 
 
-class AdminOrderInvoiceDetailView(HasAdminAccessPermission, LoginRequiredMixin, DetailView):
+class AdminOrderInvoiceDetailView(
+    HasAdminAccessPermission, LoginRequiredMixin, DetailView
+):
     template_name = "dashboard/admin/orders/order-invoice.html"
-    context_object_name = 'order'
+    context_object_name = "order"
 
     def get_queryset(self):
         return Order.objects.all()

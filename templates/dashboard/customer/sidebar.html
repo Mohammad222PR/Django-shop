@@ -57,7 +57,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="">
+                            <a class="nav-link {% if view_name == 'dashboard:customer:wishlist-list-product' %}active{% endif %}" href="{% url 'dashboard:customer:wishlist-list-product' %}">
                                 <i class="bi-heart nav-icon"></i>لیست علایق
                             </a>
                         </li>

@@ -105,7 +105,9 @@ class AdminProductCreateView(
         return reverse_lazy("dashboard:admin:product-list")
 
 
-class AdminProductAddImageView(LoginRequiredMixin, HasAdminAccessPermission, CreateView):
+class AdminProductAddImageView(
+    LoginRequiredMixin, HasAdminAccessPermission, CreateView
+):
     form_class = ProductImageForm
 
     def get_success_url(self):

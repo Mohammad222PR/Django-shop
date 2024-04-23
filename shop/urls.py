@@ -11,4 +11,9 @@ urlpatterns = [
         views.ProductDetailView.as_view(),
         name="product-detail",
     ),
+    path(
+        "add-or-remove-wishlists/",
+        views.AddOrRemoveWishlistView.as_view(),
+        name="add-or-remove-wishlist",
+    ),
 ]

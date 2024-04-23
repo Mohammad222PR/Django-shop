@@ -8,23 +8,21 @@ class NovinoPay:
     _payment_page_url = "https://ipg.novinopay.com/StartPay/"
     _callback_url = "http://redreseller.com/verify"
 
-    def __init__(self, merchant_id='test'):
+    def __init__(self, merchant_id="test"):
         self.merchant_id = merchant_id
 
     def payment_request(self, amount, description="پرداختی کاربر"):
         body = {
             "merchant_id": self.merchant_id,
-            "amount":  int(amount),
+            "amount": int(amount),
             "callback_url": self._callback_url,
             "description": description,
         }
-        headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
+        headers = {"Accept": "application/json", "Content-Type": "application/json"}
 
         response = requests.post(
-            self._payment_request_url, headers=headers, data=json.dumps(body))
+            self._payment_request_url, headers=headers, data=json.dumps(body)
+        )
 
         return response.json()
 
@@ -32,17 +30,17 @@ class NovinoPay:
         body = {
             "merchant_id": self.merchant_id,
             "amount": int(amount),
-            "authority": authority
+            "authority": authority,
         }
-        headers = {
-            'Content-Type': 'application/json'
-        }
+        headers = {"Content-Type": "application/json"}
 
-        response = requests.post(self._payment_verify_url, headers=headers, data=json.dumps(body))
+        response = requests.post(
+            self._payment_verify_url, headers=headers, data=json.dumps(body)
+        )
         return response.json()
 
     def generate_payment_url(self, authority):
-        return f'{self._payment_page_url}{authority}'
+        return f"{self._payment_page_url}{authority}"
 
 
 if __name__ == "__main__":
