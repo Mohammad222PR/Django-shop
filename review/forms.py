@@ -10,7 +10,7 @@ class SubmitReviewForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        product = cleaned_data.get('product')
+        product = cleaned_data.get("product")
 
         try:
             Product.objects.get(id=product.id, status=ProductStatus.published.value)

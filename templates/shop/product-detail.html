@@ -86,22 +86,22 @@
                 <!-- Rating -->
                 <a class="d-flex gap-1 mb-4" href="#reviewSection">
                     {% for i in "12345" %}
-                    {% if i|add:0 <= object.avg_rate %} <span><i class="bi bi-star-fill star-rate"></i></span>
+                        {% if i|add:0 <= object.avg_rate %} <span><i class="bi bi-star-fill star-rate"></i></span>
                         {% else %}
-                        <span><i class="bi bi-star star-rate"></i></span>
+                            <span><i class="bi bi-star star-rate"></i></span>
                         {% endif %}
 
-                        {% endfor %}
-                        <span class="ms-1">{{object.avg_rate}}/5</span>
+                    {% endfor %}
+                    <span class="ms-1">{{ object.avg_rate }}/5</span>
                 </a>
                 <!-- End Rating -->
                 {% if request.user.is_authenticated %}
-                <button type="button"
-                    class="btn btn-outline-secondary btn-xs btn-icon rounded-circle {% if is_wished %} active {% endif %}"
-                    data-bs-toggle="tooltip" data-bs-placement="top" title="افزودن به علایق"
-                    onclick="addToWishlist(this,`{{object.id}}`)">
-                    <i class="bi-heart"></i>
-                </button>
+                    <button type="button"
+                            class="btn btn-outline-secondary btn-xs btn-icon rounded-circle {% if is_wished %} active {% endif %}"
+                            data-bs-toggle="tooltip" data-bs-placement="top" title="افزودن به علایق"
+                            onclick="addToWishlist(this,`{{ object.id }}`)">
+                        <i class="bi-heart"></i>
+                    </button>
                 {% endif %}
             </div>
 
@@ -295,189 +295,194 @@
 
     <!-- Review Section -->
     <div id="reviewSection" class="container content-space-b-2 content-space-b-lg-3">
-        <div class="row">
-            <div class="col-md-4 mb-7 mb-md-0">
-                <div class="border-bottom pb-4 mb-4">
-                    <!-- Card -->
-                    <div class="card bg-primary mb-3">
-                        <div class="card-body">
-                            <!-- Media -->
-                            <div class="d-flex justify-content-center">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-shrink-0">
-                                        <span class="display-4 text-white">4.7</span>
-                                    </div>
+    <div class="row">
+        <div class="col-md-4 mb-7 mb-md-0">
+            <div class="border-bottom pb-4 mb-4">
+                <!-- Card -->
+                <div class="card bg-primary mb-3">
+                    <div class="card-body">
+                        <!-- Media -->
+                        <div class="d-flex justify-content-center">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0">
+                                    <span class="display-4 text-white">4.7</span>
+                                </div>
 
-                                    <div class="flex-grow-1 ms-3">
-                                        <!-- Rating -->
-                                        <div class="d-flex gap-1 small">
-                                            <img src="{% static 'svg/illustrations/star.svg' %}"
-                                                 alt="Review rating"
-                                                 width="16">
-                                            <img src="{% static 'svg/illustrations/star.svg' %}"
-                                                 alt="Review rating"
-                                                 width="16">
-                                            <img src="{% static 'svg/illustrations/star.svg' %}"
-                                                 alt="Review rating"
-                                                 width="16">
-                                            <img src="{% static 'svg/illustrations/star.svg' %}"
-                                                 alt="Review rating"
-                                                 width="16">
-                                            <img src="{% static 'svg/illustrations/star.svg' %}"
-                                                 alt="Review rating"
-                                                 width="16">
-                                        </div>
-                                        <!-- End Rating -->
-                                        <span class="text-white">287 نظر</span>
+                                <div class="flex-grow-1 ms-3">
+                                    <!-- Rating -->
+                                    <div class="d-flex gap-1 small">
+                                        <img src="{% static 'svg/illustrations/star.svg' %}"
+                                             alt="Review rating"
+                                             width="16">
+                                        <img src="{% static 'svg/illustrations/star.svg' %}"
+                                             alt="Review rating"
+                                             width="16">
+                                        <img src="{% static 'svg/illustrations/star.svg' %}"
+                                             alt="Review rating"
+                                             width="16">
+                                        <img src="{% static 'svg/illustrations/star.svg' %}"
+                                             alt="Review rating"
+                                             width="16">
+                                        <img src="{% static 'svg/illustrations/star.svg' %}"
+                                             alt="Review rating"
+                                             width="16">
                                     </div>
+                                    <!-- End Rating -->
+                                    <span class="text-white">287 نظر</span>
                                 </div>
                             </div>
-                            <!-- End Media -->
                         </div>
+                        <!-- End Media -->
                     </div>
-                    <!-- End Card -->
-
-                    <h3>تجزیه رتبه</h3>
-
-                    <!-- Ratings -->
-                    <div class="d-grid gap-1">
-                        <a class="row align-items-center" href="#" style="max-width: 25rem;">
-                            <div class="col-3">
-                                <span class="text-dark">5 ستاره</span>
-                            </div>
-                            <!-- End Col -->
-
-                            <div class="col-7">
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: 100%;"
-                                         aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                            <!-- End Col -->
-
-                            <div class="col-2 text-end">
-                                <span>205</span>
-                            </div>
-                            <!-- End Col -->
-                        </a>
-                        <!-- End Row -->
-
-                        <a class="row align-items-center" href="#" style="max-width: 25rem;">
-                            <div class="col-3">
-                                <span class="text-dark">4 ستاره</span>
-                            </div>
-                            <!-- End Col -->
-
-                            <div class="col-7">
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: 53%;"
-                                         aria-valuenow="53"
-                                         aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                            <!-- End Col -->
-
-                            <div class="col-2 text-end">
-                                <span>55</span>
-                            </div>
-                            <!-- End Col -->
-                        </a>
-                        <!-- End Row -->
-
-                        <a class="row align-items-center" href="#" style="max-width: 25rem;">
-                            <div class="col-3">
-                                <span class="text-dark">3 ستاره</span>
-                            </div>
-                            <!-- End Col -->
-
-                            <div class="col-7">
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: 20%;"
-                                         aria-valuenow="20"
-                                         aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                            <!-- End Col -->
-
-                            <div class="col-2 text-end">
-                                <span>23</span>
-                            </div>
-                            <!-- End Col -->
-                        </a>
-                        <!-- End Row -->
-
-                        <a class="row align-items-center" href="#" style="max-width: 25rem;">
-                            <div class="col-3">
-                                <span class="text-dark">2 ستاره</span>
-                            </div>
-                            <!-- End Col -->
-
-                            <div class="col-7">
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: 0%;"
-                                         aria-valuenow="0"
-                                         aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                            <!-- End Col -->
-
-                            <div class="col-2 text-end">
-                                <span>0</span>
-                            </div>
-                            <!-- End Col -->
-                        </a>
-                        <!-- End Row -->
-
-                        <a class="row align-items-center" href="#" style="max-width: 25rem;">
-                            <div class="col-3">
-                                <span class="text-dark">1 ستاره</span>
-                            </div>
-                            <!-- End Col -->
-
-                            <div class="col-7">
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: 1%;"
-                                         aria-valuenow="1"
-                                         aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                            <!-- End Col -->
-
-                            <div class="col-2 text-end">
-                                <span>4</span>
-                            </div>
-                            <!-- End Col -->
-                        </a>
-                        <!-- End Row -->
-                    </div>
-                    <!-- End Ratings -->
                 </div>
+                <!-- End Card -->
 
-                <h4 class="display-4 text-primary">77%</h4>
-                <p class="small">مشتریان این محصول را توصیه می کنند</p>
+                <h3>تجزیه رتبه</h3>
+
+                <!-- Ratings -->
+                <div class="d-grid gap-1">
+                    <a class="row align-items-center" href="#" style="max-width: 25rem;">
+                        <div class="col-3">
+                            <span class="text-dark">5 ستاره</span>
+                        </div>
+                        <!-- End Col -->
+
+                        <div class="col-7">
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: 100%;"
+                                     aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <!-- End Col -->
+
+                        <div class="col-2 text-end">
+                            <span>205</span>
+                        </div>
+                        <!-- End Col -->
+                    </a>
+                    <!-- End Row -->
+
+                    <a class="row align-items-center" href="#" style="max-width: 25rem;">
+                        <div class="col-3">
+                            <span class="text-dark">4 ستاره</span>
+                        </div>
+                        <!-- End Col -->
+
+                        <div class="col-7">
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: 53%;"
+                                     aria-valuenow="53"
+                                     aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <!-- End Col -->
+
+                        <div class="col-2 text-end">
+                            <span>55</span>
+                        </div>
+                        <!-- End Col -->
+                    </a>
+                    <!-- End Row -->
+
+                    <a class="row align-items-center" href="#" style="max-width: 25rem;">
+                        <div class="col-3">
+                            <span class="text-dark">3 ستاره</span>
+                        </div>
+                        <!-- End Col -->
+
+                        <div class="col-7">
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: 20%;"
+                                     aria-valuenow="20"
+                                     aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <!-- End Col -->
+
+                        <div class="col-2 text-end">
+                            <span>23</span>
+                        </div>
+                        <!-- End Col -->
+                    </a>
+                    <!-- End Row -->
+
+                    <a class="row align-items-center" href="#" style="max-width: 25rem;">
+                        <div class="col-3">
+                            <span class="text-dark">2 ستاره</span>
+                        </div>
+                        <!-- End Col -->
+
+                        <div class="col-7">
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: 0%;"
+                                     aria-valuenow="0"
+                                     aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <!-- End Col -->
+
+                        <div class="col-2 text-end">
+                            <span>0</span>
+                        </div>
+                        <!-- End Col -->
+                    </a>
+                    <!-- End Row -->
+
+                    <a class="row align-items-center" href="#" style="max-width: 25rem;">
+                        <div class="col-3">
+                            <span class="text-dark">1 ستاره</span>
+                        </div>
+                        <!-- End Col -->
+
+                        <div class="col-7">
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: 1%;"
+                                     aria-valuenow="1"
+                                     aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <!-- End Col -->
+
+                        <div class="col-2 text-end">
+                            <span>4</span>
+                        </div>
+                        <!-- End Col -->
+                    </a>
+                    <!-- End Row -->
+                </div>
+                <!-- End Ratings -->
             </div>
-            <!-- End Col -->
 
-            <div class="col-md-8">
-                <div class="ps-md-4">
-                    <!-- Heading -->
-                    <div class="border-bottom pb-4 mb-4">
-                        <div class="row align-items-center">
-                            <div class="col-sm mb-2 mb-sm-0">
-                                <h4 class="mb-0">مرتب سازی کنید</h4>
-                            </div>
-                            <!-- End Col -->
+            <h4 class="display-4 text-primary">77%</h4>
+            <p class="small">مشتریان این محصول را توصیه می کنند</p>
+        </div>
+        <!-- End Col -->
 
-                            <div class="col-sm-auto">
-                                <!-- Select -->
-                                <select class="form-select form-select-sm">
-                                    <option value="mostRecent" selected>اخیرا</option>
-                                    <option value="relevant">مربوط</option>
-                                    <option value="helpful">مفید است</option>
-                                    <option value="newest">جدیدترین</option>
-                                </select>
-                                <!-- End Select -->
-                            </div>
+        <div class="col-md-8">
+            <div class="ps-md-4">
+                <!-- Heading -->
+                <div class="border-bottom pb-4 mb-4">
+                    <div class="row align-items-center">
+                        <div class="col-sm mb-2 mb-sm-0">
+                            <h4 class="mb-0">مرتب سازی کنید</h4>
+                        </div>
+                        <!-- End Col -->
+
+                        <div class="col-sm-auto">
+                            <!-- Select -->
+                            <select class="form-select form-select-sm">
+                                <option value="mostRecent" selected>اخیرا</option>
+                                <option value="relevant">مربوط</option>
+                                <option value="helpful">مفید است</option>
+                                <option value="newest">جدیدترین</option>
+                            </select>
+                            <!-- End Select -->
+                        </div>
+                        <div class="col-sm-auto mb-2 text-center">
+                            <button type="button" class="btn btn-primary btn-transition rounded-pill"
+                                data-bs-toggle="modal" data-bs-target="#submitReviewModal">
+                                ثبت دیدگاه</button>
+                        </div>
                             <!-- End Col -->
                         </div>
                         <!-- End Row -->
@@ -672,9 +677,7 @@
                     <div class="d-sm-flex justify-content-sm-end gap-2">
                         <a class="btn btn-link" href="#">ادامه مطلب <i
                                 class="bi-chevron-left small me-1"></i></a>
-                        <button type="button" class="btn btn-primary btn-transition rounded-pill">یک بررسی
-                            بنویسید
-                        </button>
+
                     </div>
                 </div>
             </div>
@@ -724,6 +727,49 @@
         </div>
     </div>
     <!-- End Subscribe -->
+
+<!-- Modal -->
+<div class="modal fade" id="submitReviewModal" tabindex="-1" aria-labelledby="submitReviewModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="submitReviewModalLabel">فرم ارسال دیدگاه</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <form action="{% url 'review:submit-review' %}" method="post" id="review-form">
+                    {% csrf_token %}
+                    <input hidden name="product" value="{{product.id}}">
+                    <div class="row">
+                        <div class="mb-3">
+                            <label class="form-label" for="rateModalInput">امتیاز</label>
+                            <select class="form-select form-select-sm" name="rate" required>
+                                <option value="1">1 ستاره</option>
+                                <option value="2">2 ستاره</option>
+                                <option value="3">3 ستاره</option>
+                                <option value="4">4 ستاره</option>
+                                <option value="5" selected>5 ستاره</option>
+
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="descriptionModalInput">توضیحات</label>
+                            <textarea type="email" class="form-control form-control-lg" id="descriptionModalInput"
+                                name="description" required> </textarea>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+                <button class="btn btn-primary" type="submit" form="review-form">ثبت دیدگاه</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 {% block extra_js %}
     <script>

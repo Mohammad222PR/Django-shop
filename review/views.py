@@ -17,16 +17,18 @@ class SubmitReviewView(LoginRequiredMixin, CreateView):
     form_class = SubmitReviewForm
 
     def form_valid(self, form):
-        product = form.cleaned_data.get("product")
-        messages.success(
-            self.request, "نظر شما با موفقیت ثبت شد بعد از بررسی نشان داده میشود"
-        )
-        return redirect(
-            reverse_lazy("shop:product-detail", kwargs={"slug": product.slug})
-        )
+        form.instance.user = self.request.user
+        form.save()
+        product = form.cleaned_data['product']
+        messages.success(self.request, "دیدگاه شما با موفقیت ثبت شد و پس از بررسی نمایش داده خواهد شد")
+        return redirect(reverse_lazy('shop:product-detail', kwargs={"slug": product.slug}))
 
     def form_invalid(self, form):
-        messages.error(
-            self.request, "خطایی سمت دیدگاه اتفاق افتاد"
-        )
-        return redirect(reverse_lazy(self.request.META.get("HTTP_REFERER")))
+        for field, errors in form.errors.items():
+            for error in errors:
+                messages.error(self.request, error)
+        return redirect(self.request.META.get('HTTP_REFERER'))
+
+    def get_queryset(self):
+        # You can customize the queryset if needed
+        return Review.objects.filter(user=self.request.user)

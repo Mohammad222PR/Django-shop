@@ -4,9 +4,5 @@ from . import views
 app_name = "review"
 
 urlpatterns = [
-    re_path(
-        r"reviews/submit/",
-        views.SubmitReviewView.as_view(),
-        name="submit-review",
-    )
+    path("submit-review/",views.SubmitReviewView.as_view(),name="submit-review")
 ]
