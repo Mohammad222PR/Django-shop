@@ -68,7 +68,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="">
+                            <a class="nav-link {% if view_name == 'dashboard:admin:reviews-list' or view_name == 'dashboard:admin:reviews-update %}active{% endif %} " href="{% url "dashboard:admin:reviews-list" %}">
                                 <i class="bi-chat-square-text nav-icon"></i>نظرات
                             </a>
                         </li>

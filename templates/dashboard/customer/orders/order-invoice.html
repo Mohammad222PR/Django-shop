@@ -119,12 +119,12 @@
                         <div class="row mb-3">
                             <div class="row mb-3">
                                 <dt class="col-md-3">مبلغ نهایی:</dt>
-                                <dl class="col-md-3 formatted-price">{{order.total_price}}</dl>
+                                <dl class="col-md-3 formatted-price">{{order.total_price_default}}</dl>
                                 {% if order.coupon %}
                                 <dt class="col-md-3">تخفیف:</dt>
                                 <dl class="col-md-3 ">با اعمال {{order.coupon.discount_percent}} % تخفیف </dl>
                                 <dt class="col-md-3">مبلغ نهایی با اعمال تخفیف:</dt>
-                                <dl class="col-md-3 formatted-price ">{{order.get_price}}</dl>
+                                <dl class="col-md-3 formatted-price ">{{order.total_price}}</dl>
                                 {% else %}
                                 <dl class="col-md-3 ">تخفیف</dl>
                                 <dl class="col-md-3 ">0</dl>

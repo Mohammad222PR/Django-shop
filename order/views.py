@@ -49,7 +49,7 @@ class CheckOutOrderView(
 
         self.create_order_items(order, cart)
         self.clear_cart(cart)
-
+        order.total_price_default = order.calculate_total_price()
         total_price = order.calculate_total_price()
         self.apply_coupon(coupon, order, user, total_price)
         order.save()
@@ -82,7 +82,7 @@ class CheckOutOrderView(
 
     def create_payment_zarinpal_url(self, order):
         zarinpal = ZarinPalSandbox()
-        response = zarinpal.payment_request()
+        response = zarinpal.payment_request(order.total_price)
         payment_obj = PaymentZarin.objects.create(
             authority_id=response.get("Authority"), amount=order.total_price
         )
@@ -108,9 +108,9 @@ class CheckOutOrderView(
 
     def apply_coupon(self, coupon, order, user, total_price):
         if coupon:
-            # discount_amount = round(
-            #     (total_price * Decimal(coupon.discount_percent / 100)))
-            # total_price -= discount_amount
+            discount_amount = round(
+                (total_price * Decimal(coupon.discount_percent / 100)))
+            total_price -= discount_amount
 
             order.coupon = coupon
             coupon.used_by.add(user)

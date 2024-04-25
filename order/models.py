@@ -15,7 +15,8 @@ class OrderStatus(models.IntegerChoices):
     success = 1, _("موفقیت امیز")
     pending = 2, _("درحال پردازش")
     cancelled = 3, _("لغو شده")
-
+    posted = 4, _("ارسال شده")
+    delivered = 5, _("تحویل داده شده")
 
 # Create your models here.
 
@@ -109,7 +110,10 @@ class Order(models.Model):
     )
 
     total_price = models.DecimalField(
-        max_digits=10, decimal_places=0, default=0, verbose_name=_("total_price")
+        max_digits=10, decimal_places=0, default=0, verbose_name=_("total price")
+    )
+    total_price_default = models.DecimalField(
+        max_digits=10, decimal_places=0, default=0, verbose_name=_("total price default")
     )
     coupon = models.ForeignKey(
         Coupon,
@@ -141,16 +145,6 @@ class Order(models.Model):
             "title": OrderStatus(self.status).name,
             "label": OrderStatus(self.status).label,
         }
-
-    def get_price(self):
-
-        if self.coupon:
-            return round(
-                self.total_price
-                - (self.total_price * Decimal(self.coupon.discount_percent / 100))
-            )
-        else:
-            return self.total_price
 
     @property
     def is_successful(self):

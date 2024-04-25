@@ -1,0 +1,67 @@
+{% extends 'dashboard/admin/base.html' %}
+{% load static %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-light mb-0">
+        <li class="breadcrumb-item">حساب</li>
+        <li class="breadcrumb-item">داشبورد ادمین</li>
+        <li class="breadcrumb-item">نظرات</li>
+        <li class="breadcrumb-item active" aria-current="page">
+            ویرایش نظر
+        </li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <!-- Header -->
+    <div class="card-header border-bottom d-flex justify-content-between align-items-center">
+        <h5 class="card-header-title">ویرایش نظر</h5>
+    </div>
+    <!-- End Header -->
+
+    <!-- Body -->
+    <form action="." method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="card-body">
+            <div class="row d-flex ">
+                
+                <div class="col-md-6 mb-3">
+                    <label>نام محصول</label>
+                    <input class="form-control" type="text"  value="{{review.product.title}}" disabled>
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                    <label>کاربر</label>
+                    <input class="form-control" type="text"  value="{{review.user.user_profile.full_name}}" disabled>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>امتیاز</label>
+                    {{form.rate}}
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>وضعیت</label>
+                    {{form.status}}
+                </div>
+                <div class="col-md-12 mb-3">
+                    <label>توضیحات</label>
+                    {{form.description}}
+                </div>
+                
+                
+               
+
+
+            </div>
+            <div class="card-footer">
+                <div class=" d-flex pt-5 justify-content-end">
+                    <a class="btn btn-secondary ms-3" href="{% url 'dashboard:admin:reviews-list' %}">بازگشت</a>
+                    <button class="btn btn-primary ms-3" type="submit">ثبت تغییرات</button>
+                </div>
+            </div>
+    </form>
+</div>
+
+{% endblock %}

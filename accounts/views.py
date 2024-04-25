@@ -16,7 +16,7 @@ class LoginView(auth_views.LoginView):
     redirect_authenticated_user = True
 
     def get_success_url(self):
-        return self.request.POST.get("next", "/")
+        return self.request.POST.get("next", "home:home")
 
 
 class LogoutView(auth_views.LogoutView):

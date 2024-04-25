@@ -5,13 +5,19 @@ from review.models import Review
 
 class SubmitReviewForm(forms.ModelForm):
     class Meta:
-        models = Review
-        fields = ["product", "review", "description"]
+        model = Review
+        fields = ["product", "rate", "description"]
+        error_messages = {
+            "description": {
+                "required": "فیلد توضیحات اجباری است",
+            },
+        }
 
     def clean(self):
         cleaned_data = super().clean()
         product = cleaned_data.get("product")
 
+        # Check if the product exists and is published
         try:
             Product.objects.get(id=product.id, status=ProductStatus.published.value)
         except Product.DoesNotExist:

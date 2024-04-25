@@ -9,6 +9,7 @@ from typing import Any
 
 from accounts.models import UserType
 from cart.cart import CartSession
+from review.models import ReviewStatus, Review
 from shop.models import Product, ProductStatus, ProductCategory, WishList
 
 # Create your views here.
@@ -71,6 +72,7 @@ class ProductDetailView(generic.DetailView):
             if self.request.user.is_authenticated
             else False
         )
+        context["reviews"] = Review.objects.filter(product=product, status=ReviewStatus.accepted.value)
 
         return context
 

@@ -48,9 +48,16 @@ class Review(models.Model):
         verbose_name = _("Review")
         verbose_name_plural = _("Reviews")
         db_table = "reviews"
+        ordering = ('created_date',)
 
+    def get_status(self):
+        return {
+            "id":self.status,
+            "title": ReviewStatus(self.status).name,
+            "label": ReviewStatus(self.status).label,
+        }
     def __str__(self):
-        return f"{self.user.user_profile.full_name} - {self.product.title}"
+        return f"{self.user.user_profile.full_name} ==> {self.product.title}"
 
 
 @receiver(post_save, sender=Review)
