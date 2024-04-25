@@ -16,5 +16,5 @@ class ReviewForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['description'].widget.attrs['class'] = 'form-control'
         self.fields['rate'].widget.attrs['class'] = 'form-control'
-        self.fields['status'].widget.attrs['class'] = 'form-control'
+        self.fields['status'].widget.attrs['class'] = 'form-select'
         
