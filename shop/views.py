@@ -72,10 +72,45 @@ class ProductDetailView(generic.DetailView):
             if self.request.user.is_authenticated
             else False
         )
-        context["reviews"] = Review.objects.filter(product=product, status=ReviewStatus.accepted.value)
+        reviews = Review.objects.filter(product=product,status=ReviewStatus.accepted.value)
+        context["reviews"] = reviews
+        total_reviews_count =reviews.count()
+        reviews_count = {
+            f"rate_{rate}": reviews.filter(rate=rate).count() for rate in range(1, 6)
+        }
+        if total_reviews_count != 0:
+            reviews_avg = {
+                f"rate_{rate}": round((reviews.filter(rate=rate).count()/total_reviews_count)*100,2) for rate in range(1, 6)
+            }
+        else:
+            reviews_avg = {f"rate_{rate}": 0 for rate in range(1, 6)}
 
+        customer_recommend = round(reviews.filter(rate__in=[4, 5]).count() * total_reviews_count / 2)
+        context["reviews_count"]  = reviews_count
+        context["reviews_avg"] = reviews_avg
+        context["reviews_avg"] = reviews_avg
+        context['customer_recommend'] = customer_recommend
         return context
+        # another method
+        """
+        reviews = Review.objects.filter(product=product, status=ReviewStatus.accepted.value)
 
+        total_reviews_count = reviews.count()
+
+        reviews_count = reviews.values('rate').annotate(count=Count('rate'))
+
+        reviews_avg = {
+            f"{rate['rate']}": round((rate['count'] / total_reviews_count) * 100, 2)
+            for rate in reviews_count
+        }
+
+        customer_recommend = round((reviews.filter(rate=5).count()) * total_reviews_count / 2)
+
+        context["reviews"] = reviews
+        context["reviews_count"] = {f"{rate['rate']}": rate['count'] for rate in reviews_count}
+        context["reviews_avg"] = reviews_avg
+        context['customer_recommend'] = customer_recommend
+        """
 
 class AddOrRemoveWishlistView(LoginRequiredMixin, View):
 
