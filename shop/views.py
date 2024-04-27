@@ -129,3 +129,4 @@ class AddOrRemoveWishlistView(LoginRequiredMixin, View):
                 message = "محصول به لیست علایق اضافه شد"
 
         return JsonResponse({"message": message})
+
