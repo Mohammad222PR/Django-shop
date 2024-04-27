@@ -37,18 +37,32 @@
                     <label>کاربر</label>
                     <input class="form-control" type="text"  value="{{review.user.user_profile.full_name}}" disabled>
                 </div>
+                {% if request.user.type == 3 %}
                 <div class="col-md-6 mb-3">
                     <label>امتیاز</label>
                     {{form.rate}}
+                    </div>
+                {% else %}
+                <div class="col-md-6 mb-3">
+                    <label>امتیاز</label>
+                    <input class="form-control" type="text"  value="{{review.rate}}" disabled>
                 </div>
+                {% endif %}
                 <div class="col-md-6 mb-3">
                     <label>وضعیت</label>
                     {{form.status}}
                 </div>
+                {% if request.user.type == 3 %}
                 <div class="col-md-12 mb-3">
                     <label>توضیحات</label>
                     {{form.description}}
                 </div>
+                {% else %}
+                <div class="col-md-12 mb-3">
+                    <label>توضیحات</label>
+                    <input class="form-control" type="text"  value="{{review.description}}" disabled>
+                </div>
+                {% endif %}
                 
                 
                

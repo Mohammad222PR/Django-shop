@@ -11,6 +11,7 @@ from review.models import Review, ReviewStatus
 from dashboard.admin.forms import ProductForm, ProductImageForm
 from dashboard.mixins.admin import HasAdminAccessPermission
 from ..forms.reviews import ReviewForm
+from dashboard.admin.mixins.reviews import ReviewUpdateFormMixin
 
 class AdminReviewsListView(HasAdminAccessPermission, LoginRequiredMixin, ListView):
     template_name = "dashboard/admin/reviews/reviews-list.html"
@@ -41,7 +42,7 @@ class AdminReviewsListView(HasAdminAccessPermission, LoginRequiredMixin, ListVie
 
 
 class AdminReviewsUpdateView(
-    HasAdminAccessPermission, LoginRequiredMixin, SuccessMessageMixin, UpdateView
+    HasAdminAccessPermission ,ReviewUpdateFormMixin,LoginRequiredMixin, SuccessMessageMixin, UpdateView
 ):
     template_name = "dashboard/admin/reviews/reviews-update.html"
     queryset = Review.objects.all()
@@ -53,3 +54,5 @@ class AdminReviewsUpdateView(
         return reverse_lazy(
             "dashboard:admin:reviews-update", kwargs={"pk": self.get_object().pk}
         )
+
+    
