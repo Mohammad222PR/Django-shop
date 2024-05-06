@@ -4,6 +4,7 @@ from django.db import models
 from accounts.validators import validate_iranian_cellphone_number
 from django.utils.translation import gettext_lazy as _
 
+from accounts.models import User
 
 # Create your models here.
 
@@ -16,9 +17,11 @@ class Status(models.IntegerChoices):
     The default status is Pending
     """
 
-    success = 1, _("مشاهده شده")
+    seen = 1, _("مشاهده شده")
     pending = 2, _("درحال پردازش")
     ignored = 3, _("رد شده")
+    answerd = 4, _("پاسخ داده شده")
+    closed = 5, _("ّبسته شده")
 
 
 class ContactUs(models.Model):
@@ -26,6 +29,17 @@ class ContactUs(models.Model):
     Contact Us Model
     """
 
+    user = models.ForeignKey(
+        User,
+        related_name="contact_us",
+        on_delete=models.CASCADE,
+        verbose_name=_("User"),
+    )
+
+    subject = models.CharField(
+        max_length=40,
+        verbose_name=_("Subject"),
+    )
     first_name = models.CharField(
         max_length=20, default=None, verbose_name=_("first name")
     )
@@ -55,6 +69,32 @@ class ContactUs(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
+    def full_name(self):
+        return str(self.first_name + " " + self.last_name)
+
+
+class AnswerContacts(models.Model):
+    contact = models.ForeignKey(
+        ContactUs,
+        on_delete=models.CASCADE,
+        related_name="answer_contacts",
+        verbose_name=_("Answer Contacts"),
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="answer_contacts",
+        verbose_name=_("user"),
+    )
+    message = models.TextField(max_length=750, verbose_name=_("message"))
+    created_date = models.DateTimeField(
+        auto_now_add=True, verbose_name=_("created date")
+    )
+    updated_date = models.DateTimeField(auto_now=True, verbose_name=_("updated date"))
+
+    def __str__(self) -> str:
+        return f"{self.user} --> {self.contact.subject}"
 
 
 class NewsLetter(models.Model):

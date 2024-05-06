@@ -33,8 +33,8 @@ class Command(BaseCommand):
 
         for _ in range(30):  # Generate 10 fake products
             user = user
-            num_categories = random.randint(1, 4)
-            selected_categories = random.sample(list(categories), num_categories)
+
+            selected_categories = random.choice(categories)
             title = " ".join([fake.word() for _ in range(1, 3)])
             slug = slugify(title, allow_unicode=True)
             selected_image = random.choice(image_list)
@@ -52,7 +52,7 @@ class Command(BaseCommand):
             price = fake.random_int(min=10000, max=100000)
             discount_percent = fake.random_int(min=0, max=50)
 
-            product = Product.objects.create(
+            Product.objects.create(
                 user=user,
                 title=title,
                 slug=slug,
@@ -61,10 +61,10 @@ class Command(BaseCommand):
                 famous_percent=famous_percent,
                 brief_description=brief_description,
                 stock=stock,
+                category=selected_categories,
                 status=status,
                 price=price,
                 discount_percent=discount_percent,
             )
-            product.category.set(selected_categories)
 
         self.stdout.write(self.style.SUCCESS("Successfully generated 30 fake products"))

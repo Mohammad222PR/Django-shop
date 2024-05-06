@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from website.models import ContactUs, NewsLetter
+from website.models import ContactUs, NewsLetter, AnswerContacts
 
 
 # Register your models here.
@@ -40,3 +40,12 @@ class NewsLetterAdmin(admin.ModelAdmin):
     list_filter = ("created_at",)
     ordering = ("created_at",)
     search_fields = ("email",)
+
+
+@admin.register(AnswerContacts)
+class AnswerContactsAdmin(admin.ModelAdmin):
+    """
+    Custom admin class for the NewsLetter model
+    """
+
+    list_display = ("id", "user", "contact")

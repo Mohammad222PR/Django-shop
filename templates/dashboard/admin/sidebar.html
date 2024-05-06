@@ -73,7 +73,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="">
+                            <a class="nav-link {% if view_name == 'dashboard:admin:contact-list' or view_name == 'dashboard:admin:contact-detail' %}active{% endif %} " href="{% url "dashboard:admin:contact-list" %} ">
                                 <i class="bi-envelope nav-icon"></i> تیکت ها
                             </a>
                         </li>
@@ -86,12 +86,12 @@
                     <!-- List -->
                     <ul class="nav nav-sm nav-tabs nav-vertical mb-4">
                         <li class="nav-item">
-                            <a class="nav-link " href="">
+                            <a class="nav-link {% if view_name == 'dashboard:admin:users-list' or view_name == 'dashboard:admin:users-update' %}active{% endif %} " href="{% url "dashboard:admin:users-list" %} ">
                                 <i class="bi-person nav-icon"></i> لیست کاربران
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="">
+                            <a class="nav-link {% if view_name == 'dashboard:admin:newsletters-list' or view_name == 'dashboard:admin:newsletters-delete' %}active{% endif %}" href="{% url "dashboard:admin:newsletters-list" %}">
                                 <i class="bi-newspaper nav-icon"></i> خبرنامه
                             </a>
                         </li>

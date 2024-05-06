@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 
 
-from dashboard.mixins.dashboard import CustomerDashBoardMixin
+from dashboard.mixins import CustomerDashBoardMixin
 
 
 # Create your views here.

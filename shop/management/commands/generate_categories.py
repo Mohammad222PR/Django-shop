@@ -13,6 +13,7 @@ class Command(BaseCommand):
         for _ in range(10):
             title = fake.word()
             slug = slugify(title, allow_unicode=True)
+
             ProductCategory.objects.get_or_create(title=title, slug=slug)
 
         self.stdout.write(

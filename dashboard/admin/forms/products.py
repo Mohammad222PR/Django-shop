@@ -46,3 +46,20 @@ class ProductImageForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields["file"].widget.attrs["class"] = "form-control"
         self.fields["file"].widget.attrs["accept"] = "image/png, image/jpg, image/jpeg"
+
+
+
+class ChangeProductDataForm(forms.Form):
+    CHANGE_CHOICES = [
+        ('increase', 'افزایش قیمت'),
+        ('decrease', 'کاهش قیمت'),
+    ]
+    
+    SELECT_CHOICES = [
+        ('select_all', 'انتخاب همه محصولات'),
+        ('deselect_all', 'عدم انتخاب همه محصولات'),
+    ]
+    
+    change_type = forms.ChoiceField(choices=CHANGE_CHOICES, label='نوع تغییر')
+    amount = forms.DecimalField(label='مقدار', min_value=0)
+    select_action = forms.ChoiceField(choices=SELECT_CHOICES, label='عملیات انتخابی')

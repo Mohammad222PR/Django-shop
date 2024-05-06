@@ -1,0 +1,233 @@
+{% extends 'dashboard/customer/base.html' %}
+{% load static %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-light mb-0">
+        <li class="breadcrumb-item">حساب</li>
+        <li class="breadcrumb-item">داشبورد کاربر</li>
+        <li class="breadcrumb-item"> تیکت ها</li>
+        <li class="breadcrumb-item active" aria-current="page">
+            جزئیات تیکت
+        </li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<!-- Card -->
+<div class="card">
+    <!-- Header -->
+    <div class="card-header border-bottom">
+        <h5 class="card-header-title"> تیکت شماره {{object.id}}</h5>
+    </div>
+    <!-- End Header -->
+
+    <!-- Body -->
+    <form>
+        <div class="card-body">
+
+            <div class="row d-flex align-items-center">
+                <div class="col-md-6 mb-3">
+                    <dt>موضوع: </dt>
+                    <dl> {{object.subject}}</dl>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <dt>ایمیل: </dt>
+                    <dl>{{object.email}}</dl>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <dt>نام و نام خانوادگی: </dt>
+                    <dl>{{object.full_name}}</dl>
+                </div>
+                <dt class="col-md-3">وضعیت:</dt>
+                <dl class="col-md-3 mb-3">
+                    {% if object.status == 1 %}
+                    <span class="badge bg-success">دیده شده</span>
+                    {% elif object.status == 2 %}
+                    <span class="badge bg-warning">درحال پردازش</span>
+                    {% elif object.status == 3 %}
+                    <span class="badge bg-danger">رد شده</span>
+                    {% elif object.status == 4 %}
+                    <span class="badge bg-success">پاسخ داده شده</span>
+                    {% elif object.status == 5 %}
+                    <span class="badge bg-danger">بسته شده</span>
+
+                    {% endif %}
+                </dl>
+                <div class="col-md-12 mb-3">
+                    <dt>متن:</dt>
+                    <dl>
+                        {{object.message|striptags}}
+                    </dl>
+                </div>
+            </div>
+            <!-- End Row -->
+
+        </div>
+        <div class="card-footer row pt-5 mt-5">
+
+            <div class=" d-flex pt-5 justify-content-end">
+                <a class="btn btn-secondary ms-3" href="{% url 'dashboard:customer:contact-list' %}">بازگشت</a>
+            </div>
+
+        </div>
+    </form>
+    <!-- End Body -->
+
+    <div>
+        <div class="card">
+            <!-- Header -->
+            <div class="card-header border-bottom d-flex justify-content-between align-items-center">
+                <h5 class="card-header-title">اضافه کردن پاسخ</h5>
+            </div>
+            <!-- End Header -->
+
+            <!-- Body -->
+            {% if request.user.type == 3 or request.user.type == 4 %}
+            {% if not object.status == 5 %}
+            <form action="{% url 'dashboard:customer:contact-answer' pk=object.id %}" method="post">
+
+                {% csrf_token %}
+                <div class="card-body">
+                    <div class="row d-flex align-items-center">
+                        <div class="col-md-12 mb-3">
+                            <label>متن پاسخ</label>
+                            {{ contact_form.message }}
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <button class="btn btn-primary ms-3" type="submit">ثبت پاسخ</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            {% else %}
+            <span class="alert alert-primary ">این تیکت بسته شده و قابلیت ارسال پیام ندارید</span>
+                {% endif %}
+                    <hr>
+                <div class="card-footer row pt-5 mt-5">
+
+                    {% if not object.status == 5 %}
+                    <form action="{% url "dashboard:customer:contact-close" pk=object.id %}" method="post">
+                    {% csrf_token %}
+                    <div class="col-md-3 mb-3">
+                        <button class="btn btn-primary ms-3" type="submit">بستن تیکت</button>
+                    </div>
+        </form>
+        {% endif %}
+            </div>
+            {% endif %}
+
+        {% if not object.status == 5 %}
+        {% if request.user.type == 1 and object.status == 4 %}
+        {% if not object.status == 5 %}
+            <form action="{% url 'dashboard:customer:contact-answer' pk=object.id %}" method="post">
+
+                {% csrf_token %}
+                <div class="card-body">
+                    <div class="row d-flex align-items-center">
+                        <div class="col-md-12 mb-3">
+                            <label>متن پاسخ</label>
+                            {{ contact_form.message }}
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <button class="btn btn-primary ms-3" type="submit">ثبت پاسخ</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            {% else %}
+                {% endif %}
+                    <hr>
+                <div class="card-footer row pt-5 mt-5">
+
+                    {% if not object.status == 5 %}
+                    <form action="{% url "dashboard:customer:contact-close" pk=object.id %}" method="post">
+                    {% csrf_token %}
+                    <div class="col-md-3 mb-3">
+                        <button class="btn btn-primary ms-3" type="submit">بستن تیکت</button>
+                    </div>
+        </form>
+        {% endif %}
+            </div>
+
+        {% else %}
+        <span class="alert alert-primary ">هنوز پاسخی ثبت نشده لطفا منتظر بمانید</span>
+
+        {% endif %}
+        {% else %}
+        <span class="alert alert-primary ">این تیکت بسته شده و قابلیت ارسال پیام ندارید</span>
+
+        {% endif %}
+
+      
+<style>
+    .chat {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .message {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 15px;
+    }
+
+    .user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+
+    .message-content {
+        background-color: #E5E5EA;
+        padding: 10px;
+        border-radius: 20px;
+        max-width: 70%;
+        word-wrap: break-word;
+    }
+
+    .sent-message .message-content {
+        background-color: #DCF8C6;
+        align-self: flex-end;
+    }
+
+    .message-info {
+        font-size: 0.8em;
+        color: #999;
+        margin-left: 10px;
+    }
+</style>
+
+<div class="card-body chat">
+    <div class="row">
+        {% for contact_answer in object.answer_contacts.all %}
+        {% if not contact_answer.user == request.user %}
+            <div class="col-md-12 mb-3">
+                <div class="message sent-message">
+                    <div class="sender-info">
+                        <img class="user-avatar" src="{{ contact_answer.user.user_profile.avatar.url }}" alt="{{ contact_answer.user.user_profile.full_name }}">
+                        <span>{{ contact_answer.user.user_profile.full_name }}</span>
+                    </div>
+                    <p class="message-content">{{ contact_answer.message }}</p>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-md-12 mb-3" >
+                <div class="message recived-message">
+                    <div class="sender-info">
+                        <img class="user-avatar" src="{{ contact_answer.user.user_profile.avatar.url }}" alt="{{ contact_answer.user.user_profile.full_name }}">
+                        <span>{{ contact_answer.user.user_profile.full_name }}</span>
+                    </div>
+                    <p class="message-content">{{ contact_answer.message }}</p>
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+</div>
+<!-- End Body -->
+{% endblock %}

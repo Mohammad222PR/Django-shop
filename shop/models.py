@@ -28,6 +28,14 @@ class ProductCategory(models.Model):
         blank=True,
         null=True,
     )
+    parent = models.ForeignKey(
+        "self",
+        on_delete=models.SET_NULL,
+        related_name="product_categories",
+        verbose_name="parent",
+        blank=True,
+        null=True,
+    )
     created_date = models.DateTimeField(
         auto_now_add=True, verbose_name=_("created time")
     )
@@ -71,8 +79,12 @@ class Product(models.Model):
         default=None,
         allow_unicode=True,
     )
-    category = models.ManyToManyField(
-        ProductCategory, verbose_name=_("category"), related_name="products"
+    category = models.ForeignKey(
+        ProductCategory,
+        verbose_name=_("category"),
+        related_name="products",
+        on_delete=models.SET_NULL,
+        null=True,
     )
     status = models.IntegerField(
         choices=ProductStatus.choices,

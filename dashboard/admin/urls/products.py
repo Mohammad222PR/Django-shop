@@ -27,4 +27,9 @@ urlpatterns = [
         views.AdminProductImageDeleteView.as_view(),
         name="product-remove-image",
     ),
+    path(
+        "product/change/",
+        views.AdminChangeProductDataView.as_view(),
+        name="prodcut-change"
+    )
 ]

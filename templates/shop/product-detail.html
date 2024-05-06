@@ -110,14 +110,8 @@
             <div class="mb-5">
                 <h1 class="h2">{{ product.title }}</h1>
                 <div class="mb-2">
-                    {% for category in product.category.all %}
-                        <a class="link-sm link-secondary" href="#">{{ category.title }} </a>
-                        {% if not forloop.last %}
-                            ,
-                        {% endif %}
-                    {% empty %}
-                        <p>کتگوری وجود ندارد</p>
-                    {% endfor %}
+                        <a class="link-sm link-secondary" href="#">{{ product.category.title }} </a>
+                        
                 </div>
                 <!-- End Heading -->
 

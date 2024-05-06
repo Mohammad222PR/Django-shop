@@ -6,11 +6,11 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.text import slugify
 from django.views.generic import ListView, UpdateView, CreateView, DeleteView
-
+from ..forms.products import ChangeProductDataForm
 from dashboard.admin.forms import ProductForm, ProductImageForm
 from dashboard.mixins.admin import HasAdminAccessPermission
 from shop.models import Product, ProductStatus, ProductCategory, ProductImage
-
+from django.views import View
 status = ProductStatus
 
 
@@ -147,3 +147,28 @@ class AdminProductImageDeleteView(
 
     def get_object(self, queryset=None):
         return self.get_queryset().get(pk=self.kwargs.get("image_id"))
+
+
+class AdminChangeProductDataView(LoginRequiredMixin, HasAdminAccessPermission, View):
+    def post(self, request):
+        form = ChangeProductDataForm(request.POST)
+        change_type = form.cleaned_data['change_type']
+        percent = form.cleaned_data['percent']
+        select_action = form.cleaned_data['select_action']
+        if form.is_valid():
+            for product_id in select_action:
+                try:
+                    product = Product.objects.get(id=product_id)
+            
+                    if change_type == 'increase':
+                        product.price += (product.price * percent / 100)
+                    elif change_type == 'decrease':
+                        product.price -= (product.price * percent / 100)
+                    product.save()
+                except Product.DoesNotExist:
+                    # در صورتی که محصول با این ایدی وجود نداشته باشد
+                    # می‌توانید عملیات مناسبی انجام دهید، مانند ایجاد یک لاگ یا ارسال پیام خطا به کاربر
+                    pass
+
+        return redirect("dashboard:admin:product-list")
+                    

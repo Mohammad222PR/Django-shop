@@ -30,12 +30,8 @@
 
                 <div class="card-body">
                     <div class="mb-2">
-                        {% for category in similar_product.category.all %}
-                        <a class="link-sm link-secondary" href="#"> {{category.title}} </a>
-                        {% if not forloop.last %}
-                        ,
-                        {% endif %}
-                        {% endfor %}
+                        <a class="link-sm link-secondary" href="#"> {{similar_product.category.title}} </a>
+                    
                     </div>
 
                     <h4 class="card-title">

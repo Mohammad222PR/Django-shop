@@ -28,7 +28,9 @@
         <!-- Body -->
         <div class="card-body">
 
-            <div class="container pb-5">
+        
+                
+
                 <form action="." class="row">
 
                     <!-- Input Card -->
@@ -78,76 +80,124 @@
                 </form>
 
             </div>
-
             <div class="row">
-
                 <!-- Table -->
                 <div class="table-responsive">
                     <table class="table">
                         <thead class="thead-light">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">نام محصول</th>
-                            <th scope="col">دسته بندی</th>
-                            <th scope="col">قیمت</th>
-                            <th scope="col">تعداد</th>
-                            <th scope="col">وضعیت</th>
-                            <th scope="col">تخفیف</th>
-                            <th scope="col">قیمت پایانی</th>
-                            <th scope="col">عملیات</th>
-                        </tr>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">نام محصول</th>
+                                <th scope="col">دسته بندی</th>
+                                <th scope="col">قیمت</th>
+                                <th scope="col">تعداد</th>
+                                <th scope="col">وضعیت</th>
+                                <th scope="col">تخفیف</th>
+                                <th scope="col">قیمت پایانی</th>
+                                <th scope="col">عملیات</th>
+                                <th scope="col">انتخاب</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        {% for product in products %}
+                            {% for product in products %}
                             <tr>
                                 <th scope="row">{{ product.id }}</th>
                                 <td>{{ product.title }}</td>
-                                <td>{% for category in product.category.all %} {{ category.title }}
-                                    {% if not forloop.last %},{% endif %}
-
-                                {% endfor %}</td>
+                                <td>
+                                    {% for category in product.category.all %}
+                                    {{ category.title }}{% if not forloop.last %}, {% endif %}
+                                    {% endfor %}
+                                </td>
                                 <td class="formatted-price">{{ product.price }}</td>
                                 <td>{{ product.stock }}</td>
-                                <td> {% if product.is_published %}<span class="badge bg-success">نشر شده</span>
-                                {% else %}
-                                    <span class="badge bg-danger">ذخیره</span> {% endif %}
+                                <td>
+                                    {% if product.is_published %}
+                                    <span class="badge bg-success">نشر شده</span>
+                                    {% else %}
+                                    <span class="badge bg-danger">ذخیره</span>
+                                    {% endif %}
                                 </td>
                                 <td>%{{ product.discount_percent }}</td>
                                 <td class="formatted-price">{{ product.get_price }}</td>
-
                                 <td>
-                                    <a class="btn btn-sm btn-icon btn-ghost-secondary"
-                                       href="{% url 'dashboard:admin:product-update' pk=product.id %}"><i
-                                            class="bi-pencil-square"></i></a>
-
+                                    <a class="btn btn-sm btn-icon btn-ghost-secondary" href="{% url 'dashboard:admin:product-update' pk=product.id %}">
+                                        <i class="bi-pencil-square"></i>
+                                    </a>
                                     {% if product.is_published %}
-                                        <a class="btn btn-sm btn-icon btn-ghost-primary" target="_blank"
-                                           href="{% url 'shop:product-detail' slug=product.slug %}"><i
-                                                class="bi-eye"></i></a>
+                                    <a class="btn btn-sm btn-icon btn-ghost-primary" target="_blank" href="{% url 'shop:product-detail' slug=product.slug %}">
+                                        <i class="bi-eye"></i>
+                                    </a>
                                     {% endif %}
-
+                                </td>
+                                <td>
+                                    <input type="checkbox" class="form-check-input productCheckbox" id="product{{ product.id }}" value="{{ product.id }}">
                                 </td>
                             </tr>
-                        {% empty %}
+                            {% empty %}
                             <div class="row text-center w-100 py-5">
                                 <p class="text-center">هیچ کالایی برای نمایش وجود ندارد</p>
                             </div>
-                        {% endfor %}
-
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
                 <!-- End Table -->
-                <div class="row m-1 py-0 ">
+                <div class="row m-1 py-0">
                     <div class="d-flex justify-content-start">
                         <div>
                             {{ total_items }} محصول
                         </div>
-
-
                     </div>
                 </div>
-
+            </div>
+            <div class="row">
+                
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-primary" id="selectAllBtn">انتخاب همه محصولات</button>
+                    <br><br>
+                    <div class="container pb-5">
+                        <!-- مدال اعمال تغییرات -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">اعمال تغییرات</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="changeForm" method="post" action="{% url "dashboard:admin:prodcut-change" %}">
+                                            <div class="mb-3">
+                                                <label for="changeType" class="form-label">نوع تغییر</label>
+                                                <select class="form-select" id="changeType">
+                                                    <option value="increase">افزایش قیمت</option>
+                                                    <option value="decrease">کاهش قیمت</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="percent" class="form-label">مقدار</label>
+                                                <input type="number" class="form-control" id="percent">
+                                            </div>
+                                   
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+                                        <button type="submit" class="btn btn-primary" id="applyChanges">اعمال</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- دکمه برای باز کردن مدال -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            اعمال تغییرات
+                        </button>
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
                 <!-- Pagination -->
 
                 <div class="row pt-5 mt-3">
@@ -238,5 +288,60 @@
             window.location.href = new_url
         });
 
+ // وقتی که دکمه اعمال تغییرات کلیک می‌شود
+ $("#applyChanges").click(function() {
+    applyChanges();
+});
+
+// وقتی که فرم در مدال ارسال می‌شود
+$("#changeForm").submit(function(event) {
+    // اینجا کد برای اعمال تغییرات به ابجکت‌های انتخاب شده باید قرار بگیرد
+    // می‌توانید با استفاده از jQuery یا JavaScript محض تغییرات را انجام دهید
+    alert("تغییرات با موفقیت اعمال شدند!");
+});
+
+// وقتی که دکمه انتخاب همه محصولات کلیک می‌شود
+$("#selectAllBtn").click(function() {
+    $(".productCheckbox").prop('checked', true);
+});
+
+// تابع برای اعمال تغییرات
+function applyChanges() {
+    var selectedProducts = [];
+
+    // محصولاتی که انتخاب شده‌اند را در آرایه‌ای ذخیره می‌کنیم
+    $(".productCheckbox:checked").each(function() {
+        selectedProducts.push($(this).val());
+    });
+
+    // اینجا کد برای اعمال تغییرات به محصولات انتخاب شده باید قرار بگیرد
+    // می‌توانید با استفاده از jQuery یا JavaScript محض تغییرات را انجام دهید
+
+    // نمونه: در اینجا یک الرت نمایش داده می‌شود
+    alert("تغییرات با موفقیت اعمال شدند!");
+}
+ // وقتی که فرم در مدال ارسال می‌شود
+ $("#changeForm").submit(function(event) {
+    event.preventDefault(); // جلوگیری از ارسال فرم به صفحه دیگر
+
+    // اطلاعات فرم را بگیرید
+    var formData = $(this).serialize();
+
+    // ارسال ریکوست پست به سرور
+    $.ajax({
+        type: "POST",
+        url: $(this).attr('action'), // آدرس اکشن فرم
+        data: formData,
+        success: function(response) {
+            // در صورت موفقیت، اقدامات لازم را انجام دهید
+            alert("تغییرات با موفقیت اعمال شدند!");
+        },
+        error: function(xhr, status, error) {
+            // در صورت بروز خطا، اقدامات لازم را انجام دهید
+            console.error(error);
+            alert("خطا در ارسال اطلاعات به سرور!");
+        }
+    });
+});
     </script>
 {% endblock %}

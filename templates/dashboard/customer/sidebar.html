@@ -68,6 +68,11 @@
                                 <i class="bi-geo-alt nav-icon"></i> نشانی
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if view_name == 'dashboard:custoemr:contact-list' or view_name == 'dashboard:customer:contact-detail' %}active{% endif %} " href="{% url "dashboard:customer:contact-list" %} " >
+                                <i class="bi-envelope nav-icon"></i> تیکت ها
+                            </a>
+                        </li>
 
                     </ul>
                     <!-- End List -->

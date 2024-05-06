@@ -7,7 +7,14 @@ from website.models import ContactUs, NewsLetter
 class ContactForm(forms.ModelForm):
     class Meta:
         model = ContactUs
-        fields = ["first_name", "last_name", "email", "phone_number", "message"]
+        fields = [
+            "subject",
+            "first_name",
+            "last_name",
+            "email",
+            "phone_number",
+            "message",
+        ]
 
 
 class NewsLetterForm(forms.ModelForm):

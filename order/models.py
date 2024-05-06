@@ -18,6 +18,7 @@ class OrderStatus(models.IntegerChoices):
     posted = 4, _("ارسال شده")
     delivered = 5, _("تحویل داده شده")
 
+
 # Create your models here.
 
 
@@ -112,9 +113,6 @@ class Order(models.Model):
     total_price = models.DecimalField(
         max_digits=10, decimal_places=0, default=0, verbose_name=_("total price")
     )
-    total_price_default = models.DecimalField(
-        max_digits=10, decimal_places=0, default=0, verbose_name=_("total price default")
-    )
     coupon = models.ForeignKey(
         Coupon,
         on_delete=models.PROTECT,
@@ -145,6 +143,16 @@ class Order(models.Model):
             "title": OrderStatus(self.status).name,
             "label": OrderStatus(self.status).label,
         }
+
+    def get_price(self):
+        if self.coupon:
+            discounted_price = round(
+                self.total_price
+                - (self.total_price * Decimal(self.coupon.discount_percent / 100))
+            )
+            return discounted_price
+        else:
+            return self.total_price
 
     @property
     def is_successful(self):

@@ -184,8 +184,8 @@
             <!-- End Col -->
 
             <div class="col-lg-9">
-                {% block content %}
-                {% endblock %}
+                {% block content %}{% endblock content %}
+                
 
             </div>
             <!-- End Col -->
@@ -194,6 +194,20 @@
     </div>
     <!-- End Content Section -->
 </main>
+<style>
+    .glass-box {
+        background-color: rgba(255, 255, 255, 0.5); /* افزودن پس‌زمینه با تراکنش */
+        border-radius: 10px; /* گوشه‌های گرد */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* سایه */
+        transition: all 0.3s ease; /* انیمیشن تراکنش */
+    }
+    
+    .glass-box:hover {
+        transform: translateY(-5px); /* حرکت بالا در حالت هاور */
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* افزایش سایه */
+    }
+    
+</style>
 
 
 <!-- ========== FOOTER ========== -->

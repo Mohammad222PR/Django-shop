@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-
+from django.contrib import messages
 from cart.models import Cart, CartItem
 from shop.models import Product, ProductStatus
 
@@ -16,13 +16,16 @@ class CartSession:
         # product = Product.objects.get(id=product_id)
         for item in self._cart["items"]:
             if product_id == item["product_id"]:
-                if not item["quantity"] >= 10:
+                if (
+                    not item["quantity"] >= 10
+                    or not item["quantity"]
+                    > self._get_product_by_id(item["product_id"]).stock
+                ):
                     item["quantity"] += int(quantity)
                 else:
-                    return JsonResponse(
-                        {
-                            "message": "شما نمیتوانید بیش از 10 محصول از هر محصول داشته باشید"
-                        }
+                    return messages.error(
+                        self.request,
+                        "شما نمیتونید از یک محصول بیش از 10 تا داشته باشید",
                     )
                 # product.stock -= int(quantity)
                 # product.save()
@@ -60,7 +63,9 @@ class CartSession:
                 # else:
                 #     product.stock += int(quantity)
                 #     product.save()
-                if not item["quantity"] >= 10:
+                if not item["quantity"] >= 10 or not item[
+                    "quantity"
+                ] > self._get_product_by_id(item["product_id"]):
                     item["quantity"] = int(quantity)
                 else:
                     return JsonResponse(

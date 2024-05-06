@@ -49,7 +49,6 @@ class CheckOutOrderView(
 
         self.create_order_items(order, cart)
         self.clear_cart(cart)
-        order.total_price_default = order.calculate_total_price()
         total_price = order.calculate_total_price()
         self.apply_coupon(coupon, order, user, total_price)
         order.save()
@@ -62,9 +61,9 @@ class CheckOutOrderView(
 
     def create_payment_zibal_url(self, order):
         zibal = Zibal()
-        response = zibal.payment_request(order.total_price)
+        response = zibal.payment_request(order.get_price())
         payment_obj = PaymentZibal.objects.create(
-            trackId=str(response.get("trackId")), amount=order.total_price
+            trackId=str(response.get("trackId")), amount=order.get_price()
         )
         order.payment_zibal = payment_obj
         order.save()
@@ -72,9 +71,9 @@ class CheckOutOrderView(
 
     def create_payment_novin_url(self, order):
         novin = NovinoPay()
-        response = novin.payment_request(order.total_price)
+        response = novin.payment_request(order.get_price())
         payment_obj = PaymentZarin.objects.create(
-            authority_id=response.get("authority"), amount=order.total_price
+            authority_id=response.get("authority"), amount=order.get_price()
         )
         order.payment_novin = payment_obj
         order.save()
@@ -82,9 +81,9 @@ class CheckOutOrderView(
 
     def create_payment_zarinpal_url(self, order):
         zarinpal = ZarinPalSandbox()
-        response = zarinpal.payment_request(order.total_price)
+        response = zarinpal.payment_request(order.get_price())
         payment_obj = PaymentZarin.objects.create(
-            authority_id=response.get("Authority"), amount=order.total_price
+            authority_id=response.get("Authority"), amount=order.get_price()
         )
         order.payment_zarin = payment_obj
         order.save()
@@ -108,9 +107,10 @@ class CheckOutOrderView(
 
     def apply_coupon(self, coupon, order, user, total_price):
         if coupon:
-            discount_amount = round(
-                (total_price * Decimal(coupon.discount_percent / 100)))
-            total_price -= discount_amount
+            # discount_amount = round(
+            #     (total_price * Decimal(coupon.discount_percent / 100))
+            # )
+            # total_price -= discount_amount
 
             order.coupon = coupon
             coupon.used_by.add(user)

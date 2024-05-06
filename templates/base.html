@@ -91,12 +91,8 @@
                         <!-- End Search -->
 
                         <!-- Shopping Cart -->
-                        <!-- <button type="button" class="btn btn-ghost-secondary btn-icon" type="button"
-                            data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarShoppingCart"
-                            aria-controls="offcanvasNavbarShoppingCart">
-                            <i class="bi-basket"></i>
-                            <span class="cart-item-count ">3</span>
-                        </button> -->
+                
+                        </button> 
                         <a href="{% url 'cart:cart-summary' %}"
                            class="btn btn-ghost-{% if view_name == 'cart:cart-summary' %}primary{% else %}secondary{% endif %} btn-icon ">
                             <i class="bi-basket"></i>

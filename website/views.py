@@ -36,10 +36,16 @@ class ContactUsView(View):
     def post(self, request):
         form = self.form_class(request.POST)
         if form.is_valid():
+            form = form.save(commit=False)
+            form.user = request.user
             form.save()
             messages.success(request, "پیام شما با موفیت ارسال شد")
-            next_page = request.POST.get("next", "website:contact")
-            return redirect(next_page)
+            next_page = request.POST.get("next")
+            if next_page:
+                return redirect(next_page)
+            else:
+                return redirect("website:home")
+
         messages.error(request, "پیام ارسال نشد")
         return render(request, self.template_name, {"form": form})
 
