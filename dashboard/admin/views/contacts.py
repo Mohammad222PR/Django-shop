@@ -64,7 +64,6 @@ class AdminContactsDetailView(LoginRequiredMixin, HasAdminAccessPermission, Deta
     def get_queryset(self):
         return ContactUs.objects.all()
 
-
     def get_object(self):
         contacts_obj = ContactUs.objects.get(id=self.kwargs.get("pk", None))
         if contacts_obj.status == Status.pending.value:
@@ -78,7 +77,8 @@ class AdminContactsDetailView(LoginRequiredMixin, HasAdminAccessPermission, Deta
         context = super().get_context_data(**kwargs)
         context["contact_form"] = AnswerContactForm()
         return context
-    
+
+
 class AdminAnswerContactView(
     LoginRequiredMixin, ContaxtMixin, HasAdminAccessPermission, CreateView
 ):
@@ -104,7 +104,11 @@ class AdminAnswerContactView(
             contact_obj.status = Status.answerd.value
             contact_obj.save()
         messages.success(self.request, "پاسخ شما با موفقیت ثبت شد")
-        return redirect(reverse_lazy("dashboard:admin:contact-detail", kwargs={"pk": self.kwargs.get("pk")}))
+        return redirect(
+            reverse_lazy(
+                "dashboard:admin:contact-detail", kwargs={"pk": self.kwargs.get("pk")}
+            )
+        )
 
     def form_invalid(self, form):
         messages.error(self.request, "پاسخ ارسال نشد لطفا مجدد امتحان نمایید")
@@ -116,7 +120,10 @@ class AdminContactClosedView(LoginRequiredMixin, HasAdminAccessPermission, View)
     def post(self, request, *args, **kwargs):
         contacts_obj = ContactUs.objects.get(id=self.kwargs.get("pk", None))
         if contacts_obj.status != Status.closed.value:
-            if contacts_obj.user == request.user or request.user.type in [UserType.admin.value, UserType.superuser.value]:
+            if contacts_obj.user == request.user or request.user.type in [
+                UserType.admin.value,
+                UserType.superuser.value,
+            ]:
                 contacts_obj.status = Status.closed.value
                 messages.success(request, "تیکت با موفقیت بسته شد")
                 contacts_obj.save()
@@ -127,13 +134,10 @@ class AdminContactClosedView(LoginRequiredMixin, HasAdminAccessPermission, View)
                 )
             else:
                 messages.error(request, "شما دسترسی برای بستن این تیکت ندارید")
-                return redirect(
-                    request.META.get("HTTP_REFERER")
-                )
+                return redirect(request.META.get("HTTP_REFERER"))
         else:
             messages.error(request, "این تیکت قبلا بسته شده است")
             return redirect(
                 "dashboard:admin:contact-detail",
                 kwargs={"pk": contacts_obj.id},
             )
-

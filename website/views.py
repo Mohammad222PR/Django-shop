@@ -1,10 +1,11 @@
+from typing import Any
 from django.contrib import messages
 from django.db.models import Count, Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import TemplateView, CreateView
-
+from shop.models import ProductCategory
 from shop.models import Product, ProductStatus
 from website.forms import ContactForm, NewsLetterForm
 from website.models import ContactUs, NewsLetter
@@ -16,7 +17,10 @@ from website.models import ContactUs, NewsLetter
 class IndexView(TemplateView):
     template_name = "website/index.html"
 
-
+    def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            context['categories'] = ProductCategory.objects.all()
+            return context
 class AboutView(TemplateView):
     template_name = "website/about.html"
 
@@ -77,3 +81,12 @@ class NewsletterView(View):
             # If 'next' parameter is not provided, redirect to the referrer page
             return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
         return render(request, self.template_list_name, {"form": form})
+
+
+class MegaMenuView(TemplateView):
+    template_name = "inc/mega_menu.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = ProductCategory.objects.all()
+        return context

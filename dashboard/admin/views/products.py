@@ -11,6 +11,11 @@ from dashboard.admin.forms import ProductForm, ProductImageForm
 from dashboard.mixins.admin import HasAdminAccessPermission
 from shop.models import Product, ProductStatus, ProductCategory, ProductImage
 from django.views import View
+from decimal import Decimal
+from django.shortcuts import get_object_or_404, redirect, reverse
+from django.contrib import messages
+from django.db.models import F
+from decimal import Decimal
 status = ProductStatus
 
 
@@ -149,26 +154,51 @@ class AdminProductImageDeleteView(
         return self.get_queryset().get(pk=self.kwargs.get("image_id"))
 
 
+
+
 class AdminChangeProductDataView(LoginRequiredMixin, HasAdminAccessPermission, View):
     def post(self, request):
         form = ChangeProductDataForm(request.POST)
-        change_type = form.cleaned_data['change_type']
-        percent = form.cleaned_data['percent']
-        select_action = form.cleaned_data['select_action']
-        if form.is_valid():
-            for product_id in select_action:
-                try:
-                    product = Product.objects.get(id=product_id)
-            
-                    if change_type == 'increase':
-                        product.price += (product.price * percent / 100)
-                    elif change_type == 'decrease':
-                        product.price -= (product.price * percent / 100)
-                    product.save()
-                except Product.DoesNotExist:
-                    # در صورتی که محصول با این ایدی وجود نداشته باشد
-                    # می‌توانید عملیات مناسبی انجام دهید، مانند ایجاد یک لاگ یا ارسال پیام خطا به کاربر
-                    pass
+        
+        if not form.is_valid():
+            messages.error(request, "فرم معتبر نمی باشد")
+            return redirect(reverse("dashboard:admin:product-list"))
 
-        return redirect("dashboard:admin:product-list")
-                    
+        change_type = request.POST.get("change_type")
+        percent = request.POST.get("percent")
+        selected_products = request.POST.getlist("selected_products")
+
+        for product_id in selected_products:
+            product = get_object_or_404(Product, id=product_id)
+
+            if change_type == "increase":
+                self.increase_price(product, percent)
+            elif change_type == "decrease":
+                self.decrease_price(product, percent)
+            elif change_type in ["published", "draft"]:
+                self.change_status(product, change_type)
+            elif change_type == "delete":
+                self.delete_product(product)
+
+        messages.success(request, "باموفقیت بروز شد")
+        return redirect(reverse("dashboard:admin:product-list"))
+
+    def increase_price(self, product, percent):
+        product.price = F('price') + (F('price') * Decimal(percent) / 100)
+        product.save()
+
+    def decrease_price(self, product, percent):
+        product.price = F('price') - (F('price') * Decimal(percent) / 100)
+        product.save()
+
+    def change_status(self, product, status):
+        if product.status != ProductStatus[status].value:
+            product.status = ProductStatus[status].value
+            product.save()
+
+    def delete_product(self, product):
+        try:
+            product.delete()
+            messages.success(self.request, "محصول با موفقیت حذف شد")
+        except Exception as e:
+            messages.error(self.request, f"نمی توان این محصول را حذف کرد: {e}")

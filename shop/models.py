@@ -31,7 +31,7 @@ class ProductCategory(models.Model):
     parent = models.ForeignKey(
         "self",
         on_delete=models.SET_NULL,
-        related_name="product_categories",
+        related_name="subs",
         verbose_name="parent",
         blank=True,
         null=True,
@@ -151,6 +151,12 @@ class Product(models.Model):
 
     def __str__(self):
         return self.title
+    
+    def end_inventory(self):
+        if self.stock == 0:
+            return True
+        else:
+            return False
 
 
 class ProductImage(models.Model):

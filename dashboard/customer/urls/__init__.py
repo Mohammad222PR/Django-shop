@@ -9,5 +9,4 @@ urlpatterns = [
     path("", include("dashboard.customer.urls.orders")),
     path("", include("dashboard.customer.urls.wishlist")),
     path("", include("dashboard.customer.urls.contacts")),
-
 ]

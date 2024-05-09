@@ -24,7 +24,9 @@ from dashboard.customer.mixins.contacts import ContaxtMixin
 from django.views import View
 
 
-class CustomerContactsListView(LoginRequiredMixin, HasCustomerAccessPermission, ListView):
+class CustomerContactsListView(
+    LoginRequiredMixin, HasCustomerAccessPermission, ListView
+):
     template_name = "dashboard/customer/contacts/contacts-list.html"
     paginate_by = 7
     context_object_name = "contacts"
@@ -55,16 +57,22 @@ class CustomerContactsListView(LoginRequiredMixin, HasCustomerAccessPermission, 
         return context
 
 
-class CustomerContactsDetailView(LoginRequiredMixin, HasCustomerAccessPermission, DetailView):
+class CustomerContactsDetailView(
+    LoginRequiredMixin, HasCustomerAccessPermission, DetailView
+):
     template_name = "dashboard/customer/contacts/contacts-detail.html"
 
     def get_queryset(self):
         return ContactUs.objects.filter(user=self.request.user).distinct()
 
-
     def get_object(self):
-        contacts_obj = ContactUs.objects.get(id=self.kwargs.get("pk", None), user=self.request.user)
-        if contacts_obj.status == Status.pending.value and self.request.user.type in [UserType.admin.value, UserType.superuser.value]:
+        contacts_obj = ContactUs.objects.get(
+            id=self.kwargs.get("pk", None), user=self.request.user
+        )
+        if contacts_obj.status == Status.pending.value and self.request.user.type in [
+            UserType.admin.value,
+            UserType.superuser.value,
+        ]:
             contacts_obj.status = Status.seen.value
             contacts_obj.save()
         else:
@@ -75,7 +83,8 @@ class CustomerContactsDetailView(LoginRequiredMixin, HasCustomerAccessPermission
         context = super().get_context_data(**kwargs)
         context["contact_form"] = AnswerContactForm()
         return context
-    
+
+
 class CustomerAnswerContactView(
     LoginRequiredMixin, ContaxtMixin, HasCustomerAccessPermission, CreateView
 ):
@@ -85,7 +94,9 @@ class CustomerAnswerContactView(
         return AnswerContacts.objects.all()
 
     def form_valid(self, form):
-        contacts_obj = ContactUs.objects.get(id=self.kwargs.get("pk", None), user=self.request.user)
+        contacts_obj = ContactUs.objects.get(
+            id=self.kwargs.get("pk", None), user=self.request.user
+        )
         if contacts_obj.status != Status.closed.value:
             form.instance.contact = contacts_obj
             form.instance.user = self.request.user
@@ -97,11 +108,19 @@ class CustomerAnswerContactView(
                 kwargs={"pk": contacts_obj.id},
             )
 
-        if contacts_obj.status != Status.answerd.value and self.request.user.type in [UserType.admin.value, UserType.superuser.value]:
+        if contacts_obj.status != Status.answerd.value and self.request.user.type in [
+            UserType.admin.value,
+            UserType.superuser.value,
+        ]:
             contacts_obj.status = Status.answerd.value
             contacts_obj.save()
         messages.success(self.request, "پاسخ شما با موفقیت ثبت شد")
-        return redirect(reverse_lazy("dashboard:customer:contact-detail", kwargs={"pk": self.kwargs.get("pk")}))
+        return redirect(
+            reverse_lazy(
+                "dashboard:customer:contact-detail",
+                kwargs={"pk": self.kwargs.get("pk")},
+            )
+        )
 
     def form_invalid(self, form):
         messages.error(self.request, "پاسخ ارسال نشد لطفا مجدد امتحان نمایید")
@@ -111,9 +130,14 @@ class CustomerAnswerContactView(
 class CustomerContactClosedView(LoginRequiredMixin, HasCustomerAccessPermission, View):
 
     def post(self, request, *args, **kwargs):
-        contacts_obj = ContactUs.objects.get(id=self.kwargs.get("pk", None), user=self.request.user)
+        contacts_obj = ContactUs.objects.get(
+            id=self.kwargs.get("pk", None), user=self.request.user
+        )
         if contacts_obj.status != Status.closed.value:
-            if contacts_obj.user == request.user or request.user.type in [UserType.Customer.value, UserType.superuser.value]:
+            if contacts_obj.user == request.user or request.user.type in [
+                UserType.Customer.value,
+                UserType.superuser.value,
+            ]:
                 contacts_obj.status = Status.closed.value
                 messages.success(request, "تیکت با موفقیت بسته شد")
                 contacts_obj.save()
@@ -124,13 +148,10 @@ class CustomerContactClosedView(LoginRequiredMixin, HasCustomerAccessPermission,
                 )
             else:
                 messages.error(request, "شما دسترسی برای بستن این تیکت ندارید")
-                return redirect(
-                    request.META.get("HTTP_REFERER")
-                )
+                return redirect(request.META.get("HTTP_REFERER"))
         else:
             messages.error(request, "این تیکت قبلا بسته شده است")
             return redirect(
                 "dashboard:customer:contact-detail",
                 kwargs={"pk": contacts_obj.id},
             )
-

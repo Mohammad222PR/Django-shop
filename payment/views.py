@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import View
-
+from django.contrib import messages
 from order.models import Order, OrderStatus
 from order.permissions import HasCustomerAccessPermission
 from payment.models import PaymentZarin, PaymentStatusType, PaymentZibal
@@ -49,15 +49,15 @@ class PaymentZarinVerifyView(HasCustomerAccessPermission, LoginRequiredMixin, Vi
         order.status = OrderStatus.success.value
 
         for item in order.order_items.all():
-            product = Product.objects.get(pk=item.product_id)
+            product = Product.objects.get(id=item.product.id)
             if product.stock >= item.quantity:
                 product.stock -= item.quantity
                 product.famous_percent += 1
                 product.save()
             else:
-                raise ValidationError(
-                    f"تعداد محصوص {order.order_items.product.title} میخواهید موجود نمی باشد به اندازه ای که شما "
-                )
+                messages.error(self.request,"تعداد محصوص  میخواهید موجود نمی باشد به اندازه ای که شما ")
+                return redirect(reverse_lazy("order:order-faild"))
+
         order.save()
 
     def handle_failed_payment(self, payment_obj, order, response):

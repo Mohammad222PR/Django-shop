@@ -17,12 +17,58 @@
     <!-- Card -->
     <div class="card">
         <!-- Header -->
-        <div class="card-header border-bottom">
-            <div class="d-flex justify-content-between align-items-center">
-                <h5 class="">لیست محصولات</h5>
-                <a class="btn btn-primary" href="{% url 'dashboard:admin:product-create' %}">ایجاد محصول</a>
+        <div class="col-md-12">
+            <div class="card-header border-bottom">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">لیست محصولات</h5>
+                    <div class="d-flex">
+                        <a class="btn btn-primary ms-3" href="{% url 'dashboard:admin:product-create' %}">ایجاد محصول</a>
+                        <!-- دکمه برای باز کردن مدال -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            اعمال تغییرات
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- مدال اعمال تغییرات -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">اعمال تغییرات</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- درون بلاک فرم -->
+                            <form id="change_form" method="post" action="{% url "dashboard:admin:prodcut-change" %}">
+                                {% csrf_token %}
+                                <!-- اطلاعات فرم -->
+                                <div class="mb-3">
+                                    <label for="change_type" class="form-label">نوع تغییر</label>
+                                    <select class="form-select" id="change_type" name="change_type">
+                                        <option name="change_type" value="increase">افزایش قیمت</option>
+                                        <option name="change_type" value="decrease">کاهش قیمت</option>
+                                        <option name="change_type" value="published">نشر کردن</option>
+                                        <option name="change_type" value="draft">ذخیره کردن</option>
+                                        <option name="change_type" value="delete">حذف </option>
+
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="percent" class="form-label">مقدار</label>
+                                    <input type="number" class="form-control" value="0" id="percent" placeholder="یک درصد وارد کنید مثلا 10%" name="percent">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+                            <button form="change_form" type="submit" class="btn btn-primary" id="applyChanges">اعمال</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+        
         <!-- End Header -->
 
         <!-- Body -->
@@ -95,7 +141,11 @@
                                 <th scope="col">تخفیف</th>
                                 <th scope="col">قیمت پایانی</th>
                                 <th scope="col">عملیات</th>
-                                <th scope="col">انتخاب</th>
+                                <th scope="col">انتخاب
+                                    <input type="checkbox" name="change_form" class="form-check-input productCheckbox" id="selectAllBtn">
+
+                                </th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -130,7 +180,7 @@
                                     {% endif %}
                                 </td>
                                 <td>
-                                    <input type="checkbox" class="form-check-input productCheckbox" id="product{{ product.id }}" value="{{ product.id }}">
+                                    <input form="change_form" type="checkbox" class="form-check-input productCheckbox" name="selected_products" id="product{{ product.id }}" value="{{ product.id }}">
                                 </td>
                             </tr>
                             {% empty %}
@@ -150,55 +200,9 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                
-                <div class="col-md-12">
-                    <button type="button" class="btn btn-primary" id="selectAllBtn">انتخاب همه محصولات</button>
-                    <br><br>
-                    <div class="container pb-5">
-                        <!-- مدال اعمال تغییرات -->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">اعمال تغییرات</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form id="changeForm" method="post" action="{% url "dashboard:admin:prodcut-change" %}">
-                                            <div class="mb-3">
-                                                <label for="changeType" class="form-label">نوع تغییر</label>
-                                                <select class="form-select" id="changeType">
-                                                    <option value="increase">افزایش قیمت</option>
-                                                    <option value="decrease">کاهش قیمت</option>
-                                                </select>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="percent" class="form-label">مقدار</label>
-                                                <input type="number" class="form-control" id="percent">
-                                            </div>
-                                   
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
-                                        <button type="submit" class="btn btn-primary" id="applyChanges">اعمال</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- دکمه برای باز کردن مدال -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            اعمال تغییرات
-                        </button>
-                    </div>
-                    
-                </div>
-                
-            </div>
-            
-                <!-- Pagination -->
+    </div> 
+  
+       <!-- Pagination -->
 
                 <div class="row pt-5 mt-3">
                     {% if page_obj.has_other_pages %}
@@ -253,7 +257,6 @@
             </div>
             <!-- End Row -->
 
-        </div>
         <!-- End Body -->
     </div>
     <!-- End Card -->
@@ -288,60 +291,40 @@
             window.location.href = new_url
         });
 
- // وقتی که دکمه اعمال تغییرات کلیک می‌شود
- $("#applyChanges").click(function() {
-    applyChanges();
-});
 
-// وقتی که فرم در مدال ارسال می‌شود
-$("#changeForm").submit(function(event) {
-    // اینجا کد برای اعمال تغییرات به ابجکت‌های انتخاب شده باید قرار بگیرد
-    // می‌توانید با استفاده از jQuery یا JavaScript محض تغییرات را انجام دهید
-    alert("تغییرات با موفقیت اعمال شدند!");
-});
 
+
+          
 // وقتی که دکمه انتخاب همه محصولات کلیک می‌شود
 $("#selectAllBtn").click(function() {
-    $(".productCheckbox").prop('checked', true);
+    // اگر دکمه "انتخاب همه محصولات" فعال باشد
+    if ($(this).hasClass("active")) {
+        // غیرفعال کردن دکمه
+        $(this).removeClass("active");
+        // عدم انتخاب همه چک‌باکس‌ها
+        $(".productCheckbox").prop('checked', false);
+    } else {
+        // فعال کردن دکمه
+        $(this).addClass("active");
+        // انتخاب همه چک‌باکس‌ها
+        $(".productCheckbox").prop('checked', true);
+    }
 });
 
-// تابع برای اعمال تغییرات
-function applyChanges() {
-    var selectedProducts = [];
-
-    // محصولاتی که انتخاب شده‌اند را در آرایه‌ای ذخیره می‌کنیم
-    $(".productCheckbox:checked").each(function() {
-        selectedProducts.push($(this).val());
+document.addEventListener('DOMContentLoaded', (event) => {
+    const changeTypeSelect = document.getElementById('change_type');
+    const percentDiv = document.getElementById('percent').parentNode;
+  
+    changeTypeSelect.addEventListener('change', (event) => {
+      if(event.target.value === 'published' || event.target.value === 'draft' || event.target.value === 'delete')  {
+        percentDiv.style.display = 'none';
+      } else {
+        percentDiv.style.display = 'block';
+      }
     });
+  });
 
-    // اینجا کد برای اعمال تغییرات به محصولات انتخاب شده باید قرار بگیرد
-    // می‌توانید با استفاده از jQuery یا JavaScript محض تغییرات را انجام دهید
 
-    // نمونه: در اینجا یک الرت نمایش داده می‌شود
-    alert("تغییرات با موفقیت اعمال شدند!");
-}
- // وقتی که فرم در مدال ارسال می‌شود
- $("#changeForm").submit(function(event) {
-    event.preventDefault(); // جلوگیری از ارسال فرم به صفحه دیگر
-
-    // اطلاعات فرم را بگیرید
-    var formData = $(this).serialize();
-
-    // ارسال ریکوست پست به سرور
-    $.ajax({
-        type: "POST",
-        url: $(this).attr('action'), // آدرس اکشن فرم
-        data: formData,
-        success: function(response) {
-            // در صورت موفقیت، اقدامات لازم را انجام دهید
-            alert("تغییرات با موفقیت اعمال شدند!");
-        },
-        error: function(xhr, status, error) {
-            // در صورت بروز خطا، اقدامات لازم را انجام دهید
-            console.error(error);
-            alert("خطا در ارسال اطلاعات به سرور!");
-        }
-    });
-});
     </script>
+
 {% endblock %}

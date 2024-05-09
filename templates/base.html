@@ -79,8 +79,9 @@
                             <a class="nav-link {% if view_name  == 'website:contact' %} active {% endif %}"
                                href="{% url 'website:contact' %}?next={{ request.path|urlencode }}">ارتباط با ما</a>
                         </li>
+                         
 
-
+            {% include "inc/mega_menu.html" %}
                         <li class="nav-item">
                         <!-- Search -->
                         <button class="btn btn-ghost-secondary btn-icon" type="button" data-bs-toggle="offcanvas"

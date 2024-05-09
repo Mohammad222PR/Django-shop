@@ -30,6 +30,6 @@ urlpatterns = [
     path(
         "product/change/",
         views.AdminChangeProductDataView.as_view(),
-        name="prodcut-change"
-    )
+        name="prodcut-change",
+    ),
 ]
