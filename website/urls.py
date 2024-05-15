@@ -9,5 +9,4 @@ urlpatterns = [
     path("about/", views.AboutView.as_view(), name="about"),
     path("newletters/", views.NewsletterView.as_view(), name="newsletter"),
     path("mega_menu/", views.MegaMenuView.as_view(), name="mega_menu"),
-
 ]

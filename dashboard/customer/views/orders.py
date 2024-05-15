@@ -12,6 +12,8 @@ from dashboard.mixins import HasCustomerAccessPermission
 from order.models import Order, OrderStatus
 from django.shortcuts import redirect
 from django.contrib import messages
+
+
 class CustomerOrderListView(HasCustomerAccessPermission, LoginRequiredMixin, ListView):
     template_name = "dashboard/customer/orders/order-list.html"
     paginate_by = 5
@@ -65,13 +67,13 @@ class CustomerOrderReOrderView(HasCustomerAccessPermission, LoginRequiredMixin, 
         order_obj = Order.objects.get(id=pk)
         if not order_obj:
             messages.error(request, "این سفارش وجود ندارد")
-            return redirect(request.META.get('HTTP_REFERER'))
+            return redirect(request.META.get("HTTP_REFERER"))
         for item in order_obj.order_items.all():
             if item.product.stock < item.quantity:
                 messages.error(request, "تعدداد انتخوابی از موجودی انبار بیشتر است")
-                return redirect(self.request.META.get('HTTP_REFERER'))    
+                return redirect(self.request.META.get("HTTP_REFERER"))
         order = self.create_order(order_obj)
-        self.create_order_items(order,order_obj)
+        self.create_order_items(order, order_obj)
         order.total_price = order_obj.total_price
         order.save()
         if order_obj.payment_zarin:
@@ -80,7 +82,6 @@ class CustomerOrderReOrderView(HasCustomerAccessPermission, LoginRequiredMixin, 
             return redirect(self.create_payment_zibal_url(order))
         if order_obj.payment_novin:
             return redirect(self.create_payment_novin_url(order))
-            
 
     def create_payment_zibal_url(self, order):
         zibal = Zibal()
@@ -113,7 +114,9 @@ class CustomerOrderReOrderView(HasCustomerAccessPermission, LoginRequiredMixin, 
         return zarinpal.generate_payment_url(response.get("Authority"))
 
     def create_order(self, order_obj):
-        return Order.objects.create(user=self.request.user, shipping_address=order_obj.shipping_address)
+        return Order.objects.create(
+            user=self.request.user, shipping_address=order_obj.shipping_address
+        )
 
     def create_order_items(self, order, order_obj):
         for item in order_obj.order_items.all():
@@ -123,6 +126,3 @@ class CustomerOrderReOrderView(HasCustomerAccessPermission, LoginRequiredMixin, 
                 quantity=item.quantity,
                 price=item.product.get_price(),
             )
-
-    
-    

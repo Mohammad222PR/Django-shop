@@ -20,34 +20,40 @@
             <h5 class="card-header-title">خلاصه داشبورد</h5>
         </div>
         <!-- End Header -->
-
+        <a href=""></a>
         <!-- Body -->
+        
         <div class="card-body">
+
             <div class="row">
+           
                 <div class="col-md-4 mb-4">
                     <div class="glass-box p-4 text-center">
+                        <h3 class="mb-0"><a href="{% url "dashboard:admin:product-list" %}">محصولات موجود</a></h3>
                         <svg class="mb-3" xmlns="http://www.w3.org/2000/svg" style="color: aqua;" width="50" height="50" viewBox="0 0 24 24">
                             <!-- Your SVG content here -->
                         </svg>
-                        <h3 class="mb-0">1</h3>
+                        <h3 class="mb-0">{{total_products}}</h3>
                     </div>
                 </div>
             
                 <div class="col-md-4 mb-4">
                     <div class="glass-box p-4 text-center">
+                        <h3 class="mb-0"><a href="{% url "dashboard:admin:users-list" %}">کاربران فعال</a></h3>
                         <svg class="mb-3" xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24">
                             <!-- Your SVG content here -->
                         </svg>
-                        <h3 class="mb-0">2</h3>
+                        <h3 class="mb-0">{{total_users}}</h3>
                     </div>
                 </div>
             
                 <div class="col-md-4 mb-4">
                     <div class="glass-box p-4 text-center">
+                        <h3 class="mb-0"><a href="{% url "dashboard:admin:order-list" %}">سفارشات ثبت شده</a></h3>
                         <svg class="mb-3" xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24">
                             <!-- Your SVG content here -->
                         </svg>
-                        <h3 class="mb-0">3</h3>
+                        <h3 class="mb-0">{{total_orders}}</h3>
                     </div>
                 </div>
             </div>

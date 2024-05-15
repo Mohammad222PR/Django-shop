@@ -27,42 +27,29 @@ class CartSession:
                         self.request,
                         "شما نمیتونید از یک محصول بیش از 10 تا داشته باشید",
                     )
-                # product.stock -= int(quantity)
-                # product.save()
+
                 break
         else:
             self._cart["items"].append(
                 {"product_id": product_id, "quantity": int(quantity)}
             )
-            # product.stock -= int(quantity)
-            # product.save()
 
         self.save()
 
     def remove_product(self, product_id):
-        # product = Product.objects.get(id=product_id)
 
         for item in self._cart["items"]:
             if product_id == item["product_id"]:
                 self._cart["items"].remove(item)
-                # product.stock += int(item["quantity"])
-                # product.save()
                 break
         else:
             pass
         self.save()
 
     def update_product_quantity(self, product_id, quantity):
-        # product = Product.objects.get(id=product_id)
 
         for item in self._cart["items"]:
             if product_id == item["product_id"]:
-                # if int(quantity) > item['quantity']:
-                #     product.stock -= int(quantity)
-                #     product.save()
-                # else:
-                #     product.stock += int(quantity)
-                #     product.save()
                 if not item["quantity"] >= 10 or not item[
                     "quantity"
                 ] > self._get_product_by_id(item["product_id"]):

@@ -95,7 +95,18 @@
                                 <i class="bi-newspaper nav-icon"></i> خبرنامه
                             </a>
                         </li>
+                        
 
+
+                    </ul>
+                    <span class="text-cap">نمودارها</span>
+                    <ul class="nav nav-sm nav-tabs nav-vertical mb-4">
+
+                        <li class="nav-item">
+                            <a class="nav-link {% if view_name == 'dashboard:admin:charts' %}active{% endif %}" href="{% url "dashboard:admin:charts" %}">
+                                <i class="bi-bar-chart nav-icon"></i> نمودار ها
+                            </a>
+                        </li>
                     </ul>
 
                     <!-- End List -->

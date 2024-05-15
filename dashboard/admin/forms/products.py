@@ -53,8 +53,8 @@ class ChangeProductDataForm(forms.Form):
         ("increase", "افزایش قیمت"),
         ("decrease", "کاهش قیمت"),
         ("published", "انتشار"),
-        ("draft","ذخیره"),
-        ("delete","حذف")
+        ("draft", "ذخیره"),
+        ("delete", "حذف"),
     ]
 
     change_type = forms.ChoiceField(choices=CHANGE_CHOICES, label="نوع تغییر")

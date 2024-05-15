@@ -17,5 +17,5 @@ urlpatterns = [
         "orders/re_order/<int:pk>/",
         views.CustomerOrderReOrderView.as_view(),
         name="re-order",
-    )
+    ),
 ]

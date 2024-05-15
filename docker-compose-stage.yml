@@ -1,0 +1,53 @@
+version: "3.9"
+
+
+services:
+  db:
+    container_name: db
+    image: postgres:15-alpine
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    expose:
+      - 5432
+    restart: always
+
+  backend:
+    container_name: backend-django
+    build:
+      context: .
+      dockerfile: ./dockerfiles/dev/django/Dockerfile
+    volumes:
+      - .:/usr/src/app
+      - static_volume:/usr/src/app/static
+      - media_volume:/usr/src/app/media
+    working_dir: /usr/src/app
+    command: gunicorn core.wsgi --bind 0.0.0.0:8000
+    expose:
+      - "8000"
+    env_file:
+      - ./envs/dev/django/.env
+    restart: always
+    depends_on:
+      - db
+
+  nginx:
+    image: nginx
+    container_name: nginx6
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - static_volume:/usr/src/app/static
+      - media_volume:/usr/src/app/media
+
+
+volumes:
+  static_volume:
+  media_volume:

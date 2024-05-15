@@ -55,7 +55,10 @@ class PaymentZarinVerifyView(HasCustomerAccessPermission, LoginRequiredMixin, Vi
                 product.famous_percent += 1
                 product.save()
             else:
-                messages.error(self.request,"تعداد محصوص  میخواهید موجود نمی باشد به اندازه ای که شما ")
+                messages.error(
+                    self.request,
+                    "تعداد محصوص  میخواهید موجود نمی باشد به اندازه ای که شما ",
+                )
                 return redirect(reverse_lazy("order:order-faild"))
 
         order.save()

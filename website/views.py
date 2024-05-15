@@ -18,9 +18,11 @@ class IndexView(TemplateView):
     template_name = "website/index.html"
 
     def get_context_data(self, **kwargs):
-            context = super().get_context_data(**kwargs)
-            context['categories'] = ProductCategory.objects.all()
-            return context
+        context = super().get_context_data(**kwargs)
+        context["categories"] = ProductCategory.objects.all()
+        return context
+
+
 class AboutView(TemplateView):
     template_name = "website/about.html"
 
@@ -88,5 +90,5 @@ class MegaMenuView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['categories'] = ProductCategory.objects.all()
+        context["categories"] = ProductCategory.objects.all()
         return context

@@ -151,7 +151,7 @@ class Product(models.Model):
 
     def __str__(self):
         return self.title
-    
+
     def end_inventory(self):
         if self.stock == 0:
             return True

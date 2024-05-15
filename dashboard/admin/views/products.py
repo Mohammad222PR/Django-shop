@@ -16,6 +16,7 @@ from django.shortcuts import get_object_or_404, redirect, reverse
 from django.contrib import messages
 from django.db.models import F
 from decimal import Decimal
+
 status = ProductStatus
 
 
@@ -154,12 +155,10 @@ class AdminProductImageDeleteView(
         return self.get_queryset().get(pk=self.kwargs.get("image_id"))
 
 
-
-
 class AdminChangeProductDataView(LoginRequiredMixin, HasAdminAccessPermission, View):
     def post(self, request):
         form = ChangeProductDataForm(request.POST)
-        
+
         if not form.is_valid():
             messages.error(request, "فرم معتبر نمی باشد")
             return redirect(reverse("dashboard:admin:product-list"))
@@ -184,11 +183,11 @@ class AdminChangeProductDataView(LoginRequiredMixin, HasAdminAccessPermission, V
         return redirect(reverse("dashboard:admin:product-list"))
 
     def increase_price(self, product, percent):
-        product.price = F('price') + (F('price') * Decimal(percent) / 100)
+        product.price = F("price") + (F("price") * Decimal(percent) / 100)
         product.save()
 
     def decrease_price(self, product, percent):
-        product.price = F('price') - (F('price') * Decimal(percent) / 100)
+        product.price = F("price") - (F("price") * Decimal(percent) / 100)
         product.save()
 
     def change_status(self, product, status):
