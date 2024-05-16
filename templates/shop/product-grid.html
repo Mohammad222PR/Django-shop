@@ -181,7 +181,15 @@
                             <div class="card card-bordered shadow-none text-center h-100">
                                 <div class="card-pinned">
                                     <img class="card-img-top" src="{{ product.image.url }}" alt="Image Description">
-
+                                    {% if product.is_new %}
+                                    <div class="card-pinned-top-start">
+                                        <span class="badge bg-success rounded-pill">جدید</span>
+                                      </div>
+                                    {% elif product.end_inventory %}
+                                    <div class="card-pinned-top-start">
+                                        <span class="badge bg-danger rounded-pill">اتمام موجودی</span>
+                                      </div>
+                                    {% endif %}
                                     <div class="card-pinned-top-end">
                                         {% if request.user.is_authenticated %}
                                             <button type="button"

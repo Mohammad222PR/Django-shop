@@ -36,7 +36,17 @@
                                 <!-- End Slide -->
                             {% endfor %}
 
-
+                            {% if product.is_new %}
+                                    <div class="card-pinned-top-start">
+                                        <span class="badge bg-success rounded-pill">جدید</span>
+                                      </div>
+                                    {% elif product.end_inventory %}
+                                    <div class="card-pinned-top-start">
+                                        <span class="badge bg-danger rounded-pill">اتمام موجودی</span>
+                                      </div>
+                                      {% else %}
+                                      
+                                    {% endif %}
                         </div>
 
                         <!-- Arrows -->
@@ -55,7 +65,9 @@
                                         <img class="avatar-img" src="{{ product.image.url }}"
                                              alt="Image Description">
                                     </a>
+                                    
                                 </div>
+                                
                                 <!-- End Slide -->
 
                                 {% for product in product.product_image.all %}

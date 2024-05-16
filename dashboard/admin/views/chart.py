@@ -10,6 +10,8 @@ from accounts.models import User
 from dashboard.mixins.admin import HasAdminAccessPermission
 from order.models import Order
 
+
+
 class AdminChartOrderView(LoginRequiredMixin,HasAdminAccessPermission,TemplateView):
     template_name = "dashboard/admin/chart/chart_order.html"
 

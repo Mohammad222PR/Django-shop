@@ -10,8 +10,9 @@ from django.utils.html import format_html
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from django_ckeditor_5.fields import CKEditor5Field
-
+from datetime import datetime, timedelta
 from accounts.models import User
+from django.utils import timezone
 
 
 # Create your models here.
@@ -107,7 +108,7 @@ class Product(models.Model):
         default="images/products/default_img/product-default.png",
     )
     created_date = models.DateTimeField(
-        auto_now_add=True, verbose_name=_("created time")
+         verbose_name=_("created time")
     )
     updated_date = models.DateTimeField(auto_now=True, verbose_name=_("updated time"))
 
@@ -157,6 +158,16 @@ class Product(models.Model):
             return True
         else:
             return False
+        
+
+    def is_new(self):
+        seven_days = self.created_date + timedelta(days=7)
+        if timezone.now() < seven_days:
+            return True
+        else:
+            return False
+
+
 
 
 class ProductImage(models.Model):
