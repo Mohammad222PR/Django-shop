@@ -8,9 +8,11 @@ from dashboard.mixins.admin import HasAdminAccessPermission
 from ..forms.reviews import ReviewForm
 from dashboard.admin.mixins.reviews import ReviewUpdateFormMixin
 from accounts.models import User, UserType
-from ..forms.users import UserForm
+from ..forms.users import UserForm, ChangeUserDataForm
 from django.db.models import F, Q
-
+from django.views import View
+from django.contrib import messages
+from django.shortcuts import get_object_or_404, redirect
 
 class AdminUsersListView(HasAdminAccessPermission, LoginRequiredMixin, ListView):
     template_name = "dashboard/admin/users/users-list.html"
@@ -77,3 +79,41 @@ class AdminUsersUpdateView(
         return reverse_lazy(
             "dashboard:admin:users-update", kwargs={"pk": self.kwargs.get("pk")}
         )
+
+
+
+
+class AdminChangeUserDataVeiw(LoginRequiredMixin,  HasAdminAccessPermission, View):
+
+    def post(self, request):
+        form = ChangeUserDataForm(request.POST)
+
+        if not form.is_valid():
+            messages.error(request, "فرم معتبر نمی باشد")
+            return redirect("dashboard:admin:users-list")
+
+        change_type = request.POST.get("change_type")
+        selected_user = request.POST.getlist("selected_user")
+
+        for user_id in selected_user:
+            user = get_object_or_404(User, id=user_id)
+
+            if change_type == 'disable':
+                self.change_to_disable(user)
+
+            if change_type == 'enable':
+                self.change_to_enable(user)
+
+        messages.success(request, "باموفقیت بروز شد")
+        return redirect("dashboard:admin:users-list")
+    
+
+    def change_to_disable(self, user):
+        if user.is_active == True:
+            user.is_active = False
+            user.save()
+
+    def change_to_enable(self, user):
+        if user.is_active == False:
+            user.is_active = True
+            user.save()

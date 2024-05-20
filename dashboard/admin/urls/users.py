@@ -14,4 +14,9 @@ urlpatterns = [
         views.AdminUsersDeleteView.as_view(),
         name="users-delete",
     ),
+    path(
+        "user/change/",
+        views.AdminChangeUserDataVeiw.as_view(),
+        name="user-change",
+    ),
 ]

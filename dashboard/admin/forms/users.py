@@ -23,3 +23,12 @@ class UserForm(forms.ModelForm):
 
         self.fields["is_active"].widget.attrs["class"] = "form-check-input mb-3"
         self.fields["is_verified"].widget.attrs["class"] = "form-check-input mb-3"
+
+
+class ChangeUserDataForm(forms.Form):
+
+    selected_user = forms.ModelMultipleChoiceField(
+        queryset=User.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        label="کاربرای انتخاب شده",
+    )

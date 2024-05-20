@@ -24,7 +24,7 @@ class ZarinPalSandbox:
 
     def __init__(self, merchant_id=None):
         self.merchant_id = merchant_id or settings.MERCHANT_ID
-        self._callback_url = f"http://127.0.0.1:8000/payment/verify/zarin/"
+        self._callback_url = f"http://127.0.0.1/payment/verify/zarin/"
 
     def payment_request(self, amount, description="پرداختی کاربر"):
         payload = {

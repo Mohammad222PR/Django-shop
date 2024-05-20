@@ -17,6 +17,54 @@
 {% block content %}
 <!-- Card -->
 <div class="card">
+       <!-- Header -->
+       <div class="col-md-12">
+        <div class="card-header border-bottom">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">لیست کاربران</h5>
+                <div class="d-flex">
+                    <!-- دکمه برای باز کردن مدال -->
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        اعمال تغییرات
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- مدال اعمال تغییرات -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">اعمال تغییرات</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- درون بلاک فرم -->
+                        <form id="change_form" method="post" action="{% url "dashboard:admin:user-change" %}">
+                            {% csrf_token %}
+                            <!-- اطلاعات فرم -->
+                            <div class="mb-3">
+                                <label for="change_type" class="form-label">نوع تغییر</label>
+                                <select class="form-select" id="change_type" name="change_type">
+                                    <option name="change_type" value="enable">فعال کردن </option>
+                                    <option name="change_type" value="disable">غیر فعال کردن </option>
+
+
+                                </select>
+                            </div>
+                        
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+                        <button form="change_form" type="submit" class="btn btn-primary" id="applyChanges">اعمال</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- End Header -->
     <!-- Header -->
     <div class="card-header border-bottom">
         <form action="." class="row">
@@ -32,6 +80,7 @@
                     <option value="" selected>مرتب سازی</option>
                     <option value="-created_date">جدیدترین</option>
                     <option value="created_date">قدیمی ترین</option>
+                    
                 </select>
             </div>
 
@@ -52,6 +101,8 @@
                         class="bi-search"></i></button>
             </div>
         </form>
+
+        
     </div>
     <!-- End Header -->
 
@@ -81,6 +132,10 @@
                                     <th scope="col">تاریخ ثبت</th>
                                     <th scope="col">وضعیت</th>
                                     <th scope="col">عملیات</th>
+                                    <th scope="col">
+                                        <input type="checkbox" name="change_form" class="form-check-input productCheckbox" id="selectAllBtn">
+    
+                                    </th>
 
                                 </tr>
                             </thead>
@@ -103,7 +158,9 @@
                                             href="{% url 'dashboard:admin:users-update' pk=user.pk %}"><i class="bi-pencil-square"></i></a>
         
                                     </td>
-
+                                    <td>
+                                        <input form="change_form" type="checkbox" class="form-check-input productCheckbox" name="selected_user" id="user{{ user.id }}" value="{{ user.id }}">
+                                    </td>
                                 </tr>
                                 {% endfor %}
 
@@ -207,6 +264,35 @@
         let new_url = window.location.pathname + "?" + current_url_params.toString()
         window.location.href = new_url
     });
+              
+// وقتی که دکمه انتخاب همه محصولات کلیک می‌شود
+$("#selectAllBtn").click(function() {
+    // اگر دکمه "انتخاب همه محصولات" فعال باشد
+    if ($(this).hasClass("active")) {
+        // غیرفعال کردن دکمه
+        $(this).removeClass("active");
+        // عدم انتخاب همه چک‌باکس‌ها
+        $(".productCheckbox").prop('checked', false);
+    } else {
+        // فعال کردن دکمه
+        $(this).addClass("active");
+        // انتخاب همه چک‌باکس‌ها
+        $(".productCheckbox").prop('checked', true);
+    }
+});
 
+document.addEventListener('DOMContentLoaded', (event) => {
+    const changeTypeSelect = document.getElementById('change_type');
+    const percentDiv = document.getElementById('percent').parentNode;
+  
+    changeTypeSelect.addEventListener('change', (event) => {
+      if(event.target.value === 'published' || event.target.value === 'draft' || event.target.value === 'delete')  {
+        percentDiv.style.display = 'none';
+      } else {
+        percentDiv.style.display = 'block';
+      }
+    });
+  });
 </script>
 {% endblock %}
+

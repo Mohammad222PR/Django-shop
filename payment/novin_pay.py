@@ -9,7 +9,7 @@ class NovinoPay:
 
     def __init__(self, merchant_id="test"):
         self.merchant_id = merchant_id
-        self._callback_url = f"http://127.0.0.1:8000/payment/verify/novin/"
+        self._callback_url = f"http://127.0.0.1/payment/verify/novin/"
 
     def payment_request(self, amount, description="پرداختی کاربر"):
         body = {

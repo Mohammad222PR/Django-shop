@@ -30,9 +30,11 @@ class PaymentZarinVerifyView(HasCustomerAccessPermission, LoginRequiredMixin, Vi
         if response["Status"] in [100, 101]:
             self.handle_success_payment(payment_obj, order, response)
             return redirect(reverse_lazy("order:order-completed"))
+
         else:
             self.handle_failed_payment(payment_obj, order, response)
             return redirect(reverse_lazy("order:order-faild"))
+
 
     def get_payment_and_order(self, authority_id):
         payment_obj = get_object_or_404(PaymentZarin, authority_id=authority_id)
@@ -54,14 +56,19 @@ class PaymentZarinVerifyView(HasCustomerAccessPermission, LoginRequiredMixin, Vi
                 product.stock -= item.quantity
                 product.famous_percent += 1
                 product.save()
+                order.save()
+                messages.success(
+                            self.request,
+                            " سفارش شما با موفقیت ثبت شد",
+                        )
             else:
                 messages.error(
                     self.request,
-                    "تعداد محصوص  میخواهید موجود نمی باشد به اندازه ای که شما ",
+                    " تعداد محصوص  میخواهید موجود نمی باشد به اندازه ای که شما میخواهید ",
                 )
-                return redirect(reverse_lazy("order:order-faild"))
 
-        order.save()
+        
+
 
     def handle_failed_payment(self, payment_obj, order, response):
         payment_obj.ref_id = response["RefID"]
@@ -72,6 +79,12 @@ class PaymentZarinVerifyView(HasCustomerAccessPermission, LoginRequiredMixin, Vi
 
         order.status = OrderStatus.cancelled.value
         order.save()
+        messages.error(
+                    self.request,
+                    " مشکلی پیش امده است",
+                )
+        return redirect(reverse_lazy("order:order-faild"))
+
 
 
 class PaymentZibalVerifyView(HasCustomerAccessPermission, LoginRequiredMixin, View):
@@ -107,16 +120,21 @@ class PaymentZibalVerifyView(HasCustomerAccessPermission, LoginRequiredMixin, Vi
 
         order.status = OrderStatus.success.value
         for item in order.order_items.all():
-            product = Product.objects.get(pk=item.product_id)
+            product = Product.objects.get(id=item.product.id)
             if product.stock >= item.quantity:
                 product.stock -= item.quantity
                 product.famous_percent += 1
                 product.save()
+                order.save()
+                messages.success(
+                            self.request,
+                            " سفارش شما با موفقیت ثبت شد",
+                        )
             else:
-                raise ValidationError(
-                    f"تعداد محصوص {order.order_items.product.title} میخواهید موجود نمی باشد به اندازه ای که شما "
+                messages.error(
+                    self.request,
+                    " تعداد محصوص  میخواهید موجود نمی باشد به اندازه ای که شما میخواهید ",
                 )
-        order.save()
 
     def handle_failed_payment(self, payment_obj, order, response):
         payment_obj.ref_id = response["refNumber"]
@@ -127,6 +145,11 @@ class PaymentZibalVerifyView(HasCustomerAccessPermission, LoginRequiredMixin, Vi
 
         order.status = OrderStatus.cancelled.value
         order.save()
+        messages.error(
+                    self.request,
+                    " مشکلی پیش امده است",
+                )
+        return redirect(reverse_lazy("order:order-faild"))
 
 
 class PaymentNovinVerifyView(HasCustomerAccessPermission, LoginRequiredMixin, View):

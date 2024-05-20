@@ -10,7 +10,7 @@ class Zibal:
 
     def __init__(self, merchant_id="zibal"):
         self.merchant_id = merchant_id
-        self._callback_url = f"http://127.0.0.1:8000/payment/verify/zibal/"
+        self._callback_url = f"http://127.0.0.1/payment/verify/zibal/"
 
     def payment_request(self, amount, description="پرداختی کاربر"):
         payload = {

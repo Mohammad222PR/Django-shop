@@ -108,7 +108,7 @@ class Product(models.Model):
         default="images/products/default_img/product-default.png",
     )
     created_date = models.DateTimeField(
-         verbose_name=_("created time")
+        auto_now_add=True ,verbose_name=_("created time")
     )
     updated_date = models.DateTimeField(auto_now=True, verbose_name=_("updated time"))
 
@@ -133,8 +133,9 @@ class Product(models.Model):
         if self.discount_percent > 0:
             discount_amount = self.price * Decimal(self.discount_percent / 100)
             discounted_amount = self.price - discount_amount
-            return round(discounted_amount)
-
+            return round(discounted_amount, 2)
+        else:
+            return round(self.price, 2)
     def image_tag(self):
         return format_html(
             "<img src='{}' width=100 height=100 style='border-radius: 10px;'>".format(
