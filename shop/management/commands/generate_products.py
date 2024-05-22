@@ -15,7 +15,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         fake = Faker(locale="fa_IR")
-        user = User.objects.get(type=UserType.superuser.value)
+        user = User.objects.get(email="admin@admin.com", type=UserType.superuser.value)
         # List of images
         image_list = [
             "./images/img1.jpg",
@@ -31,7 +31,7 @@ class Command(BaseCommand):
 
         categories = ProductCategory.objects.all()
 
-        for _ in range(30):  # Generate 10 fake products
+        for _ in range(30):  # Generate 30 fake products
             user = user
 
             selected_categories = random.choice(categories)

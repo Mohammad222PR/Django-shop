@@ -35,13 +35,15 @@
         margin-bottom: 20px;
     }
 </style>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <div class="card">
     <h5 class="chart-header">فروش سالانه</h5>
     <div class="chart-container">
         <canvas id="myChart"></canvas>
     </div>
+    
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
 <script>
     const ctx = document.getElementById('myChart').getContext('2d');
     const myChart = new Chart(ctx, {
@@ -85,11 +87,14 @@
     });
     
 </script>
+   
+
 <hr>
     <h5 class="chart-header">پیشرفت فروش</h5>
     <div class="chart-container">
         <canvas id="myProgressChart"></canvas>
     </div>
+    
 <script>
 
     const ctxProgress = document.getElementById('myProgressChart').getContext('2d');
@@ -147,62 +152,66 @@
     });
     
 </script>
+
+
 <hr>
     <h5 class="chart-header"> محبوب ترین محصولات</h5>
     <div class="chart-container">
         <canvas id="myDoughnutChart"></canvas>
     </div>
-<script>
+   
+   <script>
 
-  const labels = [];
-        const dataPoints = [];
-        const backgroundColors = [
-            'rgba(255, 99, 132, 0.7)',
-            'rgba(54, 162, 235, 0.7)',
-            'rgba(255, 206, 86, 0.7)',
-            'rgba(75, 192, 192, 0.7)',
-            'rgba(153, 102, 255, 0.7)'
-        ];
-        
-        {% for item in famous_products.all %}
-            labels.push('{{ item.title }}');
-            dataPoints.push({{ item.famous_percent }});
-        {% endfor %}
-        
-        const data = {
-            labels: labels,
-            datasets: [{
-                label: 'محبوبیت محصول',
-                data: dataPoints,
-                backgroundColor: backgroundColors,
-                hoverOffset: 4
-            }]
-        };
-        
-        const config = {
-            type: 'doughnut',
-            data: data,
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    title: {
-                        display: true,
-                        text: 'محبوبیت محصولات'
-                    }
-                }
-            },
-        };
-        
-        const myDoughnutChart = new Chart(
-            document.getElementById('myDoughnutChart'),
-            config
-        );
-        
-</script>
-<hr>
+    const labels = [];
+          const dataPoints = [];
+          const backgroundColors = [
+              'rgba(255, 99, 132, 0.7)',
+              'rgba(54, 162, 235, 0.7)',
+              'rgba(255, 206, 86, 0.7)',
+              'rgba(75, 192, 192, 0.7)',
+              'rgba(153, 102, 255, 0.7)'
+          ];
+          
+          {% for item in famous_products.all %}
+              labels.push('{{ item.title }}');
+              dataPoints.push({{ item.famous_percent }});
+          {% endfor %}
+          
+          const data = {
+              labels: labels,
+              datasets: [{
+                  label: 'محبوبیت محصول',
+                  data: dataPoints,
+                  backgroundColor: backgroundColors,
+                  hoverOffset: 4
+              }]
+          };
+          
+          const config = {
+              type: 'doughnut',
+              data: data,
+              options: {
+                  responsive: true,
+                  plugins: {
+                      legend: {
+                          position: 'top',
+                      },
+                      title: {
+                          display: true,
+                          text: 'محبوبیت محصولات'
+                      }
+                  }
+              },
+          };
+          
+          const myDoughnutChart = new Chart(
+              document.getElementById('myDoughnutChart'),
+              config
+          );
+          
+  </script>
+  <hr>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <div class="card">

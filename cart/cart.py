@@ -21,7 +21,7 @@ class CartSession:
                         self.request,
                         "شما نمیتونید از یک محصول بیش از 10 تا داشته باشید",
                     )
-                elif item["quantity"] >= self._get_product_by_id(item["product_id"]).stock:
+                if item["quantity"] >= self._get_product_by_id(item["product_id"]).stock or self._get_product_by_id(item["product_id"]).stock == 0:
                     return messages.error(
                         self.request,
                         "این محصول موجود نمی باشد",

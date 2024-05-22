@@ -131,8 +131,7 @@ class Order(models.Model):
         ordering = ("created_date", "updated_date")
         db_table = "order"
 
-    def __str__(self):
-        return self.user.user_profile.full_name()
+
 
     def calculate_total_price(self):
         return sum(item.price * item.quantity for item in self.order_items.all())

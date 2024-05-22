@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.core.validators import RegexValidator, FileExtensionValidator
-
+from PIL import Image
 from accounts.validators import validate_iranian_cellphone_number
 
 
@@ -111,6 +111,8 @@ class Profile(models.Model):
         verbose_name=_("avatar image"),
     )
 
+
+    
     def image_tag(self):
         return format_html(
             "<img src='{}' width=100 height=100 style='border-radius: 10px;'>".format(

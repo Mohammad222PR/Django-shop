@@ -180,7 +180,7 @@
                             <!-- Card -->
                             <div class="card card-bordered shadow-none text-center h-100">
                                 <div class="card-pinned">
-                                    <img class="card-img-top" src="{{ product.image.url }}" alt="Image Description">
+                                    <img loading="lazy" class="card-img-top" src="{{ product.image.url }}" alt="Image Description">
                                     {% if product.is_new %}
                                     <div class="card-pinned-top-start">
                                         <span class="badge bg-success rounded-pill">جدید</span>
@@ -244,11 +244,19 @@
                                     </a>
                                     <!-- End Rating -->
 
-                                    <button type="button"
-                                            class="btn btn-outline-primary btn-sm btn-transition rounded-pill"
-                                            onclick="addToCart('{{ product.id }}')">افزودن به سبد
-                                        خرید
-                                    </button>
+                                    {% if not product.end_inventory %}
+                   <div class="d-grid mb-4">
+                    <button type="button" class="btn btn-primary btntransition"
+                            onclick="addToCart('{{ latest_product.id }}')">افزودن به سبد خرید
+                    </button>
+                </div>
+                {%else%}
+                <div class="d-grid mb-4">
+                    <button type="button" class="btn btn-primary btntransition"
+                            disabled>اتمام موجودی
+                    </button>
+                </div>
+                {%endif%}
                                 </div>
                             </div>
                             <!-- End Card -->
@@ -357,33 +365,33 @@
     <div class="container content-space-2">
         <div class="row">
             <div class="col text-center py-3">
-                <img class="avatar avatar-lg avatar-4x3" src="{% static '/svg/brands/hollister-dark.svg' %}" alt="Logo">
+                <img loading="lazy" class="avatar avatar-lg avatar-4x3" src="{% static '/svg/brands/hollister-dark.svg' %}" alt="Logo">
             </div>
             <!-- End Col -->
 
             <div class="col text-center py-3">
-                <img class="avatar avatar-lg avatar-4x3" src="{% static '/svg/brands/levis-dark.svg' %}" alt="Logo">
+                <img loading="lazy" class="avatar avatar-lg avatar-4x3" src="{% static '/svg/brands/levis-dark.svg' %}" alt="Logo">
             </div>
             <!-- End Col -->
 
             <div class="col text-center py-3">
-                <img class="avatar avatar-lg avatar-4x3" src="{% static '/svg/brands/new-balance-dark.svg' %}"
+                <img loading="lazy" class="avatar avatar-lg avatar-4x3" src="{% static '/svg/brands/new-balance-dark.svg' %}"
                      alt="Logo">
             </div>
             <!-- End Col -->
 
             <div class="col text-center py-3">
-                <img class="avatar avatar-lg avatar-4x3" src="{% static '/svg/brands/puma-dark.svg' %}" alt="Logo">
+                <img loading="lazy" class="avatar avatar-lg avatar-4x3" src="{% static '/svg/brands/puma-dark.svg' %}" alt="Logo">
             </div>
             <!-- End Col -->
 
             <div class="col text-center py-3">
-                <img class="avatar avatar-lg avatar-4x3" src="{% static '/svg/brands/nike-dark.svg' %}" alt="Logo">
+                <img loading="lazy" class="avatar avatar-lg avatar-4x3" src="{% static '/svg/brands/nike-dark.svg' %}" alt="Logo">
             </div>
             <!-- End Col -->
 
             <div class="col text-center py-3">
-                <img class="avatar avatar-lg avatar-4x3" src="{% static '/svg/brands/tnf-dark.svg' %}" alt="Logo">
+                <img loading="lazy" class="avatar avatar-lg avatar-4x3" src="{% static '/svg/brands/tnf-dark.svg' %}" alt="Logo">
             </div>
             <!-- End Col -->
         </div>

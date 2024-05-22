@@ -80,12 +80,21 @@
                     </a>
                     <!-- End Rating -->
 
-                    <button type="button" class="btn btn-outline-primary btn-sm btn-transition rounded-pill"
-                        onclick="addToCart('{{similar_product.id}}')">افزودن به
-                        سبد
-                        خرید</button>
+                    {% if not similar_product.end_inventory %}
+                   <div class="d-grid mb-4">
+                    <button type="button" class="btn btn-primary btntransition"
+                            onclick="addToCart('{{ latest_product.id }}')">افزودن به سبد خرید
+                    </button>
                 </div>
+                {%else%}
+                <div class="d-grid mb-4">
+                    <button type="button" class="btn btn-primary btntransition"
+                            disabled>اتمام موجودی
+                    </button>
+                </div>
+                {%endif%}
             </div>
+        </div>
             <!-- End Card -->
         </div>
         {% empty %}

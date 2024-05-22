@@ -30,12 +30,12 @@ def show_latest_products(context):
 
 @register.inclusion_tag("inc/similar-products.html", takes_context=True)
 def show_similar_products(context, product):
-    product_categories = product.category.id
+    product_categorie = product.category.id
     request = context.get("request", None)
 
     similar_products = (
         Product.objects.filter(
-            status=ProductStatus.published.value, category__id=product_categories
+            status=ProductStatus.published.value, category__id=product_categorie
         )
         .annotate(count=Count("famous_percent"))
         .distinct()

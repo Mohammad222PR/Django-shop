@@ -1,10 +1,11 @@
 from decimal import Decimal
-
+from PIL import Image
 from django.core.validators import (
     FileExtensionValidator,
     MinValueValidator,
     MaxValueValidator,
 )
+from django.urls import reverse
 from django.db import models
 from django.utils.html import format_html
 from django.utils.text import slugify
@@ -118,9 +119,7 @@ class Product(models.Model):
         ordering = ("created_date", "updated_date")
         db_table = "product"
 
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.title, allow_unicode=True)
-        super(Product, self).save(*args, **kwargs)
+
 
     # def new_product(self):
     #     date = datetime.today() + timedelta(days=7)
@@ -159,17 +158,17 @@ class Product(models.Model):
             return True
         else:
             return False
-        
-
+    
     def is_new(self):
         seven_days = self.created_date + timedelta(days=7)
         if timezone.now() < seven_days:
             return True
         else:
-            return False
-
-
-
+            return False 
+        
+    def get_absolute_url(self):
+        return reverse("shop:product-detail", kwargs={"slug": self.slug})
+    
 
 class ProductImage(models.Model):
     product = models.ForeignKey(
@@ -200,6 +199,7 @@ class ProductImage(models.Model):
     def __str__(self):
         return str(self.product.title)
 
+    
 
 class WishList(models.Model):
     user = models.ForeignKey(

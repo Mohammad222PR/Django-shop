@@ -92,3 +92,7 @@ class MegaMenuView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["categories"] = ProductCategory.objects.all()
         return context
+
+
+def custom_404(request, exception):
+    return render(request, '404/404.html', status=404)

@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 ALLOWED_HOSTS = config(
     "ALLOWED_HOSTS", cast=lambda v: [item.strip() for item in v.split(",")], default="*"
 )
-SHOW_DEBUGGER_TOOLBAR = config("SHOW_DEBUGGER_TOOLBAR", cast=bool, default=True)
+SHOW_DEBUGGER_TOOLBAR = config("SHOW_DEBUGGER_TOOLBAR", cast=bool)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/check list/
@@ -48,6 +48,10 @@ APPS = [
 
 MODULE = [
     "django_ckeditor_5",
+    "robots.apps.RobotsConfig",
+    "compressor",
+    "django_cleanup.apps.CleanupConfig",
+
 ]
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -56,6 +60,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sitemaps",
+
     # Apps.
     *APPS,
     # Modules.
@@ -103,11 +109,11 @@ WSGI_APPLICATION = "core.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": config("PGDB_NAME", default="postgres"),
+        "NAME": config("PGDB_NAME"),
         "USER": config("PGDB_USER", default="postgres"),
-        "PASSWORD": config("PGDB_PASSWORD", default="postgres"),
+        "PASSWORD": config("PGDB_PASSWORD"),
         "HOST": config("PGDB_HOST", default="db"),
-        "PORT": config("PGDB_PORT", cast=int, default=5432),
+        "PORT": config("PGDB_PORT", cast=int),
     }
 }
 
@@ -134,7 +140,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "fa"
 
-TIME_ZONE = config("TIME_ZONE", default="Asia/Tehran")
+TIME_ZONE = config("TIME_ZONE")
 
 USE_I18N = True
 
@@ -145,9 +151,9 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 MEDIA_URL = "/media/"
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_ROOT = BASE_DIR / "static"
 MEDIA_ROOT = BASE_DIR / "media"
-STATICFILES_DIRS = [BASE_DIR / "static"]
+STATICFILES_DIRS = [BASE_DIR / "staticfiles"]
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
@@ -178,12 +184,17 @@ CSRF_COOKIE_NAME = "prefix_csrftoken"
 
 # email config
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = config("EMAIL_HOST", default="smtp4dev")
-EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool, default=False)
-EMAIL_USE_SSL = config("EMAIL_USE_SSL", cast=bool, default=False)
-EMAIL_PORT = config("EMAIL_PORT", cast=int, default=25)
-EMAIL_HOST_USER = config("EMAIL_HOST_USER", default="")
-EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="")
+EMAIL_HOST = config("EMAIL_HOST")
+EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool)
+EMAIL_USE_SSL = config("EMAIL_USE_SSL", cast=bool)
+EMAIL_PORT = config("EMAIL_PORT", cast=int )
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+
+# SEO Optomization --> sitemaps
+USE_I18N = True
+ROBOTS_USE_HOST = True
+ROBOTS_USE_SITEMAP = True
 
 # django debug toolbar for docker usage
 if SHOW_DEBUGGER_TOOLBAR:
@@ -214,9 +225,33 @@ CKEDITOR_5_CONFIGS = CKEDITOR_5
 
 
 # payment gateway settings
-MERCHANT_ID = config("MERCHANT_ID", default="4ced0a1e-4ad8-4309-9668-3ea3ae8e8897")
-SANDBOX_MODE = config("SANDBOX_MODE", default=True, cast=bool)
+MERCHANT_ID = config("MERCHANT_ID")
+SANDBOX_MODE = config("SANDBOX_MODE", cast=bool)
 
 
 # __request origins__#
 CORS_ALLOWED_ALL_ORIGINS = True
+
+
+
+# django compressor
+
+COMPRESS_ENABLED = config('COMPRESS_ENABLED', cast=bool, default=True)
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    # other finders..
+    'compressor.finders.CompressorFinder',
+)
+
+COMPRESS_CSS_FILTERS = [
+    'compressor.finders.cssmin.CSSMinFilter'
+]
+
+
+COMPRESS_JS_FILTERS = [
+    'compressor.finders.jsmin.JSMinFilter'
+]
+
+

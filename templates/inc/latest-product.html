@@ -75,11 +75,19 @@
                     </a>
                     <!-- End Rating -->
 
+                   {% if not latest_product.end_inventory %}
                    <div class="d-grid mb-4">
-                        <button type="button" class="btn btn-primary btntransition"
-                                onclick="addToCart('{{ latest_product.id }}')">افزودن به سبد خرید
-                        </button>
-                    </div>
+                    <button type="button" class="btn btn-primary btntransition"
+                            onclick="addToCart('{{ latest_product.id }}')">افزودن به سبد خرید
+                    </button>
+                </div>
+                {%else%}
+                <div class="d-grid mb-4">
+                    <button type="button" class="btn btn-primary btntransition"
+                            disabled>اتمام موجودی
+                    </button>
+                </div>
+                {%endif%}
 
                 </div>
             </div>

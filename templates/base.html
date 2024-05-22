@@ -1,4 +1,6 @@
 {% load static %}
+{% load compress %}
+
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 
@@ -14,6 +16,8 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="/favicon.ico">
     <!-- Font -->
+    {% compress css %}
+
     <!-- CSS Implementing Plugins -->
     <link rel="stylesheet" href="{% static 'css/vendor.min.css' %}">
     <link rel="stylesheet" href="{% static 'vendor/bootstrap-icons/font/bootstrap-icons.css' %}">
@@ -23,9 +27,10 @@
     <link rel="stylesheet" href="{% static 'vendor/toastify/toastify.css' %}">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     {% block extra_css %} {% endblock extra_css %}
+   
+    {% endcompress %}
 
     {% block extra_css_no_compress %} {% endblock extra_css_no_compress %}
-
 </head>
 
 
@@ -447,6 +452,8 @@
 
     </div>
 </div>
+{% compress js %}
+
 <!-- ========== END SECONDARY CONTENTS ========== -->
 <!-- JS Jquery-->
 <script src="{% static 'js/jquery.min.js' %}"></script>
@@ -664,6 +671,8 @@
 
 
 {% block extra_js %} {% endblock extra_js %}
+
+{% endcompress %}
 
 {% block extra_js_no_compress %} {% endblock extra_js_no_compress %}
 
