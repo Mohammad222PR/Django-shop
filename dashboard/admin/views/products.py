@@ -166,7 +166,6 @@ class AdminChangeProductDataView(LoginRequiredMixin, HasAdminAccessPermission, V
         change_type = request.POST.get("change_type")
         percent = request.POST.get("percent")
         selected_products = request.POST.getlist("selected_products")
-
         for product_id in selected_products:
             product = get_object_or_404(Product, id=product_id)
 
@@ -180,6 +179,7 @@ class AdminChangeProductDataView(LoginRequiredMixin, HasAdminAccessPermission, V
                 self.delete_product(product)
 
         messages.success(request, "باموفقیت بروز شد")
+
         return redirect(reverse("dashboard:admin:product-list"))
 
     def increase_price(self, product, percent):
@@ -198,6 +198,5 @@ class AdminChangeProductDataView(LoginRequiredMixin, HasAdminAccessPermission, V
     def delete_product(self, product):
         try:
             product.delete()
-            messages.success(self.request, "محصول با موفقیت حذف شد")
         except Exception as e:
             messages.error(self.request, f"نمی توان این محصول را حذف کرد: {e}")

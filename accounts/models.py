@@ -8,7 +8,8 @@ from django.db import models
 from django.core.validators import RegexValidator, FileExtensionValidator
 from PIL import Image
 from accounts.validators import validate_iranian_cellphone_number
-
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFit
 
 # from accounts.validators import validate_iranian_cellphone_number
 
@@ -110,7 +111,21 @@ class Profile(models.Model):
         default="images/profile/customer/avatars/default/OIP.jfif",
         verbose_name=_("avatar image"),
     )
-
+    avatar_large = ImageSpecField(source='avatar',
+                             processors=[ResizeToFit(837, 491)],
+                             format='JPEG',
+                             options={"quality": 90}
+                                )
+    avatar_medium = ImageSpecField(source='avatar',
+                                processors=[ResizeToFit(406, 227)],
+                                format='JPEG',
+                                options={"quality": 90}
+                                )
+    avatar_small = ImageSpecField(source='avatar',
+                                processors=[ResizeToFit(107, 60)],
+                                format='JPEG',
+                                options={"quality": 90}
+                                )
 
     
     def image_tag(self):

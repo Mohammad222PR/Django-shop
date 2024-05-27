@@ -1,10 +1,12 @@
 from decimal import Decimal
-from PIL import Image
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFit
 from django.core.validators import (
     FileExtensionValidator,
     MinValueValidator,
     MaxValueValidator,
 )
+from meta.models import ModelMeta
 from django.urls import reverse
 from django.db import models
 from django.utils.html import format_html
@@ -60,7 +62,7 @@ class ProductStatus(models.IntegerChoices):
     draft = 2, _("عدم نمایش ")
 
 
-class Product(models.Model):
+class Product(ModelMeta,models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name=_("user"))
     title = models.CharField(max_length=40, verbose_name=_("title"), default=None)
     description = CKEditor5Field(verbose_name=_("description"))
@@ -108,6 +110,21 @@ class Product(models.Model):
         ],
         default="images/products/default_img/product-default.png",
     )
+    image_large = ImageSpecField(source='image',
+                             processors=[ResizeToFit(837, 491)],
+                             format='JPEG',
+                             options={"quality": 90}
+                                )
+    image_medium = ImageSpecField(source='image',
+                                processors=[ResizeToFit(406, 227)],
+                                format='JPEG',
+                                options={"quality": 90}
+                                )
+    image_small = ImageSpecField(source='image',
+                                processors=[ResizeToFit(107, 60)],
+                                format='JPEG',
+                                options={"quality": 90}
+                                )
     created_date = models.DateTimeField(
         auto_now_add=True ,verbose_name=_("created time")
     )
@@ -127,7 +144,16 @@ class Product(models.Model):
     #         return True
     #     else:
     #         return False
+    _metadata = {
+        "title": "title",
+        "brief_description": "brief_description",
+        "image": "image",
+        "created_date": "created_date",
+        "modified_time": "updated_date",
+        "url": "get_absolute_url",
+        "locale": "fa_IR",
 
+    }
     def get_price(self):
         if self.discount_percent > 0:
             discount_amount = self.price * Decimal(self.discount_percent / 100)

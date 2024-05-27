@@ -15,8 +15,8 @@
             <!-- Card -->
             <div class="card card-bordered shadow-none text-center h-100">
                 <div class="card-pinned">
-                    <img class="card-img-top" src="{{similar_product.image.url}}" alt="Image Description">
-                    {% if similar_product.is_new %}
+                    <img class="card-img-top" src="{{similar_product.image_medium.url}}" alt="Image Description">
+                    {% if similar_product.is_new and not similar_product.end_inventory %}
                                     <div class="card-pinned-top-start">
                                         <span class="badge bg-success rounded-pill">جدید</span>
                                       </div>
@@ -83,7 +83,7 @@
                     {% if not similar_product.end_inventory %}
                    <div class="d-grid mb-4">
                     <button type="button" class="btn btn-primary btntransition"
-                            onclick="addToCart('{{ latest_product.id }}')">افزودن به سبد خرید
+                            onclick="addToCart('{{ similar_product.id }}')">افزودن به سبد خرید
                     </button>
                 </div>
                 {%else%}

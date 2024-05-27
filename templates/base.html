@@ -1,5 +1,6 @@
 {% load static %}
 {% load compress %}
+{% load meta %}
 
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
@@ -9,6 +10,7 @@
     <!-- Required Meta Tags Always Come First -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% include 'meta/meta.html' %}
 
     <!-- Title -->
     <title>{% block title %} {% endblock title %}</title>
@@ -112,7 +114,7 @@
                         <button class="btn btn-ghost-secondary btn-icon" id="dropdownMenuLink"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="avatar avatar-sm avatar-circle">
-                                    <img class="avatar-img" src="{{ request.user.user_profile.avatar.url }}"
+                                    <img class="avatar-img" src="{{ request.user.user_profile.avatar_small.url }}"
                                          alt="Image Description">
                                 </span>
                         </button>

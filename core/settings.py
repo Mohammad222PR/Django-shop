@@ -51,6 +51,11 @@ MODULE = [
     "robots.apps.RobotsConfig",
     "compressor",
     "django_cleanup.apps.CleanupConfig",
+    "imagekit",
+    "meta",
+    # 'corsheaders'
+
+
 
 ]
 INSTALLED_APPS = [
@@ -80,6 +85,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # "django.middleware.common.CommonMiddleware",
+
 ]
 
 ROOT_URLCONF = "core.urls"
@@ -191,7 +198,24 @@ EMAIL_PORT = config("EMAIL_PORT", cast=int )
 EMAIL_HOST_USER = config("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 
-# SEO Optomization --> sitemaps
+# SEO Optomization
+META_SITE_PROTOCOL = "http"
+META_SITE_DOMAIN = '127.0.0.1'
+META_SITE_TYPE = "website"
+META_USE_SITES = True
+META_DEFAULT_KEYWORDS = ['لباس','پوشاک','کفش','مانتو','کلاه','دوچرخه','لوازم ارایشی','لوازم بهداشتی']
+META_INCLUDE_KEYWORDS = ['لباس','پوشاک','کفش','مانتو','کلاه','دوچرخه','لوازم ارایشی','لوازم بهداشتی']
+META_USE_OG_PROPERTIES = True
+META_USE_TWITTER_PROPERTIES = True
+META_USE_SCHEMAORG_PROPERTIES = True
+META_USE_TITLE_TAG = True
+META_SITE_NAME = "FrontedSite"
+META_TWITTER_SITE = "http://127.0.0.1"
+META_DEFAULT_IMAGE = "/media/images/products/default_img/product-default.png"
+META_FB_AUTHOR_URL = "http://127.0.0.1"
+META_TWITTER_SITE = "frontedshop"
+META_SCHEMAORG_TYPE = "Shop"
+
 USE_I18N = True
 ROBOTS_USE_HOST = True
 ROBOTS_USE_SITEMAP = True

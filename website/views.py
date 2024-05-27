@@ -9,12 +9,29 @@ from shop.models import ProductCategory
 from shop.models import Product, ProductStatus
 from website.forms import ContactForm, NewsLetterForm
 from website.models import ContactUs, NewsLetter
-
+from meta.views import MetadataMixin
 
 # Create your views here.
 
+class GeneralMeta(MetadataMixin):
+    locale = 'fa_IR'
 
-class IndexView(TemplateView):
+    def get_meta_url(self, context=None):
+        return self.request.build_absolute_uri()
+    
+    def get_meta_og_title(self, context=None):
+        return self.title
+    
+    def get_meta_twitter_title(self, context=None):
+        return self.title
+    
+    def get_meta_schemaorg_title(self, context=None):
+        return self.title
+    
+class IndexView(GeneralMeta,TemplateView):
+    title = 'سایت فروشگاهی فرانتد'
+    description = 'فروش انواع محصولات بهداشتی و پوشاک-'
+
     template_name = "website/index.html"
 
     def get_context_data(self, **kwargs):
@@ -96,3 +113,8 @@ class MegaMenuView(TemplateView):
 
 def custom_404(request, exception):
     return render(request, '404/404.html', status=404)
+
+
+
+
+    

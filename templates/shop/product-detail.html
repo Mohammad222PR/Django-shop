@@ -19,7 +19,7 @@
                             <!-- Slide -->
                             <div class="swiper-slide">
                                 <div class="card card-bordered shadow-none">
-                                    <img class="card-img" src="{{ product.image.url }}"
+                                    <img loading="lazy"  class="card-img" src="{{ product.image_large.url }}"
                                          alt="Image Description">
                                 </div>
                             </div>
@@ -29,14 +29,14 @@
                                 <!-- Slide -->
                                 <div class="swiper-slide">
                                     <div class="card card-bordered shadow-none">
-                                        <img class="card-img" src="{{ product.file.url }}"
+                                        <img loading="lazy"  class="card-img" src="{{ product.file.url }}"
                                              alt="Image Description">
                                     </div>
                                 </div>
                                 <!-- End Slide -->
                             {% endfor %}
 
-                            {% if product.is_new %}
+                            {% if product.is_new and not product.end_inventory %}
                                     <div class="card-pinned-top-start">
                                         <span class="badge bg-success rounded-pill">جدید</span>
                                       </div>
@@ -61,8 +61,8 @@
                             <div class="swiper-wrapper">
                                 <!-- Slide -->
                                 <div class="swiper-slide">
-                                    <a class="avatar avatar-circle" href="{{ product.image.url }}" target="_blank">
-                                        <img class="avatar-img" src="{{ product.image.url }}"
+                                    <a class="avatar avatar-circle" href="{{ product.image_small.url }}" target="_blank">
+                                        <img loading="lazy"  class="avatar-img" src="{{ product.image_small.url }}"
                                              alt="Image Description">
                                     </a>
                                     
@@ -75,7 +75,7 @@
                                     <div class="swiper-slide">
                                         <a class="avatar avatar-circle" href="{{ product.file.url }}"
                                            target="_blank">
-                                            <img class="avatar-img" src="{{ product.file.url }}"
+                                            <img loading="lazy"  class="avatar-img" src="{{ product.file.url }}"
                                                  alt="Image Description">
                                         </a>
                                     </div>
@@ -515,8 +515,8 @@
                                 <!-- Media -->
                                 <div class="d-flex align-items-center mb-3">
                                     <div class="flex-shrink-0">
-                                        <img class="avatar avatar-sm avatar-circle "
-                                             src="{{ review.user.user_profile.avatar.url }}"
+                                        <img loading="lazy"  class="avatar avatar-sm avatar-circle "
+                                             src="{{ review.user.user_profile.avatar_small.url }}"
                                              alt="Image Description" loading="lazy">
                                     </div>
 

@@ -6,7 +6,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views import generic, View
 from faker.utils.text import slugify
 from typing import Any
-
+from website.views import GeneralMeta
 from accounts.models import UserType
 from cart.cart import CartSession
 from review.models import ReviewStatus, Review
@@ -16,7 +16,10 @@ from shop.models import Product, ProductStatus, ProductCategory, WishList
 status = ProductStatus
 
 
-class ProductGridView(generic.ListView):
+class ProductGridView(GeneralMeta, generic.ListView):
+    title = 'سایت فروشگاهی فرانتد'
+    description = 'فروش انواع محصولات بهداشتی و پوشاک-'
+    
     template_name = "shop/product-grid.html"
     context_object_name = "products"
     paginate_by = 7
