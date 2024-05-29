@@ -44,6 +44,7 @@ APPS = [
     "order.apps.OrderConfig",
     "payment.apps.PaymentConfig",
     "review.apps.ReviewConfig",
+    "group_email.apps.GroupEmailConfig",
 ]
 
 MODULE = [

@@ -13,4 +13,6 @@ urlpatterns = [
     path("", include("dashboard.admin.urls.contacts")),
     path("", include("dashboard.admin.urls.newsletters")),
     path("", include("dashboard.admin.urls.chart")),
+    path("", include("dashboard.admin.urls.group_email")),
+
 ]

@@ -47,6 +47,8 @@ urlpatterns = [
     path(
         "review/", include("review.urls", namespace="review")
     ),  # review app main route
+
+
     # ______CKEDITOR_______#
     path(
         "ckeditor5/", include("django_ckeditor_5.urls"), name="ck_editor_5_upload_file"
