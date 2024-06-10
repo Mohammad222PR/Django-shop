@@ -33,8 +33,8 @@ class AdminChartOrderView(LoginRequiredMixin,HasAdminAccessPermission,TemplateVi
     def get_total_products_sold_per_month(self):
         return {
             f"chart_order_{month}": OrderItem.objects.filter(
-                order__created_date__year=now().year,
                 order__created_date__month=month,
+                order__created_date__year=now().year,
                 order__status__in=[
                     OrderStatus.success.value,
                     OrderStatus.posted.value,
