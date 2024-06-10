@@ -1,6 +1,6 @@
 <div align='center'>
 
-<img src=https://github.com/Mohammad222PR/Django-shop/blob/main/docs/OIP.jpg alt="logo" width=100 height=100 />
+<img src=https://github.com/Mohammad222PR/Django-shop/blob/main/docs/OIP.jpg alt="logo" width=400 height=400 />
 
 <p>A store project has been built with the Django framework, which can be fully used, and all its parts are complete.</p>
 
