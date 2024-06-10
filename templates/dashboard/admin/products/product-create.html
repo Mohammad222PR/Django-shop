@@ -40,7 +40,7 @@
             <div class="card mb-5">
                 <!-- Header -->
                 <div class="card-header border-bottom d-flex justify-content-between align-items-center">
-                    <h5 class="card-header-title">ویرایش محصول</h5>
+                    <h5 class="card-header-title">ایجاد محصول</h5>
                     {% if product.is_published %}
                         <a class="btn btn-sm btn-primary" target="_blank"
                            href="{% url 'shop:product-detail' slug=product.slug %}">نمایش
@@ -117,7 +117,7 @@
 
                                 <a class="btn btn-secondary ms-3"
                                    href="{% url 'dashboard:admin:product-list' %}">بازگشت</a>
-                                <button class="btn btn-primary ms-3" type="submit">ثبت تغییرات</button>
+                                <button class="btn btn-primary ms-3" type="submit">ثبت محصول</button>
                             </div>
                         </div>
                 </form>

@@ -20,7 +20,7 @@ class SubmitReviewForm(forms.ModelForm):
         # Check if the product exists and is published
         try:
             Product.objects.get(id=product.id, status=ProductStatus.published.value)
-        except Product.DoesNotExist:
+        except Product.DoesNotExist: 
             raise forms.ValidationError("این محصول وجود ندارد")
 
         return cleaned_data

@@ -211,6 +211,22 @@ class ProductImage(models.Model):
             FileExtensionValidator(allowed_extensions=["jpg", "jpeg", "png", "gif"])
         ],
     )
+    file_large = ImageSpecField(source='file',
+                             processors=[ResizeToFit(837, 491)],
+                             format='JPEG',
+                             options={"quality": 90}
+                                )
+    
+    file_medium = ImageSpecField(source='file',
+                                processors=[ResizeToFit(406, 227)],
+                                format='JPEG',
+                                options={"quality": 90}
+                                )
+    file_small = ImageSpecField(source='file',
+                                processors=[ResizeToFit(107, 60)],
+                                format='JPEG',
+                                options={"quality": 90}
+                                )
     created_date = models.DateTimeField(
         auto_now_add=True, verbose_name=_("created time")
     )

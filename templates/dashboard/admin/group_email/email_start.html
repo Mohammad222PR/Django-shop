@@ -1,0 +1,102 @@
+{% extends 'dashboard/admin/base.html' %}
+{% load static %}
+
+
+{% block extra_css %}
+    <style>
+        .small-primary-button {
+            padding: 3px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 10px;
+            border-radius: 5px;
+            margin-bottom: 7px;
+        }
+
+        .small-primary-button:hover,
+        .small-primary-button:focus {
+            background-color: #0056b3;
+        }
+    </style>
+{% endblock %}
+{% block breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb breadcrumb-light mb-0">
+            <li class="breadcrumb-item">حساب</li>
+            <li class="breadcrumb-item">داشبورد ادمین</li>
+            <li class="breadcrumb-item">محصولات</li>
+            <li class="breadcrumb-item active" aria-current="page">
+                ایجاد ایمیل گروهی
+            </li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div>
+            <div class="card mb-5">
+                <!-- Header -->
+                <div class="card-header border-bottom d-flex justify-content-between align-items-center">
+                    <h5 class="card-header-title">ویرایش محصول</h5>
+                    {% if product.is_published %}
+                        <a class="btn btn-sm btn-primary" target="_blank"
+                           href="{% url 'shop:product-detail' slug=product.slug %}">نمایش
+                            محصول</a>
+                    {% endif %}
+                </div>
+                <!-- End Header -->
+
+                <!-- Body -->
+                <form action="." method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="card-body">
+                        <div class="row d-flex ">
+                            <div class="col-md-6 mb-3">
+                            <label>عنوان ایمیل گروهی</label>
+                            {{ form.subject }}
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label>ایمیل فرستنده</label>
+                                {{ form.from_email }}
+                                
+                                
+                            <div class="col-md-12 mb-3">
+                                <label>محتوا</label>
+                                {{ form.content }}
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label>زمان اتشار</label>
+                                    {{ form.time_published }}
+                                </div>
+                        
+                        </div>
+                        <div class="card-footer">
+                            <div class=" d-flex pt-5 justify-content-end">
+
+                                <a class="btn btn-secondary ms-3"
+                                   href="{% url 'dashboard:admin:group-email-list' %}">بازگشت</a>
+                                <button class="btn btn-primary ms-3" type="submit">ثبت</button>
+                            </div>
+                        </div>
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+
+{% endblock %}
+
+{% block extra_js_no_compress %}
+    <script src="{% static 'vendor/ckeditor/ckeditor.js' %}"></script>
+    <script>
+        // Replace 'editor' with the id of your textarea
+        CKEDITOR.replace('ckeditor');
+    </script>
+{% endblock %}

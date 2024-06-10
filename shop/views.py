@@ -11,11 +11,11 @@ from accounts.models import UserType
 from cart.cart import CartSession
 from review.models import ReviewStatus, Review
 from shop.models import Product, ProductStatus, ProductCategory, WishList
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 # Create your views here.
 status = ProductStatus
-
-
 class ProductGridView(GeneralMeta, generic.ListView):
     title = 'سایت فروشگاهی فرانتد'
     description = 'فروش انواع محصولات بهداشتی و پوشاک-'
@@ -26,9 +26,9 @@ class ProductGridView(GeneralMeta, generic.ListView):
 
     def get_paginate_by(self, queryset):
         return self.request.GET.get("page_size", self.paginate_by)
-
+    
     def get_queryset(self):
-        queryset = Product.objects.filter(status=status.published.value).distinct().order_by("-created_date")
+        queryset = Product.objects.filter(status=status.published.value).defer("user","description","brief_description","famous_percent","status","image").distinct().order_by("-created_date")
         if search_q := self.request.GET.get("q"):
             queryset = queryset.filter(title__icontains=search_q).distinct()
         if category_id := self.request.GET.get("category_id"):
@@ -43,7 +43,7 @@ class ProductGridView(GeneralMeta, generic.ListView):
             except FieldError:
                 pass
         return queryset
-
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["total_items"] = Product.objects.filter(
@@ -57,7 +57,12 @@ class ProductGridView(GeneralMeta, generic.ListView):
             else []
         )
         context["categories"] = ProductCategory.objects.all().distinct()
+        
         return context
+    
+    @method_decorator(cache_page(60 * 5))
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
 
 
 class ProductDetailView(generic.DetailView):
@@ -101,6 +106,7 @@ class ProductDetailView(generic.DetailView):
         context["reviews_avg"] = reviews_avg
         context["reviews_avg"] = reviews_avg
         context["customer_recommend"] = customer_recommend
+        context["product_category"] = Product.objects.prefetch_related("category")
         return context
         # another method
         """

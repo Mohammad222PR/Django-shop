@@ -7,7 +7,7 @@
             <li class="breadcrumb-item">حساب</li>
             <li class="breadcrumb-item">داشبورد ادمین</li>
             <li class="breadcrumb-item active" aria-current="page">
-                محصولات
+                ایمل های گروهی
             </li>
         </ol>
     </nav>
@@ -20,9 +20,9 @@
         <div class="col-md-12">
             <div class="card-header border-bottom">
                 <div class="d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">لیست محصولات</h5>
+                    <h5 class="mb-0">لیست ایمیل های گروهی</h5>
                     <div class="d-flex">
-                        <a class="btn btn-primary ms-3" href="">ایجاد محصول</a>
+                        <a class="btn btn-primary ms-3" href="{% url "dashboard:admin:group-email-start" %}">ایجاد ایمیل گروهی</a>
                         <!-- دکمه برای باز کردن مدال -->
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             اعمال تغییرات
@@ -122,7 +122,9 @@
                                 <th scope="col">وضعیت</th>
                                 <th scope="col">تاریخ ساخت</th>
                                 <th scope="col">تاریخ انتشار</th>
-
+                                <th class="col">
+                                    ویرایش ایمیل گروهی
+                                </th>
                                 <th scope="col">انتخاب
                                     <input type="checkbox" name="change_form" class="form-check-input group_emailCheckbox" id="selectAllBtn">
 
@@ -134,7 +136,7 @@
                             {% for group_email in group_emails %}
                             <tr>
                                 <th scope="row">{{ group_email.id }}</th>
-                                <td>{{ group_email.user_username }}</td>
+                                <td>{{ group_email.user.user_profile.full_name }}</td>
                                 <td>{{ group_email.subject }}</td>
                                 <td>{{ group_email.from_email }}</td>
 
@@ -148,11 +150,15 @@
 
                                     {% endif %}
                                 </td>
-                                <td>{{ group_email.created_date }}</td>
-                                <td>{{ group_email.published_date }}</td>
-
-
-                               
+                                <td>{{ group_email.created_date | date:"Y-m-w" }}</td>
+                                <td>{{ group_email.time_published | date:"Y-m-w" }}</td>
+                               <td> <a class="btn btn-sm btn-icon btn-ghost-primary" target="_blank" href="{% url 'dashboard:admin:group-email-update' pk=group_email.pk %}">
+                                <i class="bi-eye"></i>
+                            </a></td>
+                            <td>
+                                <input form="change_form" type="checkbox" class="form-check-input group_emailCheckbox" name="selected_group_emails" id="group_email{{ group_email.id }}" value="{{ group_email.id }}">
+                            </td>
+                            {%empty%}
                                     
                             {% endfor %}
                         </tbody>

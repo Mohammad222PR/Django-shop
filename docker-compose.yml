@@ -15,6 +15,15 @@ services:
       - 5432
     restart: always
 
+  redis:
+    container_name: redis1
+    image: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server --save 60 1 --loglevel warning
+
+
   backend:
     container_name: backend-django
     build:
@@ -31,6 +40,16 @@ services:
     restart: always
     depends_on:
       - db
+      - redis
+
+
+  # worker:
+  #   build: .
+  #   command: celery -A core worker --loglevel=info
+  #   depends_on:
+  #     - redis
+  #     - backend
+
 
   smtp4dev:
     image: rnwood/smtp4dev:v3

@@ -166,37 +166,27 @@ class AdminChangeProductDataView(LoginRequiredMixin, HasAdminAccessPermission, V
         change_type = request.POST.get("change_type")
         percent = request.POST.get("percent")
         selected_products = request.POST.getlist("selected_products")
-        for product_id in selected_products:
-            product = get_object_or_404(Product, id=product_id)
+        
 
-            if change_type == "increase":
-                self.increase_price(product, percent)
-            elif change_type == "decrease":
-                self.decrease_price(product, percent)
-            elif change_type in ["published", "draft"]:
-                self.change_status(product, change_type)
-            elif change_type == "delete":
-                self.delete_product(product)
+        if change_type == "increase":
+            Product.objects.filter(pk__in=selected_products).only('price').update(price = F("price") + (F("price") * Decimal(percent) / 100))
+           
+        elif change_type == "decrease":
+            Product.objects.filter(pk__in=selected_products).only('price').update(price = F("price") - (F("price") * Decimal(percent) / 100))
+        elif change_type in ["published", "draft"]:
+            product = Product.objects.filter(pk__in=selected_products).only('status')
+            self.change_status(product, change_type)
+        elif change_type == "delete":
+            Product.objects.filter(pk__in=selected_products).delete()
 
         messages.success(request, "باموفقیت بروز شد")
 
         return redirect(reverse("dashboard:admin:product-list"))
 
-    def increase_price(self, product, percent):
-        product.price = F("price") + (F("price") * Decimal(percent) / 100)
-        product.save()
-
-    def decrease_price(self, product, percent):
-        product.price = F("price") - (F("price") * Decimal(percent) / 100)
-        product.save()
+   
 
     def change_status(self, product, status):
         if product.status != ProductStatus[status].value:
             product.status = ProductStatus[status].value
             product.save()
 
-    def delete_product(self, product):
-        try:
-            product.delete()
-        except Exception as e:
-            messages.error(self.request, f"نمی توان این محصول را حذف کرد: {e}")

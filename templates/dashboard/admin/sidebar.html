@@ -109,6 +109,16 @@
                         </li>
                     </ul>
 
+                    <span class="text-cap"> تبلیعات</span>
+                    <ul class="nav nav-sm nav-tabs nav-vertical mb-4">
+
+                        <li class="nav-item">
+                            <a class="nav-link {% if view_name == 'dashboard:admin:group-email-list' or view_name == 'dashboard:admin:group-email-update' or view_name == 'dashboard:admin:group-email-start' %}active{% endif %}" href="{% url "dashboard:admin:group-email-list" %}">
+                                <i class="bi-bullseye  nav-icon"></i> ایمیل گروهی
+                            </a>
+                        </li>
+                    </ul>
+
                     <!-- End List -->
                 {% endwith %}
 

@@ -95,25 +95,14 @@ class AdminChangeUserDataVeiw(LoginRequiredMixin,  HasAdminAccessPermission, Vie
         change_type = request.POST.get("change_type")
         selected_user = request.POST.getlist("selected_user")
 
-        for user_id in selected_user:
-            user = get_object_or_404(User, id=user_id)
+        
+        if change_type == 'disable':
+            User.objects.filter(pk__in=selected_user).only('is_active').update(is_active=False)
 
-            if change_type == 'disable':
-                self.change_to_disable(user)
-
-            if change_type == 'enable':
-                self.change_to_enable(user)
+        if change_type == 'enable':
+            User.objects.filter(pk__in=selected_user).only('is_active').update(is_active=True)
 
         messages.success(request, "باموفقیت بروز شد")
         return redirect("dashboard:admin:users-list")
     
 
-    def change_to_disable(self, user):
-        if user.is_active == True:
-            user.is_active = False
-            user.save()
-
-    def change_to_enable(self, user):
-        if user.is_active == False:
-            user.is_active = True
-            user.save()
